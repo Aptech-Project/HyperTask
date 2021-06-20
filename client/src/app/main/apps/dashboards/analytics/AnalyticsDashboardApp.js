@@ -19,9 +19,12 @@ function AnalyticsDashboardApp()
 {
     const dispatch = useDispatch();
     const widgets = useSelector(({analyticsDashboardApp}) => analyticsDashboardApp.widgets.data);
+    const allUser = useSelector(({ analyticsDashboardApp }) => analyticsDashboardApp.widgets.allUser);
 
+    console.log('allUser', allUser);
     useEffect(() => {
         dispatch(Actions.getWidgets());
+        dispatch(Actions.getAllUsers());
     }, [dispatch]);
 
     if ( !widgets )

@@ -1,7 +1,8 @@
 import * as Actions from '../actions';
 
 const initialState = {
-    data: null
+    data: null,
+    allUser: null,
 };
 
 const widgetsReducer = function (state = initialState, action) {
@@ -11,6 +12,11 @@ const widgetsReducer = function (state = initialState, action) {
             return {
                 ...state,
                 data: {...action.payload}
+            };
+        case Actions.GET_ALL_USERS:
+            return {
+                ...state,
+                allUser: action.payload
             };
         default:
             return state;
