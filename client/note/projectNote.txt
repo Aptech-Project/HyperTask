@@ -1,0 +1,14 @@
+I. Library:
+    1. clsx: use for define className (condition optional)
+    ex: className={clsx(classes.drawer, {          // classes.drawer is applied always
+            [classes.drawerOpen]: true,              // classes.drawerOpen is applied always, bool = true
+            [classes.drawerClose]: !open,            // you can also use boolean variable
+            [classes.drawerRed]: colorVar === 'red', // you can also use string variable
+        })}
+    
+II. Setup navigation
+    1. Define route in navigationConfig, this file will be used in navigation.reducers.js
+        -> converted to redux state for later usage in Navigation.js
+
+
+        
