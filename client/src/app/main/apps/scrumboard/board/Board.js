@@ -72,36 +72,46 @@ function Board(props)
 
     return (
         <div
-            className="flex flex-1 flex-col w-full h-full relative"
+            className="flex flex-1 flex-auto flex-col w-full h-full relative"
             ref={containerRef}
         >
             <AppBar position="static" color="primary">
                 <Toolbar className="flex items-center justify-between px-4 sm:px-24 h-64 sm:h-96 container">
                     <Hidden xsDown>
-                        <Button to="/apps/scrumboard/boards/" component={Link} variant="contained">
+                        <Button
+                            to="/apps/scrumboard/boards/"
+                            component={Link}
+                            variant="contained"
+                        >
                             <Icon className="mr-8">assessment</Icon>
                             Boards
                         </Button>
                     </Hidden>
 
                     <Hidden smUp>
-                        <IconButton color="inherit" to="/apps/scrumboard/boards/" component={Link}>
+                        <IconButton
+                            color="inherit"
+                            to="/apps/scrumboard/boards/"
+                            component={Link}
+                        >
                             <Icon>assessment</Icon>
                         </IconButton>
                     </Hidden>
 
                     <div className="flex flex-1 justify-center items-center">
-                        <BoardTitle/>
+                        <BoardTitle />
                     </div>
 
-                    <IconButton color="inherit" onClick={() => toggleSettingsDrawer(true)}>
+                    <IconButton
+                        color="inherit"
+                        onClick={() => toggleSettingsDrawer(true)}
+                    >
                         <Icon>settings</Icon>
                     </IconButton>
                 </Toolbar>
             </AppBar>
 
-            <div className={clsx("flex flex-1 overflow-x-auto overflow-y-hidden")}>
-
+            <div className={clsx("flex flex-1 overflow-x-auto")}>
                 <DragDropContext onDragEnd={onDragEnd}>
                     <Droppable
                         droppableId="list"
@@ -109,7 +119,10 @@ function Board(props)
                         direction="horizontal"
                     >
                         {(provided) => (
-                            <div ref={provided.innerRef} className="flex container p-16 md:p-24">
+                            <div
+                                ref={provided.innerRef}
+                                className="flex container p-16 md:p-24"
+                            >
                                 {board.lists.map((list, index) => (
                                     <BoardList
                                         key={list.id}
@@ -119,7 +132,7 @@ function Board(props)
                                 ))}
                                 {provided.placeholder}
 
-                                <BoardAddList/>
+                                <BoardAddList />
                             </div>
                         )}
                     </Droppable>
@@ -130,25 +143,24 @@ function Board(props)
                 anchor="right"
                 className="absolute overflow-hidden"
                 classes={{
-                    paper: "absolute w-320"
+                    paper: "absolute w-320",
                 }}
                 BackdropProps={{
                     classes: {
-                        root: "absolute"
-                    }
+                        root: "absolute",
+                    },
                 }}
                 container={containerRef.current}
                 ModalProps={{
-                    keepMounted: true
+                    keepMounted: true,
                 }}
                 open={settingsDrawerOpen}
                 onClose={() => toggleSettingsDrawer(false)}
             >
-                <BoardSettingsSidebar/>
+                <BoardSettingsSidebar />
             </Drawer>
 
-            <BoardCardDialog/>
-
+            <BoardCardDialog />
         </div>
     );
 }

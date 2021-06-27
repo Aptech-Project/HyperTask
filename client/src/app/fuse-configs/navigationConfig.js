@@ -29,6 +29,13 @@ const navigationConfig = [
                 ]
             },
             {
+                'id'   : 'scrumboard',
+                'title': 'Scrumboard',
+                'type' : 'item',
+                'icon' : 'assessment',
+                'url'  : '/apps/scrumboard'
+            },
+            {
                 'id'   : 'calendar',
                 'title': 'Calendar',
                 'type' : 'item',
@@ -135,13 +142,6 @@ const navigationConfig = [
                     'bg'   : 'rgb(9, 210, 97)',
                     'fg'   : '#FFFFFF'
                 }
-            },
-            {
-                'id'   : 'scrumboard',
-                'title': 'Scrumboard',
-                'type' : 'item',
-                'icon' : 'assessment',
-                'url'  : '/apps/scrumboard'
             },
             {
                 'id'   : 'notes',

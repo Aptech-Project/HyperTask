@@ -32,7 +32,7 @@ function BoardList(props)
             {(provided, snapshot) => (
                 <div
                     ref={provided.innerRef}
-                    {...provided.draggableProps}
+					{...provided.draggableProps}
                 >
                     <Card
                         className={clsx(classes.list, "w-256 sm:w-320 mr-16 sm:mr-24 max-h-full flex flex-col")}
@@ -47,7 +47,7 @@ function BoardList(props)
                         />
 
                         <RootRef rootRef={contentScrollEl}>
-                            <CardContent className="flex flex-col flex-1 flex-auto h-full min-h-0 w-full p-0 overflow-auto">
+                            <CardContent className="flex min-h-0 w-full p-0 overflow-auto">
                                 <Droppable
                                     droppableId={props.list.id}
                                     type="card"
