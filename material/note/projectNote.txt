@@ -10,5 +10,16 @@ III. Setup navigation
     1. Define route in navigationConfig, this file will be used in navigation.reducers.js
         -> converted to redux state for later usage in Navigation.js
 
-
+IV. Site Map
+1. Dashboard
+2. Features
+3. Boards
+    3.1. Template
+    3.2. Your boards
+4. Profile
+    4.1. Your profile
+    4.2. Activity
+    4.3. Cards
+    4.4. Contacts
+5. About us
         

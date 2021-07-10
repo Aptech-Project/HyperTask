@@ -4,20 +4,23 @@ USE `hypertask`;
 
 CREATE TABLE `user` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `active` int NOT NULL DEFAULT '1',
-  `email` varchar(255) NOT NULL,
-  `password` varchar(255) NOT NULL,
-  `username` varchar(255) NOT NULL,
-  `fullname` varchar(255) DEFAULT NULL,
+  `email` varchar(50) NOT NULL,
+  `password` varchar(50) NOT NULL,
+  `username` varchar(50) NOT NULL,
+  `fullname` varchar(50) NOT NULL,
+  `contact` text DEFAULT NULL,
   `info` text DEFAULT NULL,
   PRIMARY KEY (`id`)
 );
 CREATE TABLE `board` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL,
+  `name` varchar(50) NOT NULL,
   `members` text NOT NULL,
   `lists` text NOT NULL,
+  `activities` text NOT NULL,
   `labels` text NOT NULL,
   `info` text NOT NULL,
+  `createdAt` datetime NOT NULL,
+  `updatedAt` datetime NOT NULL,
   PRIMARY KEY (`id`)
 );
