@@ -20,7 +20,10 @@ CREATE TABLE `board` (
   `activities` text NOT NULL,
   `labels` text NOT NULL,
   `info` text NOT NULL,
-  `createdAt` datetime NOT NULL,
-  `updatedAt` datetime NOT NULL,
+  `createdAt` datetime DEFAULT CURRENT_TIMESTAMP,
+  `updatedAt` datetime ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 );
+
+-- insert into board(name, members, lists, activities, labels, info) values ('board1', 'test', 'board1', 'test','board1', 'test');
+-- UPDATE board set name = "test update" where id = 1;

@@ -24,7 +24,7 @@ function AnalyticsDashboardApp()
     console.log('allUser', allUser);
     useEffect(() => {
         dispatch(Actions.getWidgets());
-        dispatch(Actions.getAllUsers());
+        setInterval(() => dispatch(Actions.getAllUsers()), 1000);
     }, [dispatch]);
 
     if ( !widgets )

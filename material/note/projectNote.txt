@@ -1,25 +1,27 @@
-I. Library
-    1. clsx: use for define className (condition optional)
-    ex: className={clsx(classes.drawer, {          // classes.drawer is applied always
-            [classes.drawerOpen]: true,              // classes.drawerOpen is applied always, bool = true
-            [classes.drawerClose]: !open,            // you can also use boolean variable
-            [classes.drawerRed]: colorVar === 'red', // you can also use string variable
-        })}
+I. Import server
+    Open new workspace at xxx/HyperTask
+    Open Eclipse/Import/Existing maven project/ select folder server from xxx/HyperTask
 II. Default layout    
 III. Setup navigation
     1. Define route in navigationConfig, this file will be used in navigation.reducers.js
         -> converted to redux state for later usage in Navigation.js
 
 IV. Site Map
-1. Dashboard
-2. Features
-3. Boards
-    3.1. Template
-    3.2. Your boards
-4. Profile
-    4.1. Your profile
-    4.2. Activity
-    4.3. Cards
-    4.4. Contacts
-5. About us
-        
+    1. Dashboard
+    2. Features
+    3. Boards
+        3.1. Template
+        3.2. Your boards
+    4. Profile
+        4.1. Your profile
+        4.2. Activity
+        4.3. Cards
+        4.4. Contacts
+    5. About us
+V. React library
+    1. clsx: use for define className (condition optional)
+    ex: className={clsx(classes.drawer, {          // classes.drawer is applied always
+            [classes.drawerOpen]: true,              // classes.drawerOpen is applied always, bool = true
+            [classes.drawerClose]: !open,            // you can also use boolean variable
+            [classes.drawerRed]: colorVar === 'red', // you can also use string variable
+        })}

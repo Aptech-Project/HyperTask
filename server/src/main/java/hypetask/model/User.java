@@ -14,8 +14,6 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id", unique = true, nullable = false)
 	private int id;
-	@Column(name = "active")
-	private int active;
 	@Column(name = "email", unique = true)
 	private String email;
 	@Column(name = "password")
@@ -24,6 +22,8 @@ public class User {
 	private String username;
 	@Column(name = "fullname")
 	private String fullname;
+	@Column(name = "contact")
+	private String contact;
 	@Column(name = "info")
 	private String info;
 
@@ -42,16 +42,12 @@ public class User {
 		return id;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public String getContact() {
+		return contact;
 	}
 
-	public int getActive() {
-		return active;
-	}
-
-	public void setActive(int active) {
-		this.active = active;
+	public void setContact(String contact) {
+		this.contact = contact;
 	}
 
 	public String getEmail() {
