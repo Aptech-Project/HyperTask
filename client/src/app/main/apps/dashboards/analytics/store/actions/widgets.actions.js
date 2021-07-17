@@ -1,3 +1,4 @@
+import { endPointApi } from 'app/services/endPointAPI';
 import axios from 'axios';
 
 export const GET_WIDGETS = '[ANALYTICS DASHBOARD APP] GET WIDGETS';
@@ -17,7 +18,7 @@ export function getWidgets()
 }
 
 export function getAllUsers() {
-    const request = axios.get('http://localhost:4000/api/v1/get-all-users');
+    const request = axios.get(endPointApi.users.getAll);
 
     return (dispatch) =>
         request.then((response) =>
