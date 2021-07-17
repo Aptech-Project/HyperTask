@@ -10,12 +10,17 @@ import './react-chartjs-2-defaults';
 import './styles/index.css';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
 import * as serviceWorker from './serviceWorker';
-import App from 'app/App';
 
+
+import ButtonAppBar from 'app/views/AppBar'
 ReactDOM.render(
-    <App/>,
+    <ButtonAppBar />,
     document.getElementById('root')
+
 );
 
 // If you want your app to work offline and load faster, you can change
