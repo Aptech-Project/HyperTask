@@ -115,7 +115,7 @@ function Layout2(props)
                             <FooterLayout2/>
                         )}
 
-                        <SettingsPanel/>
+                        {/* <SettingsPanel/> */}
 
                     </div>
 
