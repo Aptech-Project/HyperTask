@@ -41,7 +41,7 @@ function ThemeLayoutsDoc()
 
                         <ul className="my-8">
 
-                            <li className="mb-8">
+                            {/* <li className="mb-8">
                                 <b>/layout-1</b> :
                                 <ul className="my-8">
                                     <li className="mb-8">
@@ -54,13 +54,13 @@ function ThemeLayoutsDoc()
                                         <b>/Layout1.config.js</b> : Contains title, default configs and form options of the layout.
                                     </li>
                                 </ul>
-                            </li>
+                            </li> */}
                             <li className="mb-8">
                                 <b>/layout-2</b>
                             </li>
-                            <li className="mb-8">
+                            {/* <li className="mb-8">
                                 <b>/layout-3</b>
-                            </li>
+                            </li> */}
                             <li className="mb-8">
                                 <b>/shared components</b> : Each layouts shares the components of this directory
                             </li>
