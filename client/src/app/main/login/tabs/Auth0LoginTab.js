@@ -98,12 +98,6 @@ function Auth0LoginTab(props) {
                     type="text"
                     name="email"
                     label="Email"
-                    validations={{
-                        minLength: 4
-                    }}
-                    validationErrors={{
-                        minLength: 'Min character length is 4'
-                    }}
                     variant="outlined"
                     InputProps={{
                         endAdornment: <InputAdornment position="end"><Icon className="text-20" color="action">email</Icon></InputAdornment>
