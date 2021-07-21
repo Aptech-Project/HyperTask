@@ -11,6 +11,8 @@ import { isAuthenticated } from "app/auth/store/actions/login.actions";
 import { useForm } from 'react-hook-form';
 import CheckLogin from './CheckLogin';
 import axios from "axios";
+import { showMessage } from 'app/store/actions/fuse';
+import user from 'app/auth/store/reducers/user.reducer';
 function Auth0LoginTab(props) {
     const dispatch = useDispatch();
     const [open, setOpen] = React.useState(false);
@@ -59,15 +61,19 @@ function Auth0LoginTab(props) {
     const onSubmit = () => {
         let userExited = 0;
         let userExitedid = "";
+        let username = ""
         userList.map((user) => {
-            if (user.email === email && user.password === pass) {
+            if (user.email === email || user.username === email && user.password === pass) {
                 userExited = userExited + 1;
-                userExitedid = user.id
+                userExitedid = user.id;
+                username = user.fullname;
             }
         })
         // console.log(userExited);
         if (userExited > 0) {
             setIsAccount(false);
+            console.log(username);
+            dispatch(showMessage({ message: 'Welcome !   ' + username }));
             loginDispatch(isAuthenticated(userExitedid));
             history.push({
                 pathname: "/",

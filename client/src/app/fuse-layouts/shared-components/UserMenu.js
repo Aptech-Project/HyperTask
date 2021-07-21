@@ -5,9 +5,11 @@ import { Link } from 'react-router-dom';
 import { userlogout } from "app/auth/store/actions/login.actions";
 import Snackbar from '@material-ui/core/Snackbar';
 import history from "@history";
+import axios from "axios";
+import { showMessage } from 'app/store/actions/fuse';
 function UserMenu(props) {
     const user = useSelector(state => state.login.userAuth);
-
+    const dispatch = useDispatch();
     const [userMenu, setUserMenu] = useState(null);
 
     const userMenuClick = event => {
@@ -27,7 +29,19 @@ function UserMenu(props) {
             setIsAdmin(false)
         }
     }, [user])
+    const [account, setAccount] = useState([]);
+    useEffect(() => {
+        if (user !== 'undefined') (
+            axios.get(`http://localhost:4000/api/v1/get-user/${user}`)
+                .then(function (response) {
+                    setAccount(response.data)
+                })
+                .catch(function (error) {
+                    // console.log(error);
+                })
+        )
 
+    }, [])
     return (
         <React.Fragment>
 
@@ -55,7 +69,7 @@ function UserMenu(props) {
                             :
                             (
                                 <Typography component="span" className="normal-case font-600 flex">
-                                    Philaden
+                                    {account.fullname}
                                 </Typography>
                             )
                     }
@@ -116,8 +130,9 @@ function UserMenu(props) {
                         <MenuItem
                             onClick={() => {
                                 logoutDispatch(userlogout());
+                                dispatch(showMessage({ message: 'Log out !!!' }));
                                 history.push({
-                                    pathname: "/",
+                                    pathname: "/login",
                                 });
                             }}
                         >

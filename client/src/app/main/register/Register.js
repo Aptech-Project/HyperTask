@@ -1,28 +1,26 @@
-import React, {useState} from 'react'
-import {Card, CardContent, Tab, Tabs, Typography} from '@material-ui/core';
-import {darken} from '@material-ui/core/styles/colorManipulator';
-import {FuseAnimate} from '@fuse';
-import {Link} from 'react-router-dom';
+import React, { useState } from 'react'
+import { Card, CardContent, Tab, Tabs, Typography, Icon } from '@material-ui/core';
+import { darken } from '@material-ui/core/styles/colorManipulator';
+import { FuseAnimate } from '@fuse';
+import { Link } from 'react-router-dom';
 import clsx from 'clsx';
 import FirebaseRegisterTab from './tabs/FirebaseRegisterTab';
 import Auth0RegisterTab from './tabs/Auth0RegisterTab';
 import JWTRegisterTab from './tabs/JWTRegisterTab';
-import {makeStyles} from '@material-ui/styles';
+import { makeStyles } from '@material-ui/styles';
 
 const useStyles = makeStyles(theme => ({
     root: {
         background: 'linear-gradient(to right, ' + theme.palette.primary.dark + ' 0%, ' + darken(theme.palette.primary.dark, 0.5) + ' 100%)',
-        color     : theme.palette.primary.contrastText
+        color: theme.palette.primary.contrastText
     }
 }));
 
-function Register()
-{
+function Register() {
     const classes = useStyles();
     const [selectedTab, setSelectedTab] = useState(0);
 
-    function handleTabChange(event, value)
-    {
+    function handleTabChange(event, value) {
         setSelectedTab(value);
     }
 
@@ -32,12 +30,12 @@ function Register()
             <div className="flex flex-col flex-grow-0 items-center text-white p-16 text-center md:p-128 md:items-start md:flex-shrink-0 md:flex-1 md:text-left">
 
                 <FuseAnimate animation="transition.expandIn">
-                    <img className="w-128 mb-32" src="assets/images/logos/fuse.svg" alt="logo"/>
+                    <img className="w-128 mb-32" src="assets/images/logos/fuse.svg" alt="logo" />
                 </FuseAnimate>
 
                 <FuseAnimate animation="transition.slideUpIn" delay={300}>
                     <Typography variant="h3" color="inherit" className="font-light">
-                        Welcome to the FUSE!
+                        Welcome to the HyperTask!
                     </Typography>
                 </FuseAnimate>
 
@@ -49,7 +47,7 @@ function Register()
                 </FuseAnimate>
             </div>
 
-            <FuseAnimate animation={{translateX: [0, '100%']}}>
+            <FuseAnimate animation={{ translateX: [0, '100%'] }}>
 
                 <Card className="w-full max-w-400 mx-auto m-16 md:m-0" square>
 
@@ -64,25 +62,12 @@ function Register()
                             className="mb-32"
                         >
                             <Tab
-                                icon={<img className="h-40 p-4 bg-black rounded-12" src="assets/images/logos/jwt.svg" alt="firebase"/>}
+                                icon={<Icon style={{ fontSize: '50px' }}>account_circle</Icon>}
                                 className="min-w-0"
-                                label="JWT"
-                            />
-                            <Tab
-                                icon={<img className="h-40" src="assets/images/logos/firebase.svg" alt="firebase"/>}
-                                className="min-w-0"
-                                label="Firebase"
-                            />
-                            <Tab
-                                icon={<img className="h-40" src="assets/images/logos/auth0.svg" alt="auth0"/>}
-                                className="min-w-0"
-                                label="Auth0"
+                                label="HyperTask"
                             />
                         </Tabs>
-
-                        {selectedTab === 0 && <JWTRegisterTab/>}
-                        {selectedTab === 1 && <FirebaseRegisterTab/>}
-                        {selectedTab === 2 && <Auth0RegisterTab/>}
+                        {selectedTab === 0 && <Auth0RegisterTab />}
 
                         <div className="flex flex-col items-center justify-center pt-32 pb-24">
                             <span className="font-medium">Already have an account?</span>

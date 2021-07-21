@@ -32,7 +32,7 @@ function Login() {
 
                 <FuseAnimate animation="transition.slideUpIn" delay={300}>
                     <Typography variant="h3" color="inherit" className="font-light">
-                        Welcome to the HyperText!
+                        Welcome to the HyperTask!
                     </Typography>
                 </FuseAnimate>
 
@@ -60,7 +60,7 @@ function Login() {
                             <Tab
                                 icon={<Icon style={{ fontSize: '50px' }}>account_circle</Icon>}
                                 className="min-w-0"
-                                label="HyperText"
+                                label="HyperTask"
                             />
                         </Tabs>
                         {selectedTab === 0 && <Auth0LoginTab />}
