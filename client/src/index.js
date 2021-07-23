@@ -14,7 +14,7 @@ import * as serviceWorker from './serviceWorker';
 import App from 'app/App';
 
 ReactDOM.render(
-    <App/>,
+    <App />,
     document.getElementById('root')
 );
 
