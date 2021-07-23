@@ -32,7 +32,7 @@ function UserMenu(props) {
     const [account, setAccount] = useState([]);
     useEffect(() => {
         if (user !== 'undefined') (
-            axios.get(`http://localhost:4000/api/v1/get-user/${user}`)
+            axios.get(`http://localhost:4000/api/get-user/${user}`)
                 .then(function (response) {
                     setAccount(response.data)
                 })
