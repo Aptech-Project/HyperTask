@@ -11,31 +11,31 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import hypetask.model.User;
-import hypetask.service.UserService;
+import hypetask.model.Board;
+import hypetask.service.BoardService;
 
 @CrossOrigin
 @RestController
 @RequestMapping("/api/")
-public class UserController {
+public class BoardController {
 
 	@Autowired
-	private UserService userService;
+	private BoardService boardService;
 
-	// Get all users
-	@GetMapping("/get-all-users")
-	public List<User> getAllUser() {
-		return userService.getAllUser();
+	// Get all Boards
+	@GetMapping("/get-all-Boards")
+	public List<Board> getAllBoard() {
+		return boardService.getAllBoard();
 	}
 
-	@PostMapping("/create-user")
-	public User createUser(@RequestBody User user) {
-		userService.createUser(user);
-		return user;
+	@PostMapping("/create-Board")
+	public Board saveBoard(@RequestBody Board Board) {
+		boardService.createBoard(Board);
+		return Board;
 	}
 
-	@GetMapping("/get-user/{id}")
-	public User getUser(@PathVariable("id") int id) {
-		return userService.getUserById(id);
+	@GetMapping("/get-Board/{id}")
+	public Board getBoard(@PathVariable("id") int id) {
+		return boardService.getBoardById(id);
 	}
 }

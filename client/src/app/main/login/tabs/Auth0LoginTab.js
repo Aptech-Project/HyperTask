@@ -50,7 +50,7 @@ function Auth0LoginTab(props) {
         //mode: 'onChange',
     });
     useEffect(() => {
-        axios.get('http://localhost:4000/api/v1/get-all-users')
+        axios.get('http://localhost:4000/api/get-all-users')
             .then(function (response) {
                 setUserList(response.data)
             })
