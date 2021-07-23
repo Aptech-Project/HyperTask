@@ -32,7 +32,7 @@
                         "members":[],
                         "labels": [],
                         "checklist":[
-                                {
+                            {
                                 "id": "",
                                 "name": "",
                                 "done": ""
@@ -46,7 +46,16 @@
                                 "date": ""
                             }
                         ],
-                        "coverImage":""
+                        "info": {
+                            "backgroundImage": "",
+                            "author": "authorId",
+                            "files":[
+                                {
+                                    "name": "",
+                                    "url": ""
+                                }
+                            ]
+                        }
                     }
                 ]
             }
@@ -58,6 +67,7 @@
         },
         "activities": [
             {
+                "id":"",
                 "userId": "",
                 "type": [
                     "joined/removed from board", 
@@ -71,7 +81,7 @@
                 ],
                 "cardId": "",
                 "listId": "",
-                "date": ""
+                "createdAt": ""
             }
         ],
         "labels": [
