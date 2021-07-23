@@ -20,8 +20,8 @@ CREATE TABLE `board` (
   `activities` text NOT NULL,
   `labels` text NOT NULL,
   `info` text NOT NULL,
-  `createdAt` datetime DEFAULT CURRENT_TIMESTAMP,
-  `updatedAt` datetime ON UPDATE CURRENT_TIMESTAMP,
+  `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` datetime ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 );
 

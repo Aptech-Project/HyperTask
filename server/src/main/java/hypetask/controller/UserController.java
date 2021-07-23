@@ -16,7 +16,7 @@ import hypetask.service.UserService;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/api/")
+@RequestMapping("/api/user")
 public class UserController {
 
 	@Autowired

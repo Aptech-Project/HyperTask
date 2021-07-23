@@ -16,25 +16,25 @@ import hypetask.service.BoardService;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/api/")
+@RequestMapping("/api/board/")
 public class BoardController {
 
 	@Autowired
 	private BoardService boardService;
 
 	// Get all Boards
-	@GetMapping("/get-all-Boards")
+	@GetMapping("/get-all-boards")
 	public List<Board> getAllBoard() {
 		return boardService.getAllBoard();
 	}
 
-	@PostMapping("/create-Board")
+	@PostMapping("/create-board")
 	public Board saveBoard(@RequestBody Board Board) {
 		boardService.createBoard(Board);
 		return Board;
 	}
 
-	@GetMapping("/get-Board/{id}")
+	@GetMapping("/get-board/{id}")
 	public Board getBoard(@PathVariable("id") int id) {
 		return boardService.getBoardById(id);
 	}

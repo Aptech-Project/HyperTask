@@ -15,7 +15,7 @@ public class Board {
 	@Column(name = "id", unique = true, nullable = false)
 	private int id;
 	@Column(name = "name")
-	private int name;
+	private String name;
 	@Column(name = "members")
 	private String members;
 	@Column(name = "lists")
@@ -26,15 +26,16 @@ public class Board {
 	private String labels;
 	@Column(name = "info")
 	private String info;
-	@Column(name = "createdAt")
+	@Column(name = "created_at")
 	private String createdAt;
-	@Column(name = "updatedAt")
+
+	@Column(name = "updated_at")
 	private String updatedAt;
 
 	public Board() {
 	}
 
-	public Board(int name, String members, String lists, String activities, String labels, String info) {
+	public Board(String name, String members, String lists, String activities, String labels, String info) {
 		super();
 		this.name = name;
 		this.members = members;
@@ -44,11 +45,11 @@ public class Board {
 		this.info = info;
 	}
 
-	public int getName() {
+	public String getName() {
 		return name;
 	}
 
-	public void setName(int name) {
+	public void setName(String name) {
 		this.name = name;
 	}
 
