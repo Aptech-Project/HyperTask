@@ -33,7 +33,7 @@ public class FileUploadController {
 			File directory = new File(FILE_DIRECTORY);
 			// Create a folder if not exist
 			if (!directory.exists()) {
-				directory.mkdir();
+				directory.mkdirs();
 			}
 			File myFile = new File(FILE_DIRECTORY + file.getOriginalFilename());
 			myFile.createNewFile();
@@ -41,7 +41,7 @@ public class FileUploadController {
 			fos.write(file.getBytes());
 			fos.close();
 			HashMap<String, String> fileObject = new HashMap<>();
-			fileObject.put("fileUrl", myFile.getAbsolutePath());
+			fileObject.put("fileUrl", getFileUrl(myFile));
 			fileObject.put("fileName", file.getOriginalFilename());
 			fileObject.put("status", "Upload successfully");
 			return new ResponseEntity<Object>(fileObject, HttpStatus.OK);
@@ -57,5 +57,12 @@ public class FileUploadController {
 			return ""; // empty extension
 		}
 		return name.substring(lastIndexOf + 1);
+	}
+
+	private String getFileUrl(File file) {
+		String name = file.getAbsolutePath();
+		int lastIndexOf = name.lastIndexOf("storage");
+		String fileUrl = "localhost:4000/" + name.substring(lastIndexOf).replace("\\", "/");
+		return fileUrl;
 	}
 }
