@@ -1,85 +1,39 @@
-import React, { useEffect, useState, useRef } from 'react';
-import auth0Service from 'app/services/auth0Service';
-import * as authActions from 'app/auth/store/actions';
-import * as Actions from 'app/store/actions';
+import React, { useEffect, useState } from 'react';
 import Formsy from 'formsy-react';
 import { Button, InputAdornment, Icon, Snackbar } from '@material-ui/core';
 import { TextFieldFormsy } from '@fuse';
 import { useDispatch } from "react-redux";
 import history from "@history";
 import { isAuthenticated } from "app/auth/store/actions/login.actions";
+import * as actions from "app/auth/store/actions/login.actions";
 import { useForm } from 'react-hook-form';
 import CheckLogin from './CheckLogin';
-import axios from "axios";
+import { connect } from "react-redux";
 import { showMessage } from 'app/store/actions/fuse';
-import user from 'app/auth/store/reducers/user.reducer';
-function Auth0LoginTab(props) {
+const Auth0LoginTab = ({ classes, ...props }) => {
     const dispatch = useDispatch();
-    const [open, setOpen] = React.useState(false);
-    useEffect(() => {
-
-        showDialog();
-
-        auth0Service.onAuthenticated(() => {
-
-            dispatch(Actions.showMessage({ message: 'Logging in with Auth0' }));
-
-            auth0Service.getUserData().then(tokenData => {
-
-                dispatch(authActions.setUserDataAuth0(tokenData));
-
-                dispatch(Actions.showMessage({ message: 'Logged in with Auth0' }));
-            });
-        });
-    }, [dispatch]);
-
-    function showDialog() {
-        auth0Service.login();
-    }
-    const [cardAnimaton, setCardAnimation] = React.useState("cardHidden");
-    setTimeout(function () {
-        setCardAnimation("");
-    }, 100);
     const [account, setIsAccount] = useState();
     const { ...rest } = props;
     const loginDispatch = useDispatch();
-    const [userList, setUserList] = useState([]);
     const [email, setEmail] = useState('')
     const [pass, setPass] = useState('')
-    const { register, handleSubmit, errors } = useForm({
+    const { handleSubmit } = useForm({
         //mode: 'onChange',
     });
     useEffect(() => {
-        axios.get('http://localhost:4000/api/get-all-users')
-            .then(function (response) {
-                setUserList(response.data)
-            })
-            .catch(function (error) {
-                // console.log(error);
-            })
-    }, [])
+        props.login(email, pass)
+    }, [email, pass])
     const onSubmit = () => {
-        let userExited = 0;
-        let userExitedid = "";
-        let username = ""
-        userList.map((user) => {
-            if (user.email === email || user.username === email && user.password === pass) {
-                userExited = userExited + 1;
-                userExitedid = user.id;
-                username = user.fullname;
-            }
-        })
-        // console.log(userExited);
-        if (userExited > 0) {
+        if (props.user === '') {
+            setIsAccount(true);
+        }
+        if (props.user !== '') {
             setIsAccount(false);
-            console.log(username);
-            dispatch(showMessage({ message: 'Welcome !   ' + username }));
-            loginDispatch(isAuthenticated(userExitedid));
+            dispatch(showMessage({ message: 'Welcome !   ' + props.user.fullname }));
+            loginDispatch(isAuthenticated(props.user.id));
             history.push({
                 pathname: "/",
             });
-        } else {
-            setIsAccount(true);
         }
     };
     return (
@@ -103,7 +57,7 @@ function Auth0LoginTab(props) {
                     className="mb-16"
                     type="text"
                     name="email"
-                    label="Email"
+                    label="Email/Username"
                     variant="outlined"
                     InputProps={{
                         endAdornment: <InputAdornment position="end"><Icon className="text-20" color="action">email</Icon></InputAdornment>
@@ -139,5 +93,12 @@ function Auth0LoginTab(props) {
         </div>
     );
 }
+const mapStateToProps = state => ({
+    user: state.login.login
+});
 
-export default Auth0LoginTab;
+const mapActionToProps = {
+    login: actions.login,
+
+}
+export default connect(mapStateToProps, mapActionToProps)(Auth0LoginTab);

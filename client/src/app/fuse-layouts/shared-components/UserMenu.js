@@ -3,12 +3,13 @@ import { Avatar, Button, Icon, ListItemIcon, ListItemText, Popover, MenuItem, Ty
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { userlogout } from "app/auth/store/actions/login.actions";
-import Snackbar from '@material-ui/core/Snackbar';
 import history from "@history";
-import axios from "axios";
+import * as actions from "app/auth/store/actions/login.actions";
 import { showMessage } from 'app/store/actions/fuse';
+import { connect } from "react-redux";
 function UserMenu(props) {
     const user = useSelector(state => state.login.userAuth);
+
     const dispatch = useDispatch();
     const [userMenu, setUserMenu] = useState(null);
 
@@ -32,16 +33,16 @@ function UserMenu(props) {
     const [account, setAccount] = useState([]);
     useEffect(() => {
         if (user !== 'undefined') (
-            axios.get(`http://localhost:4000/api/get-user/${user}`)
-                .then(function (response) {
-                    setAccount(response.data)
-                })
-                .catch(function (error) {
-                    // console.log(error);
-                })
+            props.findid(user)
+        )
+    }, [state => state.login.findid])
+    const user1 = useSelector(state => state.login.findId)
+    useEffect(() => {
+        if (user1 !== undefined) (
+            setAccount(user1)
         )
 
-    }, [])
+    }, [state => state.login.findid])
     return (
         <React.Fragment>
 
@@ -147,5 +148,8 @@ function UserMenu(props) {
         </React.Fragment>
     );
 }
+const mapActionToProps = {
+    findid: actions.fetchById,
 
-export default UserMenu;
+}
+export default connect(null, mapActionToProps)(UserMenu);

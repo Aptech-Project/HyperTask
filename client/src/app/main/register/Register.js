@@ -4,9 +4,7 @@ import { darken } from '@material-ui/core/styles/colorManipulator';
 import { FuseAnimate } from '@fuse';
 import { Link } from 'react-router-dom';
 import clsx from 'clsx';
-import FirebaseRegisterTab from './tabs/FirebaseRegisterTab';
 import Auth0RegisterTab from './tabs/Auth0RegisterTab';
-import JWTRegisterTab from './tabs/JWTRegisterTab';
 import { makeStyles } from '@material-ui/styles';
 
 const useStyles = makeStyles(theme => ({
@@ -41,8 +39,7 @@ function Register() {
 
                 <FuseAnimate delay={400}>
                     <Typography variant="subtitle1" color="inherit" className="max-w-512 mt-16">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ullamcorper nisl erat, vel convallis elit fermentum pellentesque. Sed mollis velit
-                        facilisis facilisis.
+                        Usability and convenience are everything we have for you
                     </Typography>
                 </FuseAnimate>
             </div>
@@ -51,7 +48,7 @@ function Register() {
 
                 <Card className="w-full max-w-400 mx-auto m-16 md:m-0" square>
 
-                    <CardContent className="flex flex-col items-center justify-center p-32 md:p-48 md:pt-128 ">
+                    <CardContent className="flex flex-col items-center justify-center p-32 md:p-48 md:pt-100 ">
 
                         <Typography variant="h6" className="md:w-full mb-32">CREATE AN ACCOUNT</Typography>
 

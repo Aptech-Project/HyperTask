@@ -1,4 +1,5 @@
 
+import { ACTION_TYPES } from "../actions";
 const SET_USER_AUTHENTICATE = 'user_authenticated'
 
 if (localStorage.getItem(SET_USER_AUTHENTICATE) === null) {
@@ -9,7 +10,8 @@ const userAuth = localStorage.getItem(SET_USER_AUTHENTICATE);
 
 const initialState = {
     isAuthenticated: null,
-    userAuth: userAuth
+    userAuth: userAuth,
+    list: []
 }
 const loginReducer = (state = initialState, action) => {
     switch (action.type) {
@@ -36,6 +38,16 @@ const loginReducer = (state = initialState, action) => {
                 userAuth: 'undefined'
             }
         }
+        case ACTION_TYPES.LOGIN:
+            return {
+                ...state,
+                login: action.payload
+            }
+        case ACTION_TYPES.FETCH_BY_ID:
+            return {
+                ...state,
+                findId: action.payload
+            }
         default:
             return state;
     }

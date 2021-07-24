@@ -13,7 +13,7 @@ public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id", unique = true, nullable = false)
-	private Long id;
+	private int id;
 	@Column(name = "email", unique = true)
 	private String email;
 	@Column(name = "password")
@@ -38,7 +38,7 @@ public class User {
 	public User() {
 	}
 
-	public Long getId() {
+	public int getId() {
 		return id;
 	}
 
