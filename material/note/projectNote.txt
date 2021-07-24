@@ -25,3 +25,17 @@ V. React library
             [classes.drawerClose]: !open,            // you can also use boolean variable
             [classes.drawerRed]: colorVar === 'red', // you can also use string variable
         })}
+VI. Run & Debug java app in VSCode app
+    Install these extendsions: Maven for Java, java extension pack, spring initializr
+    Redirect to app folder
+    To start: run .\mvnw spring:boot:run
+    To debug:
+        Switch to Run&Debug tab in VSCode
+        Add following property to launch.json: 
+            {
+                "type": "java",
+                "name": "Launch Current File",
+                "request": "launch",
+                "mainClass": "${file}"
+            },
+        Add breakpoint then click run
