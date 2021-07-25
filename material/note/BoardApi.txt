@@ -1,0 +1,52 @@
+1/ Get All Board:
+method: get
+req: 
+res: all user board list
+2/ Create New Board:
+method: post
+req: board: {name, members}
+res: new board
+3/ Get Board:
+method: get
+req: board id
+res: board
+4/ Reorder List, Card:
+method: post
+req: boardId, lists
+res: status 200
+5/ Create Card:
+method: post
+req: boardId, listId, dataCard
+res: updated board 
+6/ Create List:
+method: post
+req: boardId, dataList
+res: updated board 
+7/ Update List:
+method: post
+req: boardId, listId, listData
+res: updated list
+8/ Update Card:
+method: post
+req: boardId, cardId, cardData
+res: updated card
+9/ Update Board info:
+method: post
+req: boardId, infoData
+res: updated info
+10/ Update Board:
+method: post
+req: boardId, BoarData (name, member)
+res: updated Board
+11/ Delete Board:
+method: post
+req: boardId
+res: all user boards
+12/ Delete List:
+method: post
+req: listId
+res: all list boards
+13/ Delete Card:
+method: post
+req: cardId
+res: all card boards

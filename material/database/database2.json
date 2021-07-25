@@ -1,0 +1,118 @@
+{
+    "user": {
+        "id": "",
+        "username": "",
+        "password": "",
+        "email": "",
+        "fullName": "",
+        "contact": ["userId1", "userId2"],
+        "info": {
+            "avatar": "",
+            "phoneNumber": ""
+        }
+    },
+    "board":{
+        "id": "",
+        "name": "",
+        "members": [
+            {
+                "userId": "",
+                "role": "",
+                "avatar":""
+            }
+        ],
+        "lists":[
+            {
+                "id": "",
+                "name": "",
+                "cards": [
+                    {
+                        "id": "",
+                        "name": "",
+                        "content": "",
+                        "members":[],
+                        "labels": [],
+                        "checklist":[
+                            {
+                                "id": "",
+                                "name": "",
+                                "checkItems": [
+                                    {
+                                      "id": 1,
+                                      "name": "Implement a calendar library",
+                                      "checked": false
+                                    },
+                                    {
+                                      "id": 2,
+                                      "name": "Replace event colors with Material Design colors",
+                                      "checked": true
+                                    }
+                                ]
+                            }
+                        ],
+                        "dueDate": "",
+                        "comment":[
+                            {
+                                "userId": "",
+                                "content": "",
+                                "date": ""
+                            }
+                        ],
+                        "info": {
+                            "backgroundImage": "",
+                            "author": "authorId",
+                            "files":[
+                                {
+                                    "name": "",
+                                    "url": ""
+                                }
+                            ]
+                        },
+                        "attachments": [
+                            {
+                              "id": "",
+                              "name": "",
+                              "src": "",
+                              "time": "",
+                              "type": "image/file"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "info": {
+            "backgroundImage": "",
+            "author": "authorId",
+            "type": "personalBoard/template"
+        },
+        "activities": [
+            {
+                "id":"",
+                "userId": "",
+                "type": [
+                    "joined/removed from board", 
+                    "create/detele list", 
+                    "create/delete card", 
+                    "comment", 
+                    "add flags",
+                    "set dueDate",
+                    "add labels",
+                    "..."
+                ],
+                "cardId": "",
+                "listId": "",
+                "createdAt": ""
+            }
+        ],
+        "labels": [
+            {
+              "id": "",
+              "name": "",
+              "color": ""
+            }
+        ],
+        "createdAt": "",
+        "updatedAt": ""
+    }
+}
