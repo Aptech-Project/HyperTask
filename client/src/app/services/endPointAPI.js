@@ -1,6 +1,3 @@
-import axios from "axios";
-import id from "date-fns/locale/id";
-
 const baseApi = 'http://localhost:4000/api/user';
 export const endPointApi = {
     users: {

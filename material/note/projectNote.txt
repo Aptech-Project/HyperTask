@@ -39,3 +39,11 @@ VI. Run & Debug java app in VSCode app
                 "mainClass": "${file}"
             },
         Add breakpoint then click run
+
+
+Edit:
+    level 2 DFD -> 1
+    add technology in software/hardware
+    edit flow of DFD
+    add sequency diagram
+    

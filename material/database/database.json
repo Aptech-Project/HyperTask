@@ -8,7 +8,8 @@
         "contact": ["userId1", "userId2"],
         "info": {
             "avatar": "",
-            "phoneNumber": ""
+            "phoneNumber": "",
+            "followingBoards":["board1", "board2"]
         }
     },
     "board":{
