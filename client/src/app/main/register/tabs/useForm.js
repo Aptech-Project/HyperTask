@@ -7,10 +7,12 @@ const useForm = (initialFieldValues, validate, setCurrentId) => {
     const handleInputChange = e => {
         const { name, value } = e.target
         const fieldValue = { [name]: value }
+
         setValues({
             ...values,
             ...fieldValue
         })
+
         validate(fieldValue)
     }
 

@@ -1,11 +1,12 @@
-import { endPointApi as api } from "app/services/endPointAPI"
-
+import { endPointApi } from "app/services/endPointAPI"
+import axios from "axios";
 export const ACTION_TYPES = {
     CREATE: 'CREATE',
+    FETCH_ALL: 'FETCH_ALL',
 }
 
 export const fetchAll = () => dispatch => {
-    api.user().fetchAll()
+    axios.get(endPointApi.users.getAll)
         .then(response => {
             dispatch({
                 type: ACTION_TYPES.FETCH_ALL,
@@ -16,7 +17,7 @@ export const fetchAll = () => dispatch => {
 }
 
 export const create = (data, onSuccess) => dispatch => {
-    api.user().create(data)
+    axios.post(endPointApi.users.create, data)
         .then(res => {
             dispatch({
                 type: ACTION_TYPES.CREATE,

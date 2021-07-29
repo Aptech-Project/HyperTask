@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Formsy from 'formsy-react';
 import { Button, InputAdornment, Icon, TextField } from '@material-ui/core';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import * as actions from '../action/register.action';
+import * as action from 'app/auth/store/actions/login.actions'
 import useForm from "./useForm";
 import { connect } from "react-redux";
 import history from "@history";
 import { showMessage } from 'app/store/actions/fuse';
+import { use } from 'marked';
 const initialFieldValues = {
     email: '',
     password: '',
@@ -19,24 +21,72 @@ const initialFieldValues = {
 
 const Auth0RegisterTab = ({ classes, ...props }) => {
     const dispatch = useDispatch();
+    const [user, setUser] = useState([])
+
+    useEffect(() => {
+        dispatch(action.fetchAll())
+    }, [state => state.login.listUser]);
+    let allUser = useSelector(state => state.login.listUser);
+    useEffect(() => {
+        if (allUser !== undefined) (
+            setUser(allUser)
+        )
+
+    }, [state => state.login.listUser])
+    // console.log(user)
+
     const validate = (fieldValues = values) => {
         let temp = { ...errors }
-        if ('username' in fieldValues)
-            temp.username = fieldValues.username ? "" : "Username is required."
+        if ('username' in fieldValues) {
+            let err = 0;
+            user.map((user) => {
+                if (user.username.toLowerCase() === fieldValues.username.toLowerCase()) {
+                    err = err + 1
+                }
+            })
+            if (fieldValues.username === '') {
+                temp.username = fieldValues.username ? "" : "Username is required."
+            } if (fieldValues.username !== '') {
+                temp.username = (/^[A-Za-z1-9]\w{0,}$/).test(fieldValues.username) ? "" : "Username is not valid."
+            }
+            if (err >= 1) {
+                err < 1 ? temp.username = "" : temp.username = "Username is exited"
+            }
+        }
         if ('email' in fieldValues) {
+            let err = 0;
+            user.map((user) => {
+                if (user.email.toLowerCase() === fieldValues.email.toLowerCase()) {
+                    err = err + 1
+                }
+            })
             if (fieldValues.email === '') {
                 temp.email = fieldValues.email ? "" : "Email is required."
             } if (fieldValues.email !== '') {
                 temp.email = (/^$|.+@.+..+/).test(fieldValues.email) ? "" : "Email is not valid."
             }
+            if (err >= 1) {
+                err < 1 ? temp.email = "" : temp.email = "Email is exited"
+            }
+
         }
-        if ('fullname' in fieldValues)
-            temp.fullname = fieldValues.fullname ? "" : "Fullname is required."
+        if ('fullname' in fieldValues) {
+            if (fieldValues.fullname === '') {
+                temp.fullname = fieldValues.fullname ? "" : "Fullname is required."
+            } if (fieldValues.email !== '') {
+                temp.fullname = (/^[a-zA-Z]{1,}(?: [a-zA-Z]+){0,6}$/).test(fieldValues.fullname) ? "" : "Fullname is not valid."
+            }
+        }
         if ('password' in fieldValues)
-            temp.password = fieldValues.password ? "" : "Password is required."
+            if (fieldValues.password === '') {
+                temp.password = fieldValues.password ? "" : "Password is required."
+            } if (fieldValues.password !== '') {
+                temp.password = (/^[A-Za-z0-9]\w{5,}$/).test(fieldValues.password) ? "" : "Passwords must be at least 6 in length and contain no special characters"
+            }
         if ('passwordconfirm' in fieldValues) {
-            temp.passwordconfirm = fieldValues.passwordconfirm ? "" : "Password confirm is required."
+            fieldValues.passwordconfirm == values.password ? temp.passwordconfirm = "" : temp.passwordconfirm = "Confirmation password does not match"
         }
+
         setErrors({
             ...temp
         })
@@ -52,7 +102,9 @@ const Auth0RegisterTab = ({ classes, ...props }) => {
         handleInputChange,
         resetForm
     } = useForm(initialFieldValues, validate, props.setCurrentId)
+
     const handleSubmit = e => {
+        console.log(values)
         const onSuccess = () => {
             dispatch(showMessage({ message: 'Register successfull. Please login to website' }));
             history.push({
@@ -160,11 +212,12 @@ const Auth0RegisterTab = ({ classes, ...props }) => {
 }
 
 const mapStateToProps = state => ({
-    userList: state.register.list
+    userList: state.register.listUser
 })
 
 const mapActionToProps = {
     createUser: actions.create,
+    fetchAll: actions.fetchAll
 }
 
 export default connect(mapStateToProps, mapActionToProps)((Auth0RegisterTab))

@@ -10,7 +10,7 @@ export const Register = (state = initialState, action) => {
         case ACTION_TYPES.FETCH_ALL:
             return {
                 ...state,
-                list: [...action.payload]
+                listUser: [...action.payload]
             }
 
         case ACTION_TYPES.CREATE:
