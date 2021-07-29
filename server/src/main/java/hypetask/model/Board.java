@@ -1,11 +1,16 @@
 package hypetask.model;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
 @Table(name = "board")
@@ -27,10 +32,11 @@ public class Board {
 	@Column(name = "info")
 	private String info;
 	@Column(name = "created_at")
-	private String createdAt;
-
+	@CreationTimestamp
+	private Date createdAt;
 	@Column(name = "updated_at")
-	private String updatedAt;
+	@UpdateTimestamp
+	private Date updatedAt;
 
 	public Board() {
 	}
@@ -97,11 +103,11 @@ public class Board {
 		return id;
 	}
 
-	public String getCreatedAt() {
+	public Date getCreatedAt() {
 		return createdAt;
 	}
 
-	public String getUpdatedAt() {
+	public Date getUpdatedAt() {
 		return updatedAt;
 	}
 

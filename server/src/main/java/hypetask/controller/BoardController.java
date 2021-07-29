@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -37,5 +38,11 @@ public class BoardController {
 	@GetMapping("/get-board/{id}")
 	public Board getBoard(@PathVariable("id") int id) {
 		return boardService.getBoardById(id);
+	}
+
+	@PutMapping("/update-board")
+	public Board updateBoard(@RequestBody Board Board) {
+		boardService.createBoard(Board);
+		return Board;
 	}
 }

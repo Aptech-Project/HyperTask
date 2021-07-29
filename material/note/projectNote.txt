@@ -26,9 +26,11 @@ V. React library
             [classes.drawerRed]: colorVar === 'red', // you can also use string variable
         })}
 VI. Run & Debug java app in VSCode app
+    Add (JAVA_HOME C:\Program Files\Java\jdk-12.0.1) to system variables
+    Add %JAVA_HOME%\bin to end of variable Path
     Install these extendsions: Maven for Java, java extension pack, spring initializr
     Redirect to app folder
-    To start: run .\mvnw spring:boot:run
+    To start: .\mvnw spring:boot:run || mvn spring-boot:run
     To debug:
         Switch to Run&Debug tab in VSCode
         Add following property to launch.json: 
@@ -40,10 +42,4 @@ VI. Run & Debug java app in VSCode app
             },
         Add breakpoint then click run
 
-
-Edit:
-    level 2 DFD -> 1
-    add technology in software/hardware
-    edit flow of DFD
-    add sequency diagram
     

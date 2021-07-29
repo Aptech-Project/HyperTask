@@ -22,6 +22,6 @@ public class BoardService {
 	}
 
 	public Board getBoardById(int id) {
-		return boardRepository.getById(id);
+		return boardRepository.findById(id).get();
 	}
 }

@@ -90,16 +90,7 @@
             {
                 "id":"",
                 "userId": "",
-                "type": [
-                    "joined/removed from board", 
-                    "create/detele list", 
-                    "create/delete card", 
-                    "comment", 
-                    "add flags",
-                    "set dueDate",
-                    "add labels",
-                    "..."
-                ],
+                "type": "Username has created new board",
                 "cardId": "",
                 "listId": "",
                 "createdAt": ""
