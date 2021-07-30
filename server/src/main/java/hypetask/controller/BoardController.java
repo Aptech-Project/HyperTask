@@ -1,6 +1,10 @@
 package hypetask.controller;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+
+import com.google.gson.Gson;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -20,13 +24,31 @@ import hypetask.service.BoardService;
 @RequestMapping("/api/board/")
 public class BoardController {
 
+	Gson json = new Gson();
+
 	@Autowired
 	private BoardService boardService;
 
 	// Get all Boards
 	@GetMapping("/get-all-boards")
-	public List<Board> getAllBoard() {
+	public List<Board> getAllBoards() {
 		return boardService.getAllBoard();
+	}
+
+	@GetMapping("/get-user-boards/{id}")
+	public List<Board> getUserBoards(@PathVariable("id") int id) {
+		List<Board> allBoards = boardService.getAllBoard();
+		ArrayList<Board> usersBoard = new ArrayList<Board>();
+		allBoards.forEach((board) -> {
+			List<Map<String,String>> members = json.fromJson(board.getMembers(), List.class);
+			members.forEach((user)-> {
+				if (Integer.parseInt((String)user.get("userId")) == id) {
+					usersBoard.add(board);
+				}
+			});
+			System.out.println(members);
+		});
+		return usersBoard;
 	}
 
 	@PostMapping("/create-board")
