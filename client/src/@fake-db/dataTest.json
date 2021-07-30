@@ -2,7 +2,7 @@
     "board":
     [
         {
-            "id": "32gfhaf2",
+            "id": "1",
             "name": "Bảng 1",
             "members": [
                 {
@@ -13,18 +13,18 @@
             ],
             "lists":[
                 {
-                    "id": "56027cf5a2ca3839a5d36103",
+                    "id": "1",
                     "name": "List 1",
                     "cards": [
                         {
-                            "id": "2837273da9b93dd84243s0f9",
+                            "id": "1",
                             "name": "Update generators",
                             "content": "Current generator doesn't support Node.js 6 and above.",
                             "members":["1"],
-                            "labels": ["26022e4129ad3a5sc28b36cd"],
+                            "labels": ["1"],
                             "checklist":[
                                 {
-                                    "id": "63021cfdbe1x72wcf1fc451v",
+                                    "id": "1",
                                     "name": "Checklist",
                                     "checkItems": [
                                         {
@@ -50,7 +50,7 @@
                             ],
                             "info": {
                                 "backgroundImage": "",
-                                "author": "authorId",
+                                "author": "1",
                                 "files":[
                                     {
                                         "name": "",
@@ -60,14 +60,14 @@
                             },
                             "attachments": [
                                 {
-                                    "id": "67027cahbe3b52ecf2dc631c",
+                                    "id": "1",
                                     "name": "mail.jpg",
                                     "src": "assets/images/scrumboard/mail.jpg",
                                     "time": "Added Nov 3 at 15:22AM",
                                     "type": "image"
                                   },
                                   {
-                                    "id": "56027cfcbe1b72ecf1fc452a",
+                                    "id": "2",
                                     "name": "calendar.jpg",
                                     "src": "assets/images/scrumboard/calendar.jpg",
                                     "time": "Added Nov 1 at 12:34PM",
@@ -80,8 +80,8 @@
             ],
             "info": {
                 "backgroundImage": "",
-                "author": "authorId",
-                "type": "personalBoard/template"
+                "author": "1",
+                "type": "personalBoard"
             },
             "activities": [
                 {
@@ -105,7 +105,7 @@
             ],
             "labels": [
                 {
-                    "id": "26022e4129ad3a5sc28b36cd",
+                    "id": "1",
                     "name": "High Priority",
                     "class": "bg-red text-white"
                 }

@@ -36,19 +36,8 @@ public class BoardController {
 	}
 
 	@GetMapping("/get-user-boards/{id}")
-	public List<Board> getUserBoards(@PathVariable("id") int id) {
-		List<Board> allBoards = boardService.getAllBoard();
-		ArrayList<Board> usersBoard = new ArrayList<Board>();
-		allBoards.forEach((board) -> {
-			List<Map<String,String>> members = json.fromJson(board.getMembers(), List.class);
-			members.forEach((user)-> {
-				if (Integer.parseInt((String)user.get("userId")) == id) {
-					usersBoard.add(board);
-				}
-			});
-			System.out.println(members);
-		});
-		return usersBoard;
+	public List<Board> getUserBoards(@PathVariable("id") int userId) {
+		return boardService.getUserBoards(userId);
 	}
 
 	@PostMapping("/create-board")
@@ -67,4 +56,5 @@ public class BoardController {
 		boardService.createBoard(Board);
 		return Board;
 	}
+
 }

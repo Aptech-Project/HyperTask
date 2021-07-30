@@ -16,11 +16,6 @@ class Auth extends Component {
                 pathname: "/login",
             });
         }
-        if (this.props.user !== 'undefined') {
-            history.push({
-                pathname: "/",
-            });
-        }
     }
 
     render() {

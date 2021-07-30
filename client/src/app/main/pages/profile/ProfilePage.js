@@ -5,6 +5,7 @@ import { FusePageSimple, FuseAnimate } from '@fuse';
 import TimelineTab from './tabs/TimelineTab';
 import PhotosVideosTab from './tabs/PhotosVideosTab';
 import AboutTab from './tabs/AboutTab';
+import CardsTab from './tabs/CardsTab';
 
 const useStyles = makeStyles(theme => ({
     layoutHeader: {
@@ -88,7 +89,7 @@ function ProfilePage() {
                             <TimelineTab />
                         )}
                     {selectedTab === 2 && (
-                        <PhotosVideosTab />
+                        <CardsTab />
                     )}
                     {selectedTab === 3 && (
                         <PhotosVideosTab />
