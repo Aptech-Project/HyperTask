@@ -66,6 +66,7 @@ export function reorderList(result) {
       result.source.index,
       result.destination.index
     );
+    const boardUpdate = { ...board, lists: ordered };
 
     const request = axios.post("/api/scrumboard-app/list/order", {
       boardId: board.id,
@@ -136,6 +137,7 @@ export function newCard(boardId, listId, cardTitle) {
     new Promise((resolve, reject) => {
       request.then((response) => {
         resolve(response.data);
+        console.log("response: ", response);
         return dispatch({
           type: ADD_CARD,
           payload: response.data,

@@ -17,11 +17,12 @@ import BoardMessBox from "../model/BoardMessBox";
 const useStyles = makeStyles((theme) => ({
   root: {
     background: theme.palette.primary,
-    color: theme.palette.getContrastText(theme.palette.primary.main),
+    //color: theme.palette.getContrastText(theme.palette.primary.main),
   },
   board: {
     cursor: "pointer",
     boxShadow: theme.shadows[0],
+    height: "96px",
     transitionProperty: "box-shadow border-color",
     transitionDuration: theme.transitions.duration.short,
     transitionTimingFunction: theme.transitions.easing.easeInOut,
@@ -113,6 +114,7 @@ function Boards(props) {
   const [addNewBoardLog, setAddNewBoardLog] = useState({
     open: false,
     value: "",
+    members: [],
   });
   const [messBox, setMessBox] = useState({
     delete: false,
@@ -133,16 +135,21 @@ function Boards(props) {
 
   useEffect(() => {
     dispatch(Actions.getBoards());
-    return () => {
-      dispatch(Actions.resetBoards());
-    };
+    // return () => {
+    //   dispatch(Actions.resetBoards());
+    // };
   }, [dispatch]);
 
   const handleAddNewBoard = () => {
     setAddNewBoardLog({ ...addNewBoardLog, open: true });
   };
   const handleAddNewBoardConfirm = () => {
-    dispatch(Actions.newBoard({ name: addNewBoardLog.value }));
+    dispatch(
+      Actions.newBoard({
+        name: addNewBoardLog.value,
+        members: addNewBoardLog.members,
+      })
+    );
   };
   const deleteBoard = () => {
     dispatch(Actions.deleteBoard(settingMenu.boardId));
@@ -230,7 +237,10 @@ function Boards(props) {
                         style={{ paddingBottom: "2.4rem" }}
                         role="button"
                       >
-                        <Typography className="text-16 font-300 text-center px-32">
+                        <Typography
+                          className="text-16 font-300 text-center px-32"
+                          style={{ color: "#172b4d" }}
+                        >
                           {board.name}
                         </Typography>
                       </Link>

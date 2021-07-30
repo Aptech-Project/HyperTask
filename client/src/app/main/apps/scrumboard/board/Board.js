@@ -1,168 +1,164 @@
-import React, {useEffect, useRef, useState} from 'react';
-import {Button, Icon, IconButton, AppBar, Toolbar, Drawer, Hidden} from '@material-ui/core';
-import {Link, withRouter} from 'react-router-dom';
-import {DragDropContext, Droppable} from 'react-beautiful-dnd';
-import withReducer from 'app/store/withReducer';
-import * as Actions from '../store/actions';
-import reducer from '../store/reducers';
-import clsx from 'clsx';
-import BoardTitle from './BoardTitle';
-import BoardList from './BoardList';
-import BoardAddList from './BoardAddList';
-import BoardCardDialog from './dialogs/card/BoardCardDialog';
-import BoardSettingsSidebar from './sidebars/settings/BoardSettingsSidebar';
-import {useDispatch, useSelector} from 'react-redux';
+import React, { useEffect, useRef, useState } from "react";
+import {
+  Button,
+  Icon,
+  IconButton,
+  AppBar,
+  Toolbar,
+  Drawer,
+  Hidden,
+} from "@material-ui/core";
+import { Link, withRouter } from "react-router-dom";
+import { DragDropContext, Droppable } from "react-beautiful-dnd";
+import withReducer from "app/store/withReducer";
+import * as Actions from "../store/actions";
+import reducer from "../store/reducers";
+import clsx from "clsx";
+import BoardTitle from "./BoardTitle";
+import BoardList from "./BoardList";
+import BoardAddList from "./BoardAddList";
+import BoardCardDialog from "./dialogs/card/BoardCardDialog";
+import BoardSettingsSidebar from "./sidebars/settings/BoardSettingsSidebar";
+import { useDispatch, useSelector } from "react-redux";
+import BoardMember from "./BoardMembers";
 
-function Board(props)
-{
-    const dispatch = useDispatch();
-    const board = useSelector(({scrumboardApp}) => scrumboardApp.board);
+function Board(props) {
+  const dispatch = useDispatch();
+  const board = useSelector(({ scrumboardApp }) => scrumboardApp.board);
 
-    const containerRef = useRef(null);
-    const [settingsDrawerOpen, setSettingsDrawerOpen] = useState(false);
+  const containerRef = useRef(null);
+  const [settingsDrawerOpen, setSettingsDrawerOpen] = useState(false);
 
-    useEffect(() => {
-        dispatch(Actions.getBoard(props.match.params));
-        return () => {
-            dispatch(Actions.resetBoard());
-        }
-    }, [dispatch, props.match.params]);
+  useEffect(() => {
+    dispatch(Actions.getBoard(props.match.params));
+    return () => {
+      dispatch(Actions.resetBoard());
+    };
+  }, [dispatch, props.match.params]);
 
-    function onDragEnd(result)
-    {
-        const {source, destination} = result;
+  function onDragEnd(result) {
+    const { source, destination } = result;
 
-        // dropped nowhere
-        if ( !destination )
-        {
-            return;
-        }
-
-        // did not move anywhere - can bail early
-        if (
-            source.droppableId === destination.droppableId &&
-            source.index === destination.index
-        )
-        {
-            return;
-        }
-
-        // reordering list
-        if ( result.type === 'list' )
-        {
-            dispatch(Actions.reorderList(result));
-        }
-
-        // reordering card
-        if ( result.type === 'card' )
-        {
-            dispatch(Actions.reorderCard(result));
-        }
+    // dropped nowhere
+    if (!destination) {
+      return;
     }
 
-    function toggleSettingsDrawer(state)
-    {
-        setSettingsDrawerOpen((state === undefined) ? !settingsDrawerOpen : state);
+    // did not move anywhere - can bail early
+    if (
+      source.droppableId === destination.droppableId &&
+      source.index === destination.index
+    ) {
+      return;
     }
 
-    if ( !board )
-    {
-        return null;
+    // reordering list
+    if (result.type === "list") {
+      dispatch(Actions.reorderList(result));
     }
 
-    return (
-        <div
-            className="flex flex-1 flex-auto flex-col w-full h-full relative"
-            ref={containerRef}
-        >
-            <AppBar position="static" color="primary">
-                <Toolbar className="flex items-center justify-between px-4 sm:px-24 h-64 sm:h-96 container">
-                    <Hidden xsDown>
-                        <Button
-                            to="/apps/scrumboard/boards/"
-                            component={Link}
-                            variant="contained"
-                        >
-                            <Icon className="mr-8">assessment</Icon>
-                            Boards
-                        </Button>
-                    </Hidden>
+    // reordering card
+    if (result.type === "card") {
+      dispatch(Actions.reorderCard(result));
+    }
+  }
 
-                    <Hidden smUp>
-                        <IconButton
-                            color="inherit"
-                            to="/apps/scrumboard/boards/"
-                            component={Link}
-                        >
-                            <Icon>assessment</Icon>
-                        </IconButton>
-                    </Hidden>
+  function toggleSettingsDrawer(state) {
+    setSettingsDrawerOpen(state === undefined ? !settingsDrawerOpen : state);
+  }
 
-                    <div className="flex flex-1 justify-center items-center">
-                        <BoardTitle />
-                    </div>
+  if (!board) {
+    return null;
+  }
 
-                    <IconButton
-                        color="inherit"
-                        onClick={() => toggleSettingsDrawer(true)}
-                    >
-                        <Icon>settings</Icon>
-                    </IconButton>
-                </Toolbar>
-            </AppBar>
-
-            <div className={clsx("flex flex-1 overflow-x-auto")}>
-                <DragDropContext onDragEnd={onDragEnd}>
-                    <Droppable
-                        droppableId="list"
-                        type="list"
-                        direction="horizontal"
-                    >
-                        {(provided) => (
-                            <div
-                                ref={provided.innerRef}
-                                className="flex container p-16 md:p-24"
-                            >
-                                {board.lists.map((list, index) => (
-                                    <BoardList
-                                        key={list.id}
-                                        list={list}
-                                        index={index}
-                                    />
-                                ))}
-                                {provided.placeholder}
-
-                                <BoardAddList />
-                            </div>
-                        )}
-                    </Droppable>
-                </DragDropContext>
-            </div>
-
-            <Drawer
-                anchor="right"
-                className="absolute overflow-hidden"
-                classes={{
-                    paper: "absolute w-320",
-                }}
-                BackdropProps={{
-                    classes: {
-                        root: "absolute",
-                    },
-                }}
-                container={containerRef.current}
-                ModalProps={{
-                    keepMounted: true,
-                }}
-                open={settingsDrawerOpen}
-                onClose={() => toggleSettingsDrawer(false)}
+  return (
+    <div
+      className="flex flex-1 flex-auto flex-col w-full h-full relative"
+      ref={containerRef}
+    >
+      <AppBar position="static" color="primary">
+        <Toolbar className="flex items-center justify-between px-4 sm:px-24 h-64 container">
+          <Hidden xsDown>
+            <Button
+              to="/apps/scrumboard/boards/"
+              component={Link}
+              variant="contained"
             >
-                <BoardSettingsSidebar />
-            </Drawer>
+              <Icon className="mr-8">assessment</Icon>
+              Boards
+            </Button>
+          </Hidden>
 
-            <BoardCardDialog />
-        </div>
-    );
+          <Hidden smUp>
+            <IconButton
+              color="inherit"
+              to="/apps/scrumboard/boards/"
+              component={Link}
+            >
+              <Icon>assessment</Icon>
+            </IconButton>
+          </Hidden>
+
+          <div className="flex flex-1 justify-center items-center">
+            <BoardTitle />
+          </div>
+
+          <BoardMember members={board.members} />
+
+          <IconButton
+            color="inherit"
+            onClick={() => toggleSettingsDrawer(true)}
+          >
+            <Icon>settings</Icon>
+          </IconButton>
+        </Toolbar>
+      </AppBar>
+
+      <div className={clsx("flex flex-1 overflow-x-auto")}>
+        <DragDropContext onDragEnd={onDragEnd}>
+          <Droppable droppableId="list" type="list" direction="horizontal">
+            {(provided) => (
+              <div
+                ref={provided.innerRef}
+                className="flex container p-16 md:p-24"
+              >
+                {board.lists.map((list, index) => (
+                  <BoardList key={list.id} list={list} index={index} />
+                ))}
+                {provided.placeholder}
+
+                <BoardAddList />
+              </div>
+            )}
+          </Droppable>
+        </DragDropContext>
+      </div>
+
+      <Drawer
+        anchor="right"
+        style={{ top: "120px" }}
+        className="absolute overflow-hidden"
+        classes={{
+          paper: "absolute w-320",
+        }}
+        BackdropProps={{
+          classes: {
+            root: "absolute",
+          },
+        }}
+        container={containerRef.current}
+        ModalProps={{
+          keepMounted: true,
+        }}
+        open={settingsDrawerOpen}
+        onClose={() => toggleSettingsDrawer(false)}
+      >
+        <BoardSettingsSidebar />
+      </Drawer>
+
+      <BoardCardDialog />
+    </div>
+  );
 }
 
-export default withReducer('scrumboardApp', reducer)(withRouter(Board));
+export default withReducer("scrumboardApp", reducer)(withRouter(Board));

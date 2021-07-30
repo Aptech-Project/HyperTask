@@ -26,7 +26,9 @@ export function resetBoards() {
 
 export function newBoard(board) {
   const request = axios.post("/api/scrumboard-app/board/new", {
-    board: board ? new BoardModel({ name: board.name }) : new BoardModel(),
+    board: board
+      ? new BoardModel({ name: board.name, members: board.members })
+      : new BoardModel(),
   });
 
   return (dispatch) =>

@@ -1,0 +1,230 @@
+{
+    "board":
+    [
+        {
+            "id": "32gfhaf2",
+            "name": "Bảng 1",
+            "members": [
+                {
+                    "userId": "1",
+                    "role": "admin",
+                    "avatar":""
+                }
+            ],
+            "lists":[
+                {
+                    "id": "56027cf5a2ca3839a5d36103",
+                    "name": "List 1",
+                    "cards": [
+                        {
+                            "id": "2837273da9b93dd84243s0f9",
+                            "name": "Update generators",
+                            "content": "Current generator doesn't support Node.js 6 and above.",
+                            "members":["1"],
+                            "labels": ["26022e4129ad3a5sc28b36cd"],
+                            "checklist":[
+                                {
+                                    "id": "63021cfdbe1x72wcf1fc451v",
+                                    "name": "Checklist",
+                                    "checkItems": [
+                                        {
+                                          "id": 1,
+                                          "name": "Implement a calendar library",
+                                          "checked": false
+                                        },
+                                        {
+                                          "id": 2,
+                                          "name": "Replace event colors with Material Design colors",
+                                          "checked": true
+                                        }
+                                    ]
+                                }
+                            ],
+                            "dueDate": "2017-08-29T10:16:34.000Z",
+                            "comment":[
+                                {
+                                    "userId": "1",
+                                    "content": "Done rồi nha",
+                                    "date": "2017-08-29T10:16:34.000Z"
+                                }
+                            ],
+                            "info": {
+                                "backgroundImage": "",
+                                "author": "authorId",
+                                "files":[
+                                    {
+                                        "name": "",
+                                        "url": ""
+                                    }
+                                ]
+                            },
+                            "attachments": [
+                                {
+                                    "id": "67027cahbe3b52ecf2dc631c",
+                                    "name": "mail.jpg",
+                                    "src": "assets/images/scrumboard/mail.jpg",
+                                    "time": "Added Nov 3 at 15:22AM",
+                                    "type": "image"
+                                  },
+                                  {
+                                    "id": "56027cfcbe1b72ecf1fc452a",
+                                    "name": "calendar.jpg",
+                                    "src": "assets/images/scrumboard/calendar.jpg",
+                                    "time": "Added Nov 1 at 12:34PM",
+                                    "type": "image"
+                                  }
+                            ]
+                        }
+                    ]
+                }
+            ],
+            "info": {
+                "backgroundImage": "",
+                "author": "authorId",
+                "type": "personalBoard/template"
+            },
+            "activities": [
+                {
+                    "id":"1",
+                    "userId": "1",
+                    "type":"comment",
+                    "message":"We should be able to add moment.js without any problems",
+                    "cardId": "2837273da9b93dd84243s0f9",
+                    "listId": "56027cf5a2ca3839a5d36103",
+                    "createdAt": "now"
+                },
+                {
+                    "id":"2",
+                    "userId": "1",
+                    "type":"attachment",
+                    "message":"attached a link",
+                    "cardId": "2837273da9b93dd84243s0f9",
+                    "listId": "56027cf5a2ca3839a5d36103",
+                    "createdAt": "45 mins. ago"
+                }
+            ],
+            "labels": [
+                {
+                    "id": "26022e4129ad3a5sc28b36cd",
+                    "name": "High Priority",
+                    "class": "bg-red text-white"
+                }
+            ],
+            "createdAt": "",
+            "updatedAt": ""
+        },
+        {
+            "id": "32gfhaf23",
+            "name": "Bảng 2",
+            "members": [
+                {
+                    "userId": "1",
+                    "role": "admin",
+                    "avatar":""
+                }
+            ],
+            "lists":[
+                {
+                    "id": "56027cf5a2ca3839a5d36102",
+                    "name": "List 1",
+                    "cards": [
+                        {
+                            "id": "2837273da9b93dd84243s0f8",
+                            "name": "Update generators",
+                            "content": "Current generator doesn't support Node.js 6 and above.",
+                            "members":["1"],
+                            "labels": ["26022e4129ad3a5sc28b36cd"],
+                            "checklist":[
+                                {
+                                    "id": "63021cfdbe1x72wcf1fc451v",
+                                    "name": "Checklist",
+                                    "checkItems": [
+                                        {
+                                          "id": 1,
+                                          "name": "Implement a calendar library",
+                                          "checked": false
+                                        },
+                                        {
+                                          "id": 2,
+                                          "name": "Replace event colors with Material Design colors",
+                                          "checked": true
+                                        }
+                                    ]
+                                }
+                            ],
+                            "dueDate": "2017-08-29T10:16:34.000Z",
+                            "comment":[
+                                {
+                                    "userId": "1",
+                                    "content": "Done rồi nha",
+                                    "date": "2017-08-29T10:16:34.000Z"
+                                }
+                            ],
+                            "info": {
+                                "backgroundImage": "",
+                                "author": "authorId",
+                                "files":[
+                                    {
+                                        "name": "",
+                                        "url": ""
+                                    }
+                                ]
+                            },
+                            "attachments": [
+                                {
+                                    "id": "67027cahbe3b52ecf2dc631c",
+                                    "name": "mail.jpg",
+                                    "src": "assets/images/scrumboard/mail.jpg",
+                                    "time": "Added Nov 3 at 15:22AM",
+                                    "type": "image"
+                                  },
+                                  {
+                                    "id": "56027cfcbe1b72ecf1fc452a",
+                                    "name": "calendar.jpg",
+                                    "src": "assets/images/scrumboard/calendar.jpg",
+                                    "time": "Added Nov 1 at 12:34PM",
+                                    "type": "image"
+                                  }
+                            ]
+                        }
+                    ]
+                }
+            ],
+            "info": {
+                "backgroundImage": "",
+                "author": "authorId",
+                "type": "personalBoard/template"
+            },
+            "activities": [
+                {
+                    "id":"1",
+                    "userId": "1",
+                    "type":"comment",
+                    "message":"We should be able to add moment.js without any problems",
+                    "cardId": "2837273da9b93dd84243s0f9",
+                    "listId": "56027cf5a2ca3839a5d36103",
+                    "createdAt": "now"
+                },
+                {
+                    "id":"2",
+                    "userId": "1",
+                    "type":"attachment",
+                    "message":"attached a link",
+                    "cardId": "2837273da9b93dd84243s0f9",
+                    "listId": "56027cf5a2ca3839a5d36103",
+                    "createdAt": "45 mins. ago"
+                }
+            ],
+            "labels": [
+                {
+                    "id": "26022e4129ad3a5sc28b36cd",
+                    "name": "High Priority",
+                    "class": "bg-red text-white"
+                }
+            ],
+            "createdAt": "",
+            "updatedAt": ""
+        }
+    ]
+    
+}
