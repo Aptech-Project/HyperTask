@@ -32,7 +32,7 @@ const Auth0RegisterTab = ({ classes, ...props }) => {
             setUser(allUser)
         )
 
-    }, [state => state.login.listUser])
+    }, [allUser])
     // console.log(user)
 
     const validate = (fieldValues = values) => {

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Avatar, Button, Tab, Tabs, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import { FusePageSimple, FuseAnimate } from '@fuse';
@@ -6,6 +6,10 @@ import TimelineTab from './tabs/TimelineTab';
 import PhotosVideosTab from './tabs/PhotosVideosTab';
 import AboutTab from './tabs/AboutTab';
 import CardsTab from './tabs/CardsTab';
+import ContactTab from './tabs/Contact';
+
+import { useSelector, useDispatch } from 'react-redux';
+import * as actions from "./tabs/store/actions/about.action";
 
 const useStyles = makeStyles(theme => ({
     layoutHeader: {
@@ -21,11 +25,17 @@ const useStyles = makeStyles(theme => ({
 function ProfilePage() {
     const classes = useStyles();
     const [selectedTab, setSelectedTab] = useState(0);
-
+    const user = useSelector(state => state.login.userAuth);
+    const profile = useSelector(state => state.login.findId)
+    const [account, setAccount] = useState([]);
+    useEffect(() => {
+        if (profile !== 'undefined') (
+            setAccount(profile)
+        )
+    }, [profile])
     function handleTabChange(event, value) {
         setSelectedTab(value);
     }
-
     return (
         <FusePageSimple
             classes={{
@@ -39,7 +49,7 @@ function ProfilePage() {
                             <Avatar className="w-96 h-96" src="assets/images/avatars/Velazquez.jpg" />
                         </FuseAnimate>
                         <FuseAnimate animation="transition.slideLeftIn" delay={300}>
-                            <Typography className="md:ml-24" variant="h4" color="inherit">Phong</Typography>
+                            <Typography className="md:ml-24" variant="h4" color="inherit">{account.fullname}</Typography>
                         </FuseAnimate>
                     </div>
                     {/* 
@@ -92,7 +102,7 @@ function ProfilePage() {
                         <CardsTab />
                     )}
                     {selectedTab === 3 && (
-                        <PhotosVideosTab />
+                        <ContactTab />
                     )}
                 </div>
             }
