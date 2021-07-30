@@ -6,4 +6,7 @@ export const endPointApi = {
         create: baseApi + '/create-user/',
         fetchById: baseApi + '/get-user/',
     },
+    boards: {
+        getUserBoards: baseApi + '/get-user-boards/',
+    }
 }
