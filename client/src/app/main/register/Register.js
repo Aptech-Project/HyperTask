@@ -5,8 +5,9 @@ import { FuseAnimate } from '@fuse';
 import { Link } from 'react-router-dom';
 import clsx from 'clsx';
 import Auth0RegisterTab from './tabs/Auth0RegisterTab';
+import { useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/styles';
-
+import history from '@history';
 const useStyles = makeStyles(theme => ({
     root: {
         background: 'linear-gradient(to right, ' + theme.palette.primary.dark + ' 0%, ' + darken(theme.palette.primary.dark, 0.5) + ' 100%)',
@@ -17,7 +18,12 @@ const useStyles = makeStyles(theme => ({
 function Register() {
     const classes = useStyles();
     const [selectedTab, setSelectedTab] = useState(0);
-
+    let user = useSelector(state => state.login.userAuth);
+    if (user !== 'undefined') {
+        history.push({
+            pathname: "/",
+        });
+    }
     function handleTabChange(event, value) {
         setSelectedTab(value);
     }
@@ -69,7 +75,6 @@ function Register() {
                         <div className="flex flex-col items-center justify-center pt-32 pb-24">
                             <span className="font-medium">Already have an account?</span>
                             <Link className="font-medium" to="/login">Login</Link>
-                            <Link className="font-medium mt-8" to="/">Back to Dashboard</Link>
                         </div>
 
                         <div className="flex flex-col items-center">

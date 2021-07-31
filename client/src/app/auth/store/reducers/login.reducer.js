@@ -48,10 +48,10 @@ const loginReducer = (state = initialState, action) => {
                 ...state,
                 findId: action.payload
             }
-        case ACTION_TYPES.FETCH_ALL:
+        case ACTION_TYPES.CHECK:
             return {
                 ...state,
-                listUser: [...action.payload]
+                check: [...action.payload]
             }
         default:
             return state;

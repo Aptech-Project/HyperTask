@@ -38,6 +38,10 @@ public class UserController {
 	public User getUser(@PathVariable("id") int id) {
 		return userService.getUserById(id);
 	}
+    @GetMapping("/check")
+    public List<User> getUsernameEmail() {
+        return userService.getUsernameEmail();
+    }
 	@PostMapping("login/{username}&{password}")
 	public User getLogin(@PathVariable("username") String username,@PathVariable("password") String password){
 		return  userService.login(username,password);

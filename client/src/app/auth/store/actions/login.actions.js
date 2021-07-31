@@ -15,7 +15,7 @@ export const userlogout = () => {
 export const ACTION_TYPES = {
     LOGIN: 'LOGIN',
     FETCH_BY_ID: 'FETCH_BY_ID',
-    FETCH_ALL: 'FETCH_ALL'
+    CHECK: 'CHECK'
 }
 export const login = (username, password) => dispatch => {
     axios.post(endPointApi.users.loginWUP + username + '&' + password)
@@ -40,11 +40,11 @@ export const fetchById = (id) => dispatch => {
         })
         .catch(err => console.log(err))
 }
-export const fetchAll = () => dispatch => {
-    axios.get(endPointApi.users.getAll)
+export const check = () => dispatch => {
+    axios.get(endPointApi.users.checkUsernameEmail)
         .then(response => {
             dispatch({
-                type: ACTION_TYPES.FETCH_ALL,
+                type: ACTION_TYPES.CHECK,
                 payload: response.data
             })
         })

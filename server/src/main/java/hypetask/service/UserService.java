@@ -27,4 +27,7 @@ public class UserService {
 	public User login(String username, String password){
 		return userRepository.getLogin(username,password);
 	}
+	public List<User> getUsernameEmail(){
+		return userRepository.getUserNameEmail();
+	}
 }
