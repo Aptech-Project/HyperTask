@@ -30,10 +30,11 @@ function Board(props) {
   const [settingsDrawerOpen, setSettingsDrawerOpen] = useState(false);
 
   useEffect(() => {
-    dispatch(Actions.getBoard(props.match.params));
-    return () => {
-      dispatch(Actions.resetBoard());
-    };
+    //console.log("props: ", props);
+    dispatch(Actions.getBoard(props.match.params.boardId));
+    // return () => {
+    //   dispatch(Actions.resetBoard());
+    // };
   }, [dispatch, props.match.params]);
 
   function onDragEnd(result) {
@@ -122,7 +123,7 @@ function Board(props) {
                 ref={provided.innerRef}
                 className="flex container p-16 md:p-24"
               >
-                {board.lists.map((list, index) => (
+                {JSON.parse(board.lists).map((list, index) => (
                   <BoardList key={list.id} list={list} index={index} />
                 ))}
                 {provided.placeholder}

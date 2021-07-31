@@ -27,8 +27,7 @@ const boardReducer = function (state = initialState, action) {
     }
     case Actions.ADD_LIST: {
       return {
-        ...state,
-        lists: action.payload,
+        ...action.payload,
       };
     }
     case Actions.ADD_CARD: {
@@ -69,13 +68,7 @@ const boardReducer = function (state = initialState, action) {
     }
     case Actions.RENAME_LIST: {
       return {
-        ...state,
-        lists: state.lists.map((list) => {
-          if (list.id === action.listId) {
-            list.name = action.listTitle;
-          }
-          return list;
-        }),
+        ...action.payload,
       };
     }
     case Actions.REMOVE_LIST: {
