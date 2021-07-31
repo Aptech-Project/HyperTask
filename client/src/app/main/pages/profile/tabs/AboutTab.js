@@ -1,25 +1,62 @@
-import React, {useEffect, useState} from 'react';
-import {Avatar, AppBar, Button, Card, CardContent, Icon, IconButton, List, ListItem, ListItemSecondaryAction, ListItemText, Toolbar, Typography} from '@material-ui/core';
-import {FuseAnimateGroup} from '@fuse';
+import React, { useEffect, useState } from 'react';
+import { Avatar, AppBar, InputAdornment, TextField, Button, Card, CardContent, Icon, IconButton, List, ListItem, ListItemSecondaryAction, ListItemText, Toolbar, Typography } from '@material-ui/core';
+import { FuseAnimateGroup } from '@fuse';
 import axios from 'axios';
+import { useSelector, useDispatch } from 'react-redux';
+import Formsy from 'formsy-react';
 
-function AboutTab()
-{
-    const [data, setData] = useState(null);
 
+let initialFieldValues = {
+    email: '',
+    password: '',
+    fullname: '',
+    username: '',
+    contact: null,
+    info: null,
+    passwordconfirm: ''
+}
+function AboutTab() {
+    const profile = useSelector(state => state.login.findId)
+    const [account, setAccount] = useState(null);
+    const [info, setInfo] = useState(null);
+    const [edit, setEdit] = useState(false);
+    // const dispatch = useDispatch();
     useEffect(() => {
-        axios.get('/api/profile/about').then(res => {
-            setData(res.data);
-        });
+        setAccount([])
     }, []);
+    useEffect(() => {
+        if (profile !== 'undefined') (
+            setAccount(profile)
+        )
+    }, [profile]);
+    useEffect(() => {
+        if (account && account !== 'undefined' && account !== []) (
+            setInfo(JSON.parse(account.info))
+            // initialFieldValues.email = account.email;
+        )
+    }, [account]);
+    if (!account) {
+        return null
+    }
+    if (!info) {
+        return null
+    }
+    console.log("account");
+    console.log(account ? JSON.parse(account.info) : "avc");
 
-    if ( !data )
-    {
-        return null;
+    const handleSubmit = e => {
+        setEdit(!edit)
     }
 
-    const {general, work, contact, groups, friends} = data;
+    const clickEdit = e => {
+        if (edit) {
 
+        }
+        setEdit(!edit)
+    }
+    const handleInputChange = e => {
+
+    }
     return (
         <div className="md:flex max-w-2xl">
 
@@ -38,37 +75,112 @@ function AboutTab()
                             </Toolbar>
                         </AppBar>
 
-                        <CardContent>
+                        {!edit && <CardContent>
+                            <div className="mb-24">
+                                <Typography className="font-bold mb-4 text-15">Full Name</Typography>
+                                <Typography>{account.fullname}</Typography>
+                            </div>
                             <div className="mb-24">
                                 <Typography className="font-bold mb-4 text-15">Gender</Typography>
-                                <Typography>{general.gender}</Typography>
+                                <Typography>{info.gender}</Typography>
                             </div>
 
                             <div className="mb-24">
                                 <Typography className="font-bold mb-4 text-15">Birthday</Typography>
-                                <Typography>{general.birthday}</Typography>
+                                <Typography>{info.birthday}</Typography>
                             </div>
 
                             <div className="mb-24">
-                                <Typography className="font-bold mb-4 text-15">Locations</Typography>
+                                <Typography className="font-bold mb-4 text-15">Address</Typography>
 
-                                {general.locations.map((location) => (
-                                    <div className="flex items-center" key={location}>
-                                        <Typography>{location}</Typography>
-                                        <Icon className="text-16 ml-4" color="action">location_on</Icon>
-                                    </div>
-                                ))}
+                                <Typography>{info.address}</Typography>
                             </div>
-
                             <div className="mb-24">
-                                <Typography className="font-bold mb-4 text-15">About Me</Typography>
-                                <Typography>{general.about}</Typography>
+                                <Typography className="font-bold mb-4 text-15">Phone</Typography>
+                                <Typography>{info.phoneNumber}</Typography>
                             </div>
+                            <div className="mb-24">
+                                <Typography className="font-bold mb-4 text-15">Email</Typography>
+                                <Typography>{account.email}</Typography>
+                            </div>
+                            <Button
+                                id="submit1"
+                                type="submit"
+                                variant="contained"
+                                color="primary"
+                                className="w-full mx-auto mt-16 normal-case"
+                                aria-label="Edit"
+                                onClick={clickEdit}
+                            >
+                                {!edit ? "Edit" : "Save"}
+                            </Button>
+                        </CardContent>}
+                        {edit &&
+                            <CardContent>
+                                <Formsy
+                                    className="flex flex-col justify-center w-full"
+                                    onSubmit={handleSubmit}
+                                >
+                                    <TextField
+                                        className="mb-16"
+                                        type="text"
+                                        name="fullname"
+                                        value={account.fullname}
+                                        label="Full Name"
+                                        InputProps={{
+                                            endAdornment: <InputAdornment position="end"><Icon className="text-20" color="action">person_pin</Icon></InputAdornment>
+                                        }}
+                                        autoComplete='off'
+                                        variant="outlined"
+                                        onChange={handleInputChange}
+                                    // {...(errors.fullname && { error: true, helperText: errors.fullname })}
+                                    />
+                                    <TextField
+                                        className="mb-16"
+                                        type="password"
+                                        value={account.password}
+                                        name="password"
+                                        label="Password"
+                                        onChange={handleInputChange}
+                                        autoComplete='off'
+                                        InputProps={{
+                                            endAdornment: <InputAdornment position="end"><Icon className="text-20" color="action">vpn_key</Icon></InputAdornment>
+                                        }}
+                                        variant="outlined"
+                                    // {...(errors.password && { error: true, helperText: errors.password })}
+                                    />
 
-                        </CardContent>
+                                    <TextField
+                                        className="mb-16"
+                                        type="password"
+                                        value={account.password}
+                                        onChange={handleInputChange}
+                                        name="passwordconfirm"
+                                        label="Confirm Password"
+                                        InputProps={{
+                                            endAdornment: <InputAdornment position="end"><Icon className="text-20" color="action">vpn_key</Icon></InputAdornment>
+                                        }}
+                                        variant="outlined"
+                                        autoComplete='off'
+                                    // {...(errors.passwordconfirm && { error: true, helperText: errors.passwordconfirm })}
+                                    />
+                                    <Button
+                                        id="submit1"
+                                        type="submit"
+                                        variant="contained"
+                                        color="primary"
+                                        className="w-full mx-auto mt-16 normal-case"
+                                        aria-label="Edit"
+                                    >
+                                        {!edit ? "Edit" : "Save"}
+                                    </Button>
+                                </Formsy>
+                            </CardContent>
+                        }
                     </Card>
 
-                    <Card className="w-full mb-16">
+
+                    {/* <Card className="w-full mb-16">
                         <AppBar position="static" elevation={0}>
                             <Toolbar className="pl-16 pr-8">
                                 <Typography variant="subtitle1" color="inherit" className="flex-1">
@@ -106,9 +218,9 @@ function AboutTab()
                                 </table>
                             </div>
                         </CardContent>
-                    </Card>
+                    </Card> */}
 
-                    <Card className="w-full mb-16">
+                    {/* <Card className="w-full mb-16">
                         <AppBar position="static" elevation={0}>
                             <Toolbar className="pl-16 pr-8">
                                 <Typography variant="subtitle1" color="inherit" className="flex-1">
@@ -154,11 +266,11 @@ function AboutTab()
                             </div>
 
                         </CardContent>
-                    </Card>
+                    </Card> */}
                 </FuseAnimateGroup>
             </div>
 
-            <div className="flex flex-col md:w-320">
+            {/* <div className="flex flex-col md:w-320">
                 <FuseAnimateGroup
                     enter={{
                         animation: "transition.slideUpBigIn"
@@ -176,7 +288,7 @@ function AboutTab()
                         <CardContent className="p-0">
                             <List className="p-8">
                                 {friends.map((friend) => (
-                                    <img key={friend.id} className="w-64 m-4" src={friend.avatar} alt={friend.name}/>
+                                    <img key={friend.id} className="w-64 m-4" src={friend.avatar} alt={friend.name} />
                                 ))}
                             </List>
                         </CardContent>
@@ -221,7 +333,7 @@ function AboutTab()
                         </CardContent>
                     </Card>
                 </FuseAnimateGroup>
-            </div>
+            </div> */}
         </div>
     );
 }

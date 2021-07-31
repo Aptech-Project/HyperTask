@@ -31,18 +31,18 @@ function UserMenu(props) {
         }
     }, [user])
     const [account, setAccount] = useState([]);
+    const user1 = useSelector(state => state.login.findId)
     useEffect(() => {
         if (user !== 'undefined') (
             props.findid(user)
         )
-    }, [state => state.login.findid])
-    const user1 = useSelector(state => state.login.findId)
+    }, [user])
     useEffect(() => {
         if (user1 !== undefined) (
             setAccount(user1)
         )
 
-    }, [state => state.login.findid])
+    }, [user1])
     return (
         <React.Fragment>
 

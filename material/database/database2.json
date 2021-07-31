@@ -5,23 +5,29 @@
         "password": "",
         "email": "",
         "fullName": "",
-        "contact": ["userId1", "userId2"],
+        "contact": [
+            "userId1",
+            "userId2"
+        ],
         "info": {
+            "gender": "",
+            "birthday": "",
+            "address": "",
             "avatar": "",
             "phoneNumber": ""
         }
     },
-    "board":{
+    "board": {
         "id": "",
         "name": "",
         "members": [
             {
                 "userId": "",
                 "role": "",
-                "avatar":""
+                "avatar": ""
             }
         ],
-        "lists":[
+        "lists": [
             {
                 "id": "",
                 "name": "",
@@ -30,28 +36,28 @@
                         "id": "",
                         "name": "",
                         "content": "",
-                        "members":[],
+                        "members": [],
                         "labels": [],
-                        "checklist":[
+                        "checklist": [
                             {
                                 "id": "",
                                 "name": "",
                                 "checkItems": [
                                     {
-                                      "id": 1,
-                                      "name": "Implement a calendar library",
-                                      "checked": false
+                                        "id": 1,
+                                        "name": "Implement a calendar library",
+                                        "checked": false
                                     },
                                     {
-                                      "id": 2,
-                                      "name": "Replace event colors with Material Design colors",
-                                      "checked": true
+                                        "id": 2,
+                                        "name": "Replace event colors with Material Design colors",
+                                        "checked": true
                                     }
                                 ]
                             }
                         ],
                         "dueDate": "",
-                        "comment":[
+                        "comment": [
                             {
                                 "userId": "",
                                 "content": "",
@@ -61,7 +67,7 @@
                         "info": {
                             "backgroundImage": "",
                             "author": "authorId",
-                            "files":[
+                            "files": [
                                 {
                                     "name": "",
                                     "url": ""
@@ -70,11 +76,11 @@
                         },
                         "attachments": [
                             {
-                              "id": "",
-                              "name": "",
-                              "src": "",
-                              "time": "",
-                              "type": "image/file"
+                                "id": "",
+                                "name": "",
+                                "src": "",
+                                "time": "",
+                                "type": "image/file"
                             }
                         ]
                     }
@@ -88,7 +94,7 @@
         },
         "activities": [
             {
-                "id":"",
+                "id": "",
                 "userId": "",
                 "type": "Username has created new board",
                 "cardId": "",
@@ -98,9 +104,9 @@
         ],
         "labels": [
             {
-              "id": "",
-              "name": "",
-              "color": ""
+                "id": "",
+                "name": "",
+                "color": ""
             }
         ],
         "createdAt": "",
