@@ -1,12 +1,12 @@
-const baseApi = 'http://localhost:4000/api/user';
+const baseApi = 'http://localhost:4000/api/';
 export const endPointApi = {
     users: {
-        getAll: baseApi + '/get-all-users',
-        loginWUP: baseApi + '/login/',
-        create: baseApi + '/create-user/',
-        fetchById: baseApi + '/get-user/',
+        getAll: baseApi + 'user/get-all-users',
+        loginWUP: baseApi + 'user/login/',
+        create: baseApi + 'user/create-user/',
+        fetchById: baseApi + 'user/get-user/',
     },
     boards: {
-        getUserBoards: baseApi + '/get-user-boards/',
+        getUserBoards: baseApi + 'board/get-user-boards/',
     }
 }
