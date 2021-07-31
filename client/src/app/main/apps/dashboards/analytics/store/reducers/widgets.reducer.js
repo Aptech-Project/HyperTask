@@ -18,6 +18,11 @@ const widgetsReducer = function (state = initialState, action) {
                 ...state,
                 allUser: action.payload
             };
+        case Actions.GET_ALL_BOARDS:
+            return {
+                ...state,
+                allBoards: action.payload
+            };
         default:
             return state;
     }

@@ -20,7 +20,6 @@ function AnalyticsDashboardApp() {
     const widgets = useSelector(({ analyticsDashboardApp }) => analyticsDashboardApp.widgets.data);
     const allUser = useSelector(({ analyticsDashboardApp }) => analyticsDashboardApp.widgets.allUser);
 
-    console.log('allUser', allUser);
     useEffect(() => {
         dispatch(Actions.getWidgets());
         // setInterval(() => dispatch(Actions.getAllUsers()), 1000);

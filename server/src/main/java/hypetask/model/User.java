@@ -34,10 +34,14 @@ public class User {
 		this.username = username;
 		this.fullname = fullname;
 	}
+	public User( String username,String email) {
+		super();
+		this.username = username;
+		this.email = email;
 
+	}
 	public User() {
 	}
-
 	public int getId() {
 		return id;
 	}

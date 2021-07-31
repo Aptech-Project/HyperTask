@@ -4,8 +4,11 @@ import { darken } from '@material-ui/core/styles/colorManipulator';
 import { FuseAnimate } from '@fuse';
 import { Link } from 'react-router-dom';
 import clsx from 'clsx';
+import { useSelector } from 'react-redux';
 import Auth0LoginTab from './tabs/Auth0LoginTab';
 import { makeStyles } from '@material-ui/styles';
+import history from "@history";
+
 const useStyles = makeStyles(theme => ({
     root: {
         background: 'linear-gradient(to right, ' + theme.palette.primary.dark + ' 0%, ' + darken(theme.palette.primary.dark, 0.5) + ' 100%)',
@@ -16,7 +19,12 @@ const useStyles = makeStyles(theme => ({
 function Login() {
     const classes = useStyles();
     const [selectedTab, setSelectedTab] = useState(0);
-
+    let user = useSelector(state => state.login.userAuth);
+    if (user !== 'undefined') {
+        history.push({
+            pathname: "/",
+        });
+    }
     function handleTabChange(event, value) {
         setSelectedTab(value);
     }
@@ -68,7 +76,6 @@ function Login() {
                         <div className="flex flex-col items-center justify-center pt-32">
                             <span className="font-medium">Don't have an account?</span>
                             <Link className="font-medium" to="/register">Create an account</Link>
-                            <Link className="font-medium mt-8" to="/">Back to Dashboard</Link>
                         </div>
 
                     </CardContent>

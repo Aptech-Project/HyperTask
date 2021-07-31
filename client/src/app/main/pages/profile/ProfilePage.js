@@ -5,7 +5,7 @@ import { FusePageSimple, FuseAnimate } from '@fuse';
 import TimelineTab from './tabs/TimelineTab';
 import PhotosVideosTab from './tabs/PhotosVideosTab';
 import AboutTab from './tabs/AboutTab';
-import CardsTab from './tabs/CardsTab';
+import CardsTab from './tabs/cards/CardsTab';
 import ContactTab from './tabs/Contact';
 
 import { useSelector, useDispatch } from 'react-redux';
