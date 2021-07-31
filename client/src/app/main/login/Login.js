@@ -6,6 +6,8 @@ import { Link } from 'react-router-dom';
 import clsx from 'clsx';
 import Auth0LoginTab from './tabs/Auth0LoginTab';
 import { makeStyles } from '@material-ui/styles';
+import history from "@history";
+
 const useStyles = makeStyles(theme => ({
     root: {
         background: 'linear-gradient(to right, ' + theme.palette.primary.dark + ' 0%, ' + darken(theme.palette.primary.dark, 0.5) + ' 100%)',
@@ -16,6 +18,10 @@ const useStyles = makeStyles(theme => ({
 function Login() {
     const classes = useStyles();
     const [selectedTab, setSelectedTab] = useState(0);
+
+    if (localStorage.getItem("user_authenticated")) {
+        history.push("/");
+    }
 
     function handleTabChange(event, value) {
         setSelectedTab(value);
