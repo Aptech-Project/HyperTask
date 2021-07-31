@@ -1,7 +1,7 @@
-import React, {useEffect} from 'react';
-import {Typography} from '@material-ui/core';
-import {FuseAnimate} from '@fuse';
-import {useDispatch, useSelector} from 'react-redux';
+import React, { useEffect } from 'react';
+import { Typography } from '@material-ui/core';
+import { FuseAnimate } from '@fuse';
+import { useDispatch, useSelector } from 'react-redux';
 import Widget1 from './widgets/Widget1';
 import Widget2 from './widgets/Widget2';
 import Widget3 from './widgets/Widget3';
@@ -15,26 +15,24 @@ import withReducer from 'app/store/withReducer';
 import * as Actions from './store/actions'
 import reducer from './store/reducers';
 
-function AnalyticsDashboardApp()
-{
+function AnalyticsDashboardApp() {
     const dispatch = useDispatch();
-    const widgets = useSelector(({analyticsDashboardApp}) => analyticsDashboardApp.widgets.data);
+    const widgets = useSelector(({ analyticsDashboardApp }) => analyticsDashboardApp.widgets.data);
     const allUser = useSelector(({ analyticsDashboardApp }) => analyticsDashboardApp.widgets.allUser);
 
     console.log('allUser', allUser);
     useEffect(() => {
         dispatch(Actions.getWidgets());
-        setInterval(() => dispatch(Actions.getAllUsers()), 1000);
+        // setInterval(() => dispatch(Actions.getAllUsers()), 1000);
     }, [dispatch]);
 
-    if ( !widgets )
-    {
+    if (!widgets) {
         return null;
     }
     return (
         <div className="w-full">
 
-            <Widget1 data={widgets.widget1}/>
+            <Widget1 data={widgets.widget1} />
 
             <FuseAnimate animation="transition.slideUpIn" delay={200}>
 
@@ -51,15 +49,15 @@ function AnalyticsDashboardApp()
                         <div className="flex flex-col sm:flex sm:flex-row pb-32">
 
                             <div className="widget flex w-full sm:w-1/3 p-16">
-                                <Widget2 data={widgets.widget2}/>
+                                <Widget2 data={widgets.widget2} />
                             </div>
 
                             <div className="widget flex w-full sm:w-1/3 p-16">
-                                <Widget3 data={widgets.widget3}/>
+                                <Widget3 data={widgets.widget3} />
                             </div>
 
                             <div className="widget w-full sm:w-1/3 p-16">
-                                <Widget4 data={widgets.widget4}/>
+                                <Widget4 data={widgets.widget4} />
                             </div>
                         </div>
 
@@ -70,7 +68,7 @@ function AnalyticsDashboardApp()
                         </FuseAnimate>
 
                         <div className="widget w-full p-16 pb-32">
-                            <Widget5 data={widgets.widget5}/>
+                            <Widget5 data={widgets.widget5} />
                         </div>
 
                         <FuseAnimate delay={600}>
@@ -80,7 +78,7 @@ function AnalyticsDashboardApp()
                         </FuseAnimate>
 
                         <div className="widget w-full p-16 pb-32">
-                            <Widget6 data={widgets.widget6}/>
+                            <Widget6 data={widgets.widget6} />
                         </div>
                     </div>
 
@@ -94,7 +92,7 @@ function AnalyticsDashboardApp()
                             </FuseAnimate>
 
                             <div className="widget w-full p-16">
-                                <Widget7 data={widgets.widget7}/>
+                                <Widget7 data={widgets.widget7} />
                             </div>
                         </div>
 
@@ -107,7 +105,7 @@ function AnalyticsDashboardApp()
                             </FuseAnimate>
 
                             <div className="widget w-full p-16">
-                                <Widget8 data={widgets.widget8}/>
+                                <Widget8 data={widgets.widget8} />
                             </div>
                         </div>
 
@@ -118,7 +116,7 @@ function AnalyticsDashboardApp()
                                 </Typography>
                             </FuseAnimate>
                             <div className="widget w-full p-16">
-                                <Widget9 data={widgets.widget9}/>
+                                <Widget9 data={widgets.widget9} />
                             </div>
                         </div>
                     </div>
