@@ -14,7 +14,8 @@ const initialState = {
 };
 const contactsTabReducer = function (state = initialState, action) {
   switch (action.type) {
-
+    default:
+      return state
   }
 }
 export default contactsTabReducer;

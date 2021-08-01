@@ -4,8 +4,10 @@ export const endPointApi = {
         getAll: baseApi + 'user/get-all-users',
         loginWUP: baseApi + 'user/login/',
         create: baseApi + 'user/create-user/',
+        update: baseApi + 'user/update-user/',
         fetchById: baseApi + 'user/get-user/',
         checkUsernameEmail: baseApi + 'user/check/',
+
     },
     boards: {
         getUserBoards: baseApi + 'board/get-user-boards/',

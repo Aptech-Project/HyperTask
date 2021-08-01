@@ -4,9 +4,11 @@ import { makeStyles } from '@material-ui/styles';
 import { FusePageSimple, FuseAnimate } from '@fuse';
 import TimelineTab from './tabs/TimelineTab';
 import PhotosVideosTab from './tabs/PhotosVideosTab';
-import AboutTab from './tabs/AboutTab';
+import AboutTab from './tabs/about/AboutTab';
 import CardsTab from './tabs/cards/CardsTab';
 import ContactTab from './tabs/Contact';
+import withReducer from "app/store/withReducer";
+import reducer from "./tabs/store/reducers";
 
 import { useSelector, useDispatch } from 'react-redux';
 import * as actions from "./tabs/store/actions/about.action";
@@ -35,6 +37,9 @@ function ProfilePage() {
     }, [profile])
     function handleTabChange(event, value) {
         setSelectedTab(value);
+    }
+    if (!account) {
+        return null
     }
     return (
         <FusePageSimple
@@ -109,5 +114,5 @@ function ProfilePage() {
         />
     )
 }
+export default withReducer("ProfilePage", reducer)(ProfilePage);
 
-export default ProfilePage;
