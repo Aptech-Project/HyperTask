@@ -24,16 +24,15 @@ const Auth0RegisterTab = ({ classes, ...props }) => {
     const [user, setUser] = useState([])
 
     useEffect(() => {
-        dispatch(action.fetchAll())
-    }, [state => state.login.listUser]);
-    let allUser = useSelector(state => state.login.listUser);
+        dispatch(action.check())
+    }, []);
+    let check = useSelector(state => state.login.check);
     useEffect(() => {
-        if (allUser !== undefined) (
-            setUser(allUser)
+        if (check !== undefined) (
+            setUser(check)
         )
-
-    }, [allUser])
-    // console.log(user)
+    }, [check])
+    console.log(user)
 
     const validate = (fieldValues = values) => {
         let temp = { ...errors }
@@ -47,7 +46,7 @@ const Auth0RegisterTab = ({ classes, ...props }) => {
             if (fieldValues.username === '') {
                 temp.username = fieldValues.username ? "" : "Username is required."
             } if (fieldValues.username !== '') {
-                temp.username = (/^[A-Za-z1-9]\w{0,}$/).test(fieldValues.username) ? "" : "Username is not valid."
+                temp.username = (/^[A-Za-z1-9]\w{4,}$/).test(fieldValues.username) ? "" : "Username must be at least 5 characters and no special characters"
             }
             if (err >= 1) {
                 err < 1 ? temp.username = "" : temp.username = "Username is exited"
@@ -104,7 +103,6 @@ const Auth0RegisterTab = ({ classes, ...props }) => {
     } = useForm(initialFieldValues, validate, props.setCurrentId)
 
     const handleSubmit = e => {
-        console.log(values)
         const onSuccess = () => {
             dispatch(showMessage({ message: 'Register successfull. Please login to website' }));
             history.push({

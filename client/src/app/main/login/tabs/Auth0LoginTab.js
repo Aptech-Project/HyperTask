@@ -64,6 +64,7 @@ const Auth0LoginTab = ({ classes, ...props }) => {
                     }}
                     onChange={event => setEmail(event.target.value)}
                     autoComplete="off"
+                    required
                 />
 
                 <TextFieldFormsy
@@ -75,6 +76,7 @@ const Auth0LoginTab = ({ classes, ...props }) => {
                     InputProps={{
                         endAdornment: <InputAdornment position="end"><Icon className="text-20" color="action">vpn_key</Icon></InputAdornment>
                     }}
+                    required
                     onChange={event => setPass(event.target.value)}
                 />
 

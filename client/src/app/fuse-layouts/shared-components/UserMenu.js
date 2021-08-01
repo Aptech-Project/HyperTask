@@ -8,8 +8,8 @@ import * as actions from "app/auth/store/actions/login.actions";
 import { showMessage } from 'app/store/actions/fuse';
 import { connect } from "react-redux";
 function UserMenu(props) {
-    const user = useSelector(state => state.login.userAuth);
 
+    const user = useSelector(state => state.login.userAuth);
     const dispatch = useDispatch();
     const [userMenu, setUserMenu] = useState(null);
 
