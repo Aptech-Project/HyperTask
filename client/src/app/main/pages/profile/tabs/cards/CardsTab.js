@@ -242,7 +242,8 @@ function CardsTab(props) {
                                                 className={clsx(classes.card, "w-full mb-16 rounded-4 cursor-pointer border-1")}
                                                 onClick={(ev) => handleCardClick(ev, card)}
                                             >
-                                                <img className="block" src={card.info.backgroundImage} alt="card cover"/>
+                                                {/* <img className="block" src={card.info.backgroundImage} alt="card cover"/> */}
+                                                <img className="block" src="http://localhost:4000/storage/jpg/test.jpg" alt="card cover"/>
 
                                                 <div className="p-16 pb-0">
 

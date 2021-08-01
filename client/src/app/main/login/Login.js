@@ -12,7 +12,9 @@ import history from "@history";
 const useStyles = makeStyles(theme => ({
     root: {
         background: 'linear-gradient(to right, ' + theme.palette.primary.dark + ' 0%, ' + darken(theme.palette.primary.dark, 0.5) + ' 100%)',
-        color: theme.palette.primary.contrastText
+        color: theme.palette.primary.contrastText,
+        backgroundImage: `url('assets/images/backgrounds/dark-material-bg.jpg')`,
+        backgroundSize: 'cover',
     }
 }));
 
@@ -35,18 +37,19 @@ function Login() {
             <div className="flex flex-col flex-grow-0 items-center text-white p-16 text-center md:p-128 md:items-start md:flex-shrink-0 md:flex-1 md:text-left">
 
                 <FuseAnimate animation="transition.expandIn">
-                    <img className="w-128 mb-32" src="assets/images/logos/fuse.svg" alt="logo" />
+                    <img className="w-128 mb-32" src="assets/images/logos/hypertask.svg" alt="logo" />
                 </FuseAnimate>
 
                 <FuseAnimate animation="transition.slideUpIn" delay={300}>
-                    <Typography variant="h3" color="inherit" className="font-light">
-                        Welcome to the HyperTask!
+                    <Typography variant="h3" color="inherit" className="max-w-612 mt-16">
+                        Welcome to the Hyper Task!
                     </Typography>
                 </FuseAnimate>
 
                 <FuseAnimate delay={400}>
-                    <Typography variant="subtitle1" color="inherit" className="max-w-512 mt-16">
-                        Usability and convenience are everything we have for you
+                    <Typography variant="h5" color="inherit" className="font-light pt-16">
+                        {/* Usability and convenience are everything we have for you */}
+                        Visualize your work however you want
                     </Typography>
                 </FuseAnimate>
             </div>
@@ -68,7 +71,7 @@ function Login() {
                             <Tab
                                 icon={<Icon style={{ fontSize: '50px' }}>account_circle</Icon>}
                                 className="min-w-0"
-                                label="HyperTask"
+                                label="Hyper Task"
                             />
                         </Tabs>
                         {selectedTab === 0 && <Auth0LoginTab />}
