@@ -1,27 +1,27 @@
 import { FuseUtils } from "@fuse";
 
-// const sampleLabels = [
-//   {
-//     id: "26022e4129ad3a5sc28b36cd",
-//     name: "High Priority",
-//     class: "bg-red text-white",
-//   },
-//   {
-//     id: "56027e4119ad3a5dc28b36cd",
-//     name: "Design",
-//     class: "bg-orange text-white",
-//   },
-//   {
-//     id: "5640635e19ad3a5dc21416b2",
-//     name: "App",
-//     class: "bg-blue text-white",
-//   },
-//   {
-//     id: "6540635g19ad3s5dc31412b2",
-//     name: "Feature",
-//     class: "bg-green text-white",
-//   },
-// ];
+const sampleLabels = [
+  {
+    id: "26022e4129ad3a5sc28b36cd",
+    name: "High Priority",
+    class: "bg-red text-white",
+  },
+  {
+    id: "56027e4119ad3a5dc28b36cd",
+    name: "Design",
+    class: "bg-orange text-white",
+  },
+  {
+    id: "5640635e19ad3a5dc21416b2",
+    name: "App",
+    class: "bg-blue text-white",
+  },
+  {
+    id: "6540635g19ad3s5dc31412b2",
+    name: "Feature",
+    class: "bg-green text-white",
+  },
+];
 
 // const sampleMembers = [
 //   {
@@ -60,7 +60,7 @@ class BoardModel {
       type: "personalBoard",
     };
     this.activities = board.activities || [];
-    this.labels = board.labels || [];
+    this.labels = board.labels || sampleLabels;
     this.createdAt = "";
     this.updatedAt = "";
   }

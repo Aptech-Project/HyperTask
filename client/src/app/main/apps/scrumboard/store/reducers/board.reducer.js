@@ -16,13 +16,13 @@ const boardReducer = function (state = initialState, action) {
     case Actions.ORDER_LIST: {
       return {
         ...state,
-        lists: action.payload,
+        lists: JSON.stringify(action.payload),
       };
     }
     case Actions.ORDER_CARD: {
       return {
         ...state,
-        lists: action.payload,
+        lists: JSON.stringify(action.payload),
       };
     }
     case Actions.ADD_LIST: {
@@ -73,8 +73,7 @@ const boardReducer = function (state = initialState, action) {
     }
     case Actions.REMOVE_LIST: {
       return {
-        ...state,
-        lists: _.reject(state.lists, { id: action.listId }),
+        ...action.payload,
       };
     }
     case Actions.CHANGE_BOARD_SETTINGS: {

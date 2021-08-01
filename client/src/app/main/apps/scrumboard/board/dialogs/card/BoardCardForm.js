@@ -53,15 +53,15 @@ function BoardCardForm(props) {
   }
 
   function toggleLabel(labelId) {
-    setInForm("idLabels", _.xor(cardForm.idLabels, [labelId]));
+    setInForm("idLabels", _.xor(cardForm.labels, [labelId]));
   }
 
   function toggleMember(memberId) {
-    setInForm("idMembers", _.xor(cardForm.idMembers, [memberId]));
+    setInForm("idMembers", _.xor(cardForm.members, [memberId]));
   }
 
   function addCheckList(newList) {
-    setInForm("checklists", [...cardForm.checklists, newList]);
+    setInForm("checklists", [...cardForm.checklist, newList]);
   }
 
   function chipChange(name, value) {
@@ -102,7 +102,7 @@ function BoardCardForm(props) {
   );
 
   function removeCheckList(id) {
-    setInForm("checklists", _.reject(cardForm.checklists, { id: id }));
+    setInForm("checklists", _.reject(cardForm.checklist, { id: id }));
   }
 
   function commentAdd(comment) {
@@ -123,14 +123,14 @@ function BoardCardForm(props) {
 
               <LabelsMenu
                 onToggleLabel={toggleLabel}
-                labels={board.labels}
-                idLabels={cardForm.idLabels}
+                labels={JSON.parse(board.labels)}
+                idLabels={cardForm.labels}
               />
 
               <MembersMenu
                 onToggleMember={toggleMember}
-                members={board.members}
-                idMembers={cardForm.idMembers}
+                members={JSON.parse(board.members)}
+                idMembers={cardForm.members}
               />
 
               <IconButton color="inherit">
@@ -164,8 +164,8 @@ function BoardCardForm(props) {
             </Icon>
             {React.useMemo(() => {
               const list = card
-                ? _.find(board.lists, (_list) =>
-                    _list.idCards.includes(card.id)
+                ? _.find(JSON.parse(board.lists), (_list) =>
+                    _list.cards.includes(card.id)
                   )
                 : null;
 
@@ -227,7 +227,7 @@ function BoardCardForm(props) {
             name="description"
             multiline
             rows="4"
-            value={cardForm.description}
+            value={cardForm.content}
             onChange={handleChange}
             variant="outlined"
             fullWidth
@@ -235,7 +235,7 @@ function BoardCardForm(props) {
         </div>
 
         <div className="flex flex-col sm:flex-row">
-          {cardForm.idLabels.length > 0 && (
+          {cardForm.labels.length > 0 && (
             <div className="flex-1 mb-24">
               <div className="flex items-center mt-16 mb-12">
                 <Icon className="text-20 mr-8" color="inherit">
@@ -244,9 +244,11 @@ function BoardCardForm(props) {
                 <Typography className="font-600 text-16">Labels</Typography>
               </div>
               <FuseChipSelect
-                className={cardForm.idMembers.length > 0 && "sm:mr-8"}
-                value={cardForm.idLabels.map((labelId) => {
-                  const label = _.find(board.labels, { id: labelId });
+                className={cardForm.members.length > 0 && "sm:mr-8"}
+                value={cardForm.labels.map((labelId) => {
+                  const label = _.find(JSON.parse(board.labels), {
+                    id: labelId,
+                  });
                   return (
                     label && {
                       value: labelId,
@@ -261,7 +263,7 @@ function BoardCardForm(props) {
                 textFieldProps={{
                   variant: "outlined",
                 }}
-                options={board.labels.map((label) => ({
+                options={JSON.parse(board.labels).map((label) => ({
                   value: label.id,
                   label: label.name,
                   class: label.class,
@@ -282,7 +284,7 @@ function BoardCardForm(props) {
             </div>
           )}
 
-          {cardForm.idMembers.length > 0 && (
+          {cardForm.members.length > 0 && (
             <div className="flex-1 mb-24">
               <div className="flex items-center mt-16 mb-12">
                 <Icon className="text-20 mr-8" color="inherit">
@@ -291,9 +293,11 @@ function BoardCardForm(props) {
                 <Typography className="font-600 text-16">Members</Typography>
               </div>
               <FuseChipSelect
-                className={cardForm.idLabels.length > 0 && "sm:ml-8"}
-                value={cardForm.idMembers.map((memberId) => {
-                  const member = _.find(board.members, { id: memberId });
+                className={cardForm.labels.length > 0 && "sm:ml-8"}
+                value={cardForm.members.map((memberId) => {
+                  const member = _.find(JSON.parse(board.members), {
+                    id: memberId,
+                  });
                   return (
                     member && {
                       value: member.id,
@@ -314,7 +318,7 @@ function BoardCardForm(props) {
                 textFieldProps={{
                   variant: "outlined",
                 }}
-                options={board.members.map((member) => ({
+                options={JSON.parse(board.members).map((member) => ({
                   value: member.id,
                   label: (
                     <span className="flex items-center">
@@ -352,7 +356,7 @@ function BoardCardForm(props) {
           </div>
         )}
 
-        {cardForm.checklists.map((checklist, index) => (
+        {cardForm.checklist.map((checklist, index) => (
           <CardChecklist
             key={checklist.id}
             checklist={checklist}
@@ -370,7 +374,10 @@ function BoardCardForm(props) {
             <Typography className="font-600 text-16">Comment</Typography>
           </div>
           <div>
-            <CardComment members={board.members} onCommentAdd={commentAdd} />
+            <CardComment
+              members={JSON.parse(board.members)}
+              onCommentAdd={commentAdd}
+            />
           </div>
         </div>
 
@@ -387,7 +394,7 @@ function BoardCardForm(props) {
                 <CardActivity
                   item={item}
                   key={item.id}
-                  members={board.members}
+                  members={JSON.parse(board.members)}
                 />
               ))}
             </List>

@@ -39,7 +39,7 @@ function Board(props) {
 
   function onDragEnd(result) {
     const { source, destination } = result;
-
+    console.log("result: ", result);
     // dropped nowhere
     if (!destination) {
       return;

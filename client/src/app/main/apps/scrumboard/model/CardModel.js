@@ -1,25 +1,24 @@
-import {FuseUtils} from '@fuse';
+import { FuseUtils } from "@fuse";
 
 class CardModel {
-    constructor(data)
-    {
-        const card = data ? data : {};
+  constructor(data) {
+    const card = data ? data : {};
 
-        this.id = card.id || FuseUtils.generateGUID();
-        this.name = card.name || '';
-        this.description = card.description || '';
-        this.idAttachmentCover = card.idAttachmentCover || '';
-        this.idMembers = card.idMembers || [];
-        this.idLabels = card.idLabels || [];
-        this.attachments = card.attachments || [];
-        this.subscribed = card.subscribed || true;
-        this.checklists = card.checklists || [];
-        this.checkItems = card.checkItems || 0;
-        this.checkItemsChecked = card.checkItemsChecked || 0;
-        this.comments = card.comments || [];
-        this.activities = card.activities || [];
-        this.due = card.due || '';
-    }
+    this.id = card.id || FuseUtils.generateGUID();
+    this.name = card.name || "";
+    this.content = card.content || "";
+    this.idAttachmentCover = card.idAttachmentCover || "";
+    this.members = card.members || [];
+    this.labels = card.labels || [];
+    this.checklist = card.checklist || [];
+    this.comment = card.comment || [];
+    this.attachments = card.attachments || [];
+    this.subscribed = card.subscribed || true;
+    this.checkItems = card.checkItems || 0;
+    this.checkItemsChecked = card.checkItemsChecked || 0;
+    this.activities = card.activities || [];
+    this.due = card.due || "";
+  }
 }
 
 export default CardModel;

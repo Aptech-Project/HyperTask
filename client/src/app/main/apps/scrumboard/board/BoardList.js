@@ -23,6 +23,7 @@ const useStyles = makeStyles((theme) => ({
 function BoardList(props) {
   const classes = useStyles(props);
   const contentScrollEl = useRef(null);
+  //console.log("props: ", props);
 
   function handleCardAdded() {
     contentScrollEl.current.scrollTop = contentScrollEl.current.scrollHeight;
@@ -58,14 +59,14 @@ function BoardList(props) {
                       ref={provided.innerRef}
                       className="flex flex-col w-full h-full p-16"
                     >
-                      {props.list.cards.map((card, index) => ({
-                        /* <BoardCard
-                                                    key={card.id}
-                                                    card={card}
-                                                    index={index}
-                                                    list={props.list}
-                                                /> */
-                      }))}
+                      {props.list.cards.map((card, index) => (
+                        <BoardCard
+                          key={card.id}
+                          card={card}
+                          index={index}
+                          list={props.list}
+                        />
+                      ))}
                       {provided.placeholder}
                     </div>
                   )}
