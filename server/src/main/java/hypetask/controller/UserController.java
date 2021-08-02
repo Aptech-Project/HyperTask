@@ -33,6 +33,16 @@ public class UserController {
 		userService.createUser(user);
 		return user;
 	}
+	@PostMapping("/update-user")
+	public User updateUser(@RequestBody User user) {
+		User user1;
+		user1 = userService.getUserById(user.getId());
+//		if (user1){
+//			if (user1.getEmail()==user.getEmail() | )
+//		}
+		userService.updateUser(user);
+		return user;
+	}
 
 	@GetMapping("/get-user/{id}")
 	public User getUser(@PathVariable("id") int id) {

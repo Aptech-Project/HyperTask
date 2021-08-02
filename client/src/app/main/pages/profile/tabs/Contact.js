@@ -48,7 +48,7 @@ function ContactTab() {
         return null
     }
     console.log('account.contact')
-    console.log(account.contact.split(","))
+    // console.log(account.contact.split(","))
 
     if (!info) {
         return null
@@ -76,7 +76,7 @@ function ContactTab() {
                                 <Typography variant="subtitle1" color="inherit" className="flex-1">
                                     Friends
                                 </Typography>
-                                <Button className="normal-case" color="inherit" size="small">See {account.contact.split(",").length} more</Button>
+                                {/* <Button className="normal-case" color="inherit" size="small">See more</Button> */}
                             </Toolbar>
                         </AppBar>
                         <CardContent className="p-0">
