@@ -57,7 +57,7 @@ const Auth0LoginTab = ({ classes, ...props }) => {
                     className="mb-16"
                     type="text"
                     name="email"
-                    label="Email/Username"
+                    label="Username"
                     variant="outlined"
                     InputProps={{
                         endAdornment: <InputAdornment position="end"><Icon className="text-20" color="action">email</Icon></InputAdornment>
@@ -88,7 +88,7 @@ const Auth0LoginTab = ({ classes, ...props }) => {
                     aria-label="LOG IN"
                     value="firebase"
                 >
-                    Log in
+                    Login
                 </Button>
 
             </Formsy>
