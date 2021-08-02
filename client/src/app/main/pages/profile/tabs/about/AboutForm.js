@@ -86,11 +86,6 @@ const AboutForm = (props) => {
       return Object.values(temp).every(x => x == "")
   }
   const handleSubmit = e => {
-    // console.log(values)
-    // const onSuccess = () => {
-    //   dispatch(showMessage({ message: 'Register successfull. Please login to website' }));
-    //   resetForm()
-    // }
     if (validate()) {
 
       console.log("values")
@@ -136,38 +131,6 @@ const AboutForm = (props) => {
           required
           {...(errors.fullname && { error: true, helperText: errors.fullname })}
         />
-        {/* <TextField
-          className="mb-16"
-          type="password"
-          value={values.password}
-          name="password"
-          label="Password"
-          onChange={handleInputChange}
-          autoComplete='off'
-          InputProps={{
-            endAdornment: <InputAdornment position="end"><Icon className="text-20" color="action">vpn_key</Icon></InputAdornment>
-          }}
-          variant="outlined"
-          required
-          {...(errors.password && { error: true, helperText: errors.password })}
-        />
-
-        <TextField
-          className="mb-16"
-          type="password"
-          value={values.passwordconfirm}
-          // defaultValue={values.password}
-          onChange={handleInputChange}
-          name="passwordconfirm"
-          label="Confirm Password"
-          InputProps={{
-            endAdornment: <InputAdornment position="end"><Icon className="text-20" color="action">vpn_key</Icon></InputAdornment>
-          }}
-          variant="outlined"
-          autoComplete='off'
-          required
-          {...(errors.passwordconfirm && { error: true, helperText: errors.passwordconfirm })}
-        /> */}
         <TextField
           className="mb-16"
           type="text"
@@ -198,10 +161,6 @@ const AboutForm = (props) => {
           required
           {...(errors.fullname && { error: true, helperText: errors.fullname })}
         />
-        {/* <TextField id="select" label="Age" value="20" select>
-          <MenuItem value="10">Ten</MenuItem>
-          <MenuItem value="20">Twenty</MenuItem>
-        </TextField> */}
         <TextField
           className="mb-16"
           type="text"

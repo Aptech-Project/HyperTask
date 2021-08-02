@@ -7,6 +7,7 @@ export const ACTION_TYPES = {
   FETCH_BY_ID: 'FETCH_BY_ID',
   FETCH_ALL: 'FETCH_ALL',
   UPDATE: 'UPDATE',
+  UPLOADFILE: "UPLOADFILE",
 }
 
 export const update = (data) => dispatch => {
@@ -21,6 +22,25 @@ export const update = (data) => dispatch => {
         dispatch(showMessage({ message: 'Update profile Sussues' }));
       } else {
         dispatch(showMessage({ message: 'Update profile Fail' }));
+      }
+    })
+    .catch(err => console.log(err))
+}
+
+export const uploadFile = (file, account) => dispatch => {
+  var formData = new FormData()
+  formData.append('File', file);
+  axios.post(endPointApi.file.uploadFile, formData)
+    .then(res => {
+      dispatch({
+        type: ACTION_TYPES.UPLOADFILE,
+        payload: res.data
+      })
+      if (res.status == 200) {
+        account.info = JSON.parse(account.info)
+        account.info.avatar = res.data.fileUrl
+        account.info = JSON.stringify(account.info)
+        dispatch(update(account))
       }
     })
     .catch(err => console.log(err))

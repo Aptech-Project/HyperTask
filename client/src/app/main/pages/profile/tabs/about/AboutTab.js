@@ -9,6 +9,7 @@ import { connect } from "react-redux";
 import { showMessage } from 'app/store/actions/fuse';
 import AboutForm from "./AboutForm"
 import * as actionsLogin from "app/auth/store/actions/login.actions";
+import * as Action from '../store/actions/about.action';
 
 let initialFieldValues = {
     email: '',
@@ -20,6 +21,7 @@ let initialFieldValues = {
     passwordconfirm: ''
 }
 const AboutTab = ({ ...props }) => {
+
     const profile = useSelector(state => state.login.findId)
     const list = useSelector(state => state.ProfilePage.about)
     const [account, setAccount] = useState(null);
@@ -54,19 +56,20 @@ const AboutTab = ({ ...props }) => {
     tmpAccount.info = info
     console.log("tmpAccount")
     console.log(tmpAccount)
-    // if (!user1) {
-    //     return null
-    // }
-    console.log("account");
-    // console.log(account ? JSON.parse(account.info) : "avc");
     const clickEdit = e => {
         setEdit(!edit)
     }
     console.log("profile")
     console.log(profile)
-
+    function handleUploadChange(e) {
+        const file = e.target.files[0];
+        if (!file) {
+            return;
+        }
+        dispatch(Action.uploadFile(file, account))
+    }
     return (
-        <div className="md:flex max-w-2xl">
+        <div className="md:flex max-w">
 
             <div className="flex flex-col flex-1 md:pr-32">
                 <FuseAnimateGroup
@@ -80,7 +83,22 @@ const AboutTab = ({ ...props }) => {
                                 <Typography variant="subtitle1" color="inherit" className="flex-1">
                                     General Information
                                 </Typography>
+                                <input
+                                    accept="image/*"
+                                    className="hidden"
+                                    id="button-file"
+                                    type="file"
+                                    onChange={handleUploadChange}
+                                />
+                                <Button>
+                                    <label
+                                        htmlFor="button-file"
+                                    >
+                                        <Icon fontSize="large" color="action">cloud_upload</Icon>
+                                    </label>
+                                </Button>
                             </Toolbar>
+
                         </AppBar>
 
                         {!edit && <CardContent>

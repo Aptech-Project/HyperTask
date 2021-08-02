@@ -3,11 +3,14 @@ package hypetask.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -42,6 +45,22 @@ public class UserController {
 //		}
 		userService.updateUser(user);
 		return user;
+	}
+	@PostMapping("/update-pass")
+	public ResponseEntity<Object> updatePass(@RequestParam("id") Integer  id,
+											 @RequestParam("oldpass") String oldpass,
+											 @RequestParam("newpass") String newpass
+	) {
+		User user1;
+		user1 = userService.getUserById(id);
+		if (user1.getPassword().equals(oldpass)){
+			user1.setPassword(newpass);
+			userService.updateUser(user1);
+		}
+		else{
+			return new ResponseEntity<Object>("failed", HttpStatus.OK);
+		}
+		return new ResponseEntity<Object>("successful", HttpStatus.OK);
 	}
 
 	@GetMapping("/get-user/{id}")
