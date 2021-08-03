@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Avatar, Button, Tab, Tabs, Typography, Icon } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
-import { FusePageSimple, FuseAnimate } from '@fuse';
+import { FuseAnimateGroup, FusePageSimple, FuseAnimate } from '@fuse';
 import TimelineTab from './tabs/TimelineTab';
 import PhotosVideosTab from './tabs/PhotosVideosTab';
 import AboutTab from './tabs/about/AboutTab';
@@ -13,15 +13,27 @@ import reducer from "./tabs/store/reducers";
 
 import { useSelector, useDispatch } from 'react-redux';
 import * as actions from "./tabs/store/actions/about.action";
+import WidgetNow from 'app/main/apps/dashboards/project/widgets/WidgetNow';
+import WidgetWeather from 'app/main/apps/dashboards/project/widgets/WidgetWeather';
 
 const useStyles = makeStyles(theme => ({
     layoutHeader: {
-        height: 320,
-        minHeight: 320,
+        height: 160,
+        minHeight: 160,
         [theme.breakpoints.down('md')]: {
-            height: 240,
-            minHeight: 240
+            height: 120,
+            minHeight: 120
         }
+    },
+    headerIcon: {
+        position     : 'absolute',
+        top          : 0,
+        left         : 320,
+        opacity      : .04,
+        fontSize     : 160,
+        width        : 160,
+        height       : 160,
+        pointerEvents: 'none'
     }
 }));
 
@@ -57,7 +69,8 @@ function ProfilePage() {
         <FusePageSimple
             classes={{
                 header: classes.layoutHeader,
-                toolbar: "px-16 sm:px-24"
+                toolbar: "px-16 sm:px-24",
+                rightSidebar: "w-288",
             }}
             header={
                 <div className="p-24 flex flex-1 flex-col items-center justify-center md:flex-row md:items-end">
@@ -71,6 +84,16 @@ function ProfilePage() {
                         <FuseAnimate animation="transition.slideLeftIn" delay={300}>
                             <Typography className="md:ml-24" variant="h4" color="inherit">{account.fullname}</Typography>
                         </FuseAnimate>
+
+                        <FuseAnimate duration={400} delay={600}>
+                            <Typography variant="h6" color="inherit" className="font-lignt mt-8 sm:mt-16 text-right min-w-512 mx-auto md:items-start md:flex-shrink-0 md:flex-1 md:text-right">
+                                    <span className="opacity-75">
+                                        View and edit your information, friends list, manage your activities, all in one place!
+                                    </span>
+                            </Typography>
+                        </FuseAnimate>
+
+                        <Icon className={classes.headerIcon}>ballot</Icon>
 
                     </div>
                     {/* 
@@ -133,6 +156,21 @@ function ProfilePage() {
                         <SecurityTab />
                     )}
                 </div>
+            }
+            rightSidebarContent={
+                <FuseAnimateGroup
+                    className="w-full"
+                    enter={{
+                        animation: "transition.slideUpBigIn"
+                    }}
+                >
+                    <div className="widget w-full p-12">
+                        <WidgetNow/>
+                    </div>
+                    <div className="widget w-full p-12">
+                        {/* TODO: Add Note widget */}
+                    </div>
+                </FuseAnimateGroup>
             }
         />
     )
