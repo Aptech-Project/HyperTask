@@ -26,13 +26,13 @@ const useStyles = makeStyles(theme => ({
         }
     },
     headerIcon: {
-        position     : 'absolute',
-        top          : 0,
-        left         : 320,
-        opacity      : .04,
-        fontSize     : 160,
-        width        : 160,
-        height       : 160,
+        position: 'absolute',
+        top: 0,
+        left: 320,
+        opacity: .04,
+        fontSize: 160,
+        width: 160,
+        height: 160,
         pointerEvents: 'none'
     }
 }));
@@ -63,8 +63,7 @@ function ProfilePage() {
     if (!info) {
         return null
     }
-    console.log("addressaddress")
-    console.log(info.avatar.replaceAll(" ", "%20"))
+
     return (
         <FusePageSimple
             classes={{
@@ -76,9 +75,8 @@ function ProfilePage() {
                 <div className="p-24 flex flex-1 flex-col items-center justify-center md:flex-row md:items-end">
                     <div className="flex flex-1 flex-col items-center justify-center md:flex-row md:items-center md:justify-start">
                         <FuseAnimate animation="transition.expandIn" delay={300}>
-                            {/* <Avatar className="w-96 h-96" src={info.avatar ? info.avatar : "assets/images/avatars/Velazquez.jpg"} */}
-                            <Avatar className="w-96 h-96" src={info.avatar ? info.avatar.replaceAll(" ", "%20") : "assets/images/avatars/Velazquez.jpg"}
-                            />
+                            <Avatar className="w-96 h-96" src={info.avatar ? info.avatar : "assets/images/avatars/Velazquez.jpg"}
+                            ></Avatar>
                         </FuseAnimate>
 
                         <FuseAnimate animation="transition.slideLeftIn" delay={300}>
@@ -87,9 +85,9 @@ function ProfilePage() {
 
                         <FuseAnimate duration={400} delay={600}>
                             <Typography variant="h6" color="inherit" className="font-lignt mt-8 sm:mt-16 text-right min-w-512 mx-auto md:items-start md:flex-shrink-0 md:flex-1 md:text-right">
-                                    <span className="opacity-75">
-                                        View and edit your information, friends list, manage your activities, all in one place!
-                                    </span>
+                                <span className="opacity-75">
+                                    View and edit your information, friends list, manage your activities, all in one place!
+                                </span>
                             </Typography>
                         </FuseAnimate>
 
@@ -165,7 +163,7 @@ function ProfilePage() {
                     }}
                 >
                     <div className="widget w-full p-12">
-                        <WidgetNow/>
+                        <WidgetNow />
                     </div>
                     <div className="widget w-full p-12">
                         {/* TODO: Add Note widget */}

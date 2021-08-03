@@ -21,7 +21,7 @@ const initialFieldValues = {
     fullname: '',
     username: '',
     contact: '[]',
-    info: JSON.stringify({ address: "", gender: " ", avatar: "", phoneNumber: "", birthday: today }),
+    info: JSON.stringify({ address: "", gender: "", avatar: "", phoneNumber: "", birthday: today }),
     passwordconfirm: ''
 }
 

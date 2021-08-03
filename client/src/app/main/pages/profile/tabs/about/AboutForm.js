@@ -43,10 +43,17 @@ const AboutForm = (props) => {
   }, [check])
   const validate = (fieldValues = values) => {
     let temp = { ...errors }
+    if ('fullname' in fieldValues) {
+      if (fieldValues.fullname === '') {
+        temp.fullname = fieldValues.fullname ? "" : "Fullname is required."
+      } if (fieldValues.email !== '') {
+        temp.fullname = (/^[a-zA-Z]{1,}(?: [a-zA-Z]+){0,6}$/).test(fieldValues.fullname) ? "" : "Fullname is not valid."
+      }
+    }
     if ('email' in fieldValues) {
       let err = 0;
       user.map((user) => {
-        if (user.email.toLowerCase() === fieldValues.email.toLowerCase()) {
+        if (user.email.toLowerCase() === fieldValues.email.toLowerCase() && account.email !== fieldValues.email.toLowerCase()) {
           err = err + 1
         }
       })
@@ -59,24 +66,31 @@ const AboutForm = (props) => {
         err < 1 ? temp.email = "" : temp.email = "Email is existed"
       }
     }
-    if ('fullname' in fieldValues) {
-      if (fieldValues.fullname === '') {
-        temp.fullname = fieldValues.fullname ? "" : "Fullname is required."
-      } if (fieldValues.email !== '') {
-        temp.fullname = (/^[a-zA-Z]{1,}(?: [a-zA-Z]+){0,6}$/).test(fieldValues.fullname) ? "" : "Fullname is not valid."
+    if ("info" in fieldValues) {
+      let infoFieldValues = fieldValues.info;
+      if ('gender' in infoFieldValues) {
+        console.log(infoFieldValues)
+        console.log("infoFieldValues")
+        if (infoFieldValues.gender === '') {
+          temp.gender = infoFieldValues.gender ? "" : "Gender is required."
+        }
+      }
+      if ('phoneNumber' in infoFieldValues) {
+        if (infoFieldValues.phoneNumber === '') {
+          temp.phoneNumber = infoFieldValues.phoneNumber ? "" : "Phone number is required."
+        } if (infoFieldValues.phoneNumber !== '') {
+          temp.phoneNumber = (/^\d{9,10}$/).test(infoFieldValues.phoneNumber) ? "" : "Phone number is not valid."
+        }
+      }
+      if ('phoneNumber' in infoFieldValues) {
+        if (infoFieldValues.address === '') {
+          temp.address = infoFieldValues.address ? "" : "Address is required."
+        } if (infoFieldValues.address !== '') {
+          temp.address = infoFieldValues.address.length < 500 && infoFieldValues.address.length > 50 ? "" : "Address is not valid."
+        }
       }
     }
-    if ('password' in fieldValues)
-      if (fieldValues.password === '') {
-        temp.password = fieldValues.password ? "" : "Password is required."
-      } if (fieldValues.password !== '') {
-        console.log("fieldValuespassword")
-        console.log(fieldValues.password)
-        temp.password = (/^[A-Za-z0-9]\w{5,}$/).test(fieldValues.password) ? "" : "Passwords must be at least 6 in length and contain no special characters"
-      }
-    if ('passwordconfirm' in fieldValues) {
-      fieldValues.passwordconfirm == values.password ? temp.passwordconfirm = "" : temp.passwordconfirm = "Confirmation password does not match"
-    }
+
 
     setErrors({
       ...temp
@@ -134,6 +148,25 @@ const AboutForm = (props) => {
         <TextField
           className="mb-16"
           type="text"
+          name="gender"
+          value={values.info.gender}
+          label="Gender"
+          InputProps={{
+            endAdornment: <InputAdornment position="end"><Icon className="text-20" color="action">person_pin</Icon></InputAdornment>
+          }}
+          autoComplete='off'
+          variant="outlined"
+          onChange={handleInputChange}
+          required
+          select
+          {...(errors.gender && { error: true, helperText: errors.gender })}
+        >
+          <MenuItem value="Male">Male</MenuItem>
+          <MenuItem value=" FeMale"> FeMale</MenuItem>
+        </TextField>
+        <TextField
+          className="mb-16"
+          type="text"
           name="email"
           value={values.email}
           label="Email"
@@ -148,25 +181,10 @@ const AboutForm = (props) => {
         />
         <TextField
           className="mb-16"
-          type="date"
-          name="birthday"
-          value={values.info.birthday}
-          label="Birthday"
-          // InputProps={{
-          //   endAdornment: <InputAdornment position="end"><Icon className="text-20" color="action">person_pin</Icon></InputAdornment>
-          // }}
-          autoComplete='off'
-          variant="outlined"
-          onChange={handleInputChange}
-          required
-          {...(errors.fullname && { error: true, helperText: errors.fullname })}
-        />
-        <TextField
-          className="mb-16"
           type="text"
-          name="gender"
-          value={values.info.gender}
-          label="Gender"
+          name="phoneNumber"
+          value={values.info.phoneNumber}
+          label="Phone Number"
           InputProps={{
             endAdornment: <InputAdornment position="end"><Icon className="text-20" color="action">person_pin</Icon></InputAdornment>
           }}
@@ -174,13 +192,8 @@ const AboutForm = (props) => {
           variant="outlined"
           onChange={handleInputChange}
           required
-          select
-          {...(errors.fullname && { error: true, helperText: errors.fullname })}
-        >
-          <MenuItem value="Male">Male</MenuItem>
-          <MenuItem value=" FeMale"> FeMale</MenuItem>
-        </TextField>
-
+          {...(errors.phoneNumber && { error: true, helperText: errors.phoneNumber })}
+        />
         <TextField
           className="mb-16"
           type="text"
@@ -194,22 +207,8 @@ const AboutForm = (props) => {
           variant="outlined"
           onChange={handleInputChange}
           required
-          {...(errors.fullname && { error: true, helperText: errors.fullname })}
-        />
-        <TextField
-          className="mb-16"
-          type="text"
-          name="phoneNumber"
-          value={values.info.phoneNumber}
-          label="Phone Number"
-          InputProps={{
-            endAdornment: <InputAdornment position="end"><Icon className="text-20" color="action">person_pin</Icon></InputAdornment>
-          }}
-          autoComplete='off'
-          variant="outlined"
-          onChange={handleInputChange}
-          required
-          {...(errors.fullname && { error: true, helperText: errors.fullname })}
+          multiline
+          {...(errors.address && { error: true, helperText: errors.address })}
         />
         {/* <Button
           id="submit1"
