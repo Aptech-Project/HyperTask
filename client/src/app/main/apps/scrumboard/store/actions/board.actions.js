@@ -7,6 +7,8 @@ import reorder, { reorderQuoteMap } from "./reorder";
 import * as Actions from "./index";
 import ListModel from "../../model/ListModel";
 import CardModel from "../../model/CardModel";
+import { endPointApi } from "app/services/endPointAPI";
+import { convertBoardProperty } from "../allBoardFunction";
 
 export const GET_BOARD = "[SCRUMBOARD APP] GET BOARD";
 export const DELETE_BOARD = "[SCRUMBOARD APP] DELETE BOARD";
@@ -23,7 +25,7 @@ export const RENAME_LIST = "[SCRUMBOARD APP] RENAME LIST";
 export const REMOVE_LIST = "[SCRUMBOARD APP] REMOVE LIST";
 
 export function getBoard(params) {
-  const request = axios.get("/api/scrumboard-app/board", { params });
+  const request = axios.get(`${endPointApi.boards.getBoard}${params}`);
 
   return (dispatch) =>
     request.then(
@@ -59,7 +61,7 @@ export function resetBoard() {
 export function reorderList(result) {
   return (dispatch, getState) => {
     const { board } = getState().scrumboardApp;
-    const { lists } = board;
+    const lists = JSON.parse(board.lists);
 
     const ordered = reorder(
       lists,
@@ -67,11 +69,11 @@ export function reorderList(result) {
       result.destination.index
     );
     const boardUpdate = { ...board, lists: ordered };
-
-    const request = axios.post("/api/scrumboard-app/list/order", {
-      boardId: board.id,
-      lists: ordered,
-    });
+    const boardConverted = convertBoardProperty(boardUpdate);
+    const request = axios.put(
+      `${endPointApi.boards.updateBoard}`,
+      boardConverted
+    );
 
     request.then((response) => {
       dispatch(
@@ -96,15 +98,15 @@ export function reorderList(result) {
 export function reorderCard(result) {
   return (dispatch, getState) => {
     const { board } = getState().scrumboardApp;
-    const { lists } = board;
-
+    const lists = JSON.parse(board.lists);
     const ordered = reorderQuoteMap(lists, result.source, result.destination);
 
-    const request = axios.post("/api/scrumboard-app/card/order", {
-      boardId: board.id,
-      lists: ordered,
-    });
-
+    const boardUpdate = { ...board, lists: ordered };
+    const boardConverted = convertBoardProperty(boardUpdate);
+    const request = axios.put(
+      `${endPointApi.boards.updateBoard}`,
+      boardConverted
+    );
     request.then((response) => {
       dispatch(
         showMessage({
@@ -117,7 +119,6 @@ export function reorderCard(result) {
         })
       );
     });
-
     return dispatch({
       type: ORDER_CARD,
       payload: ordered,
@@ -125,19 +126,35 @@ export function reorderCard(result) {
   };
 }
 
-export function newCard(boardId, listId, cardTitle) {
-  const data = new CardModel({ name: cardTitle });
+export function newCard(board, listId, cardTitle) {
+  const listAddCardIndex = JSON.parse(board.lists).findIndex(
+    (list) => list.id == listId
+  );
+  const listAddCard = JSON.parse(board.lists)[listAddCardIndex];
+  const cardID = `C${listAddCard.cards.length + 1}`;
+  const data = new CardModel({ id: cardID, name: cardTitle });
+  const newCardList = [...listAddCard.cards];
+  newCardList.push({ ...data });
+  const listUpdate = { ...listAddCard, cards: newCardList };
 
-  const request = axios.post("/api/scrumboard-app/card/new", {
-    boardId,
-    listId,
-    data,
+  const allListUpdated = JSON.parse(board.lists).map((list) => {
+    if (list.id == listId) {
+      list = listUpdate;
+    }
+    return list;
   });
+
+  const boardUpdate = { ...board, lists: allListUpdated };
+  const boardConverted = convertBoardProperty(boardUpdate);
+  const request = axios.put(
+    `${endPointApi.boards.updateBoard}`,
+    boardConverted
+  );
   return (dispatch) =>
     new Promise((resolve, reject) => {
       request.then((response) => {
         resolve(response.data);
-        console.log("response: ", response);
+        //console.log("response: ", response);
         return dispatch({
           type: ADD_CARD,
           payload: response.data,
@@ -146,14 +163,17 @@ export function newCard(boardId, listId, cardTitle) {
     });
 }
 
-export function newList(boardId, listTitle) {
-  const data = new ListModel({ name: listTitle });
-
-  const request = axios.post("/api/scrumboard-app/list/new", {
-    boardId,
-    data,
-  });
-
+export function newList(board, listTitle) {
+  const listID = `L${JSON.parse(board.lists).length + 1}`;
+  const data = new ListModel({ id: listID, name: listTitle });
+  const newList = [...JSON.parse(board.lists)];
+  newList.push({ ...data });
+  const boardUpdate = { ...board, lists: newList };
+  const boardConverted = convertBoardProperty(boardUpdate);
+  const request = axios.put(
+    `${endPointApi.boards.updateBoard}`,
+    boardConverted
+  );
   return (dispatch) =>
     request.then((response) =>
       dispatch({
@@ -163,34 +183,52 @@ export function newList(boardId, listTitle) {
     );
 }
 
-export function renameList(boardId, listId, listTitle) {
-  const request = axios.post("/api/scrumboard-app/list/rename", {
-    boardId,
-    listId,
-    listTitle,
+export function renameList(board, listId, listTitle) {
+  const listToRename = JSON.parse(board.lists).find(
+    (list) => list.id === listId
+  );
+  const listRenamed = { ...listToRename, name: listTitle };
+  const listUpdated = JSON.parse(board.lists).map((list) => {
+    if (list.id === listId) {
+      list = listRenamed;
+    }
+    return list;
   });
+  //console.log("boardUpdated: ", boardUpdated);
+
+  const boardUpdate = { ...board, lists: listUpdated };
+  const boardConverted = convertBoardProperty(boardUpdate);
+  const request = axios.put(
+    `${endPointApi.boards.updateBoard}`,
+    boardConverted
+  );
 
   return (dispatch) =>
     request.then((response) =>
       dispatch({
         type: RENAME_LIST,
-        listId,
-        listTitle,
+        payload: response.data,
       })
     );
 }
 
-export function removeList(boardId, listId) {
-  const request = axios.post("/api/scrumboard-app/list/remove", {
-    boardId,
-    listId,
-  });
+export function removeList(board, listId) {
+  const listAfterDelete = JSON.parse(board.lists).filter(
+    (list) => list.id !== listId
+  );
+  //console.log("listAfterDelete: ", listAfterDelete);
+  const boardUpdate = { ...board, lists: listAfterDelete };
+  const boardConverted = convertBoardProperty(boardUpdate);
+  const request = axios.put(
+    `${endPointApi.boards.updateBoard}`,
+    boardConverted
+  );
 
   return (dispatch) =>
     request.then((response) =>
       dispatch({
         type: REMOVE_LIST,
-        listId,
+        payload: response.data,
       })
     );
 }
@@ -250,11 +288,14 @@ export function copyBoard(board) {
   };
 }
 
-export function renameBoard(boardId, boardTitle) {
-  const request = axios.post("/api/scrumboard-app/board/rename", {
-    boardId,
-    boardTitle,
-  });
+export function renameBoard(board, boardTitle) {
+  const boardRenamed = { ...board, name: boardTitle };
+  //console.log("boardRenamed: ", boardRenamed);
+  const boardConverted = convertBoardProperty(boardRenamed);
+  const request = axios.put(
+    `${endPointApi.boards.updateBoard}`,
+    boardConverted
+  );
 
   return (dispatch) =>
     request.then((response) =>

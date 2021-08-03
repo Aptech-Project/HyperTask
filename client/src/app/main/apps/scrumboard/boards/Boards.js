@@ -144,11 +144,15 @@ function Boards(props) {
     setAddNewBoardLog({ ...addNewBoardLog, open: true });
   };
   const handleAddNewBoardConfirm = () => {
+    const boardsLength = boards.length;
     dispatch(
-      Actions.newBoard({
-        name: addNewBoardLog.value,
-        members: addNewBoardLog.members,
-      })
+      Actions.newBoard(
+        {
+          name: addNewBoardLog.value,
+          members: addNewBoardLog.members,
+        },
+        boardsLength
+      )
     );
   };
   const deleteBoard = () => {
@@ -225,12 +229,7 @@ function Boards(props) {
                         </Icon>
                       </div>
                       <Link
-                        to={
-                          "/apps/scrumboard/boards/" +
-                          board.id +
-                          "/" +
-                          board.uri
-                        }
+                        to={"/apps/scrumboard/boards/" + board.id}
                         className={
                           "flex items-center justify-center" //w-full h-full
                         }

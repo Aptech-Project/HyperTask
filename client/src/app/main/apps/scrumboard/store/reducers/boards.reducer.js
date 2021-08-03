@@ -6,9 +6,9 @@ const initialState = [];
 const boardsReducer = function (state = initialState, action) {
   switch (action.type) {
     case Actions.GET_BOARDS: {
-      console.log("getBoard: ", dataBoard());
-      //return [...action.payload];
-      return dataBoard().board;
+      console.log("getBoard: ", action.payload);
+      return [...action.payload];
+      //return dataBoard().board;
     }
     case Actions.NEW_BOARD: {
       return [...state, action.board];

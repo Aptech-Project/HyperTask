@@ -23,45 +23,46 @@ const sampleLabels = [
   },
 ];
 
-const sampleMembers = [
-  {
-    id: "56027c1930450d8bf7b10758",
-    name: "Alice Freeman",
-    avatar: "assets/images/avatars/alice.jpg",
-  },
-  {
-    id: "26027s1930450d8bf7b10828",
-    name: "Danielle Obrien",
-    avatar: "assets/images/avatars/danielle.jpg",
-  },
-  {
-    id: "76027g1930450d8bf7b10958",
-    name: "James Lewis",
-    avatar: "assets/images/avatars/james.jpg",
-  },
-  {
-    id: "36027j1930450d8bf7b10158",
-    name: "John Doe",
-    avatar: "assets/images/avatars/Velazquez.jpg",
-  },
-];
+// const sampleMembers = [
+//   {
+//     id: "56027c1930450d8bf7b10758",
+//     name: "Alice Freeman",
+//     avatar: "assets/images/avatars/alice.jpg",
+//   },
+//   {
+//     id: "26027s1930450d8bf7b10828",
+//     name: "Danielle Obrien",
+//     avatar: "assets/images/avatars/danielle.jpg",
+//   },
+//   {
+//     id: "76027g1930450d8bf7b10958",
+//     name: "James Lewis",
+//     avatar: "assets/images/avatars/james.jpg",
+//   },
+//   {
+//     id: "36027j1930450d8bf7b10158",
+//     name: "John Doe",
+//     avatar: "assets/images/avatars/Velazquez.jpg",
+//   },
+// ];
 
 class BoardModel {
   constructor(data) {
     const board = data ? data : {};
-
+    //this.id = board.id || FuseUtils.generateGUID();
     this.name = board.name || "Untitled Board";
-    this.uri = board.uri || "untitled-board";
-    this.id = board.id || FuseUtils.generateGUID();
-    this.settings = board.settings || {
-      color: "",
-      subscribed: true,
-      cardCoverImages: true,
-    };
+    this.members = board.members || [];
     this.lists = [];
-    this.cards = [];
-    this.members = board.members || sampleMembers;
+    //this.uri = board.uri || "untitled-board";
+    this.info = board.info || {
+      backgroundImage: "",
+      author: "1",
+      type: "personalBoard",
+    };
+    this.activities = board.activities || [];
     this.labels = board.labels || sampleLabels;
+    this.createdAt = "";
+    this.updatedAt = "";
   }
 }
 

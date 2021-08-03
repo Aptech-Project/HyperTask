@@ -26,13 +26,13 @@ function BoardSettingsSidebar(props) {
       <List className="py-16" dense>
         <ListItem
           button
-          onClick={() =>
-            dispatch(
-              Actions.changeBoardSettings({
-                cardCoverImages: !board.settings.cardCoverImages,
-              })
-            )
-          }
+          // onClick={() =>
+          //   dispatch(
+          //     Actions.changeBoardSettings({
+          //       cardCoverImages: !board.settings.cardCoverImages,
+          //     })
+          //   )
+          // }
         >
           <ListItemIcon className="min-w-40">
             <Icon>photo</Icon>
@@ -40,27 +40,27 @@ function BoardSettingsSidebar(props) {
           <ListItemText primary="Card Cover Images" />
           <ListItemSecondaryAction>
             <Switch
-              onChange={() =>
-                dispatch(
-                  Actions.changeBoardSettings({
-                    cardCoverImages: !board.settings.cardCoverImages,
-                  })
-                )
-              }
-              checked={board.settings.cardCoverImages}
+            // onChange={() =>
+            //   dispatch(
+            //     Actions.changeBoardSettings({
+            //       cardCoverImages: !board.settings.cardCoverImages,
+            //     })
+            //   )
+            // }
+            // checked={board.settings.cardCoverImages}
             />
           </ListItemSecondaryAction>
         </ListItem>
 
         <ListItem
           button
-          onClick={() =>
-            dispatch(
-              Actions.changeBoardSettings({
-                subscribed: !board.settings.subscribed,
-              })
-            )
-          }
+          // onClick={() =>
+          //   dispatch(
+          //     Actions.changeBoardSettings({
+          //       subscribed: !board.settings.subscribed,
+          //     })
+          //   )
+          // }
         >
           <ListItemIcon className="min-w-40">
             <Icon>remove_red_eye</Icon>
@@ -68,14 +68,14 @@ function BoardSettingsSidebar(props) {
           <ListItemText primary="Subscribe" />
           <ListItemSecondaryAction>
             <Switch
-              onChange={() =>
-                dispatch(
-                  Actions.changeBoardSettings({
-                    subscribed: !board.settings.subscribed,
-                  })
-                )
-              }
-              checked={board.settings.subscribed}
+            // onChange={() =>
+            //   dispatch(
+            //     Actions.changeBoardSettings({
+            //       subscribed: !board.settings.subscribed,
+            //     })
+            //   )
+            // }
+            // checked={board.settings.subscribed}
             />
           </ListItemSecondaryAction>
         </ListItem>

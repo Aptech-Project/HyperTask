@@ -29,7 +29,7 @@ function BoardMember(props) {
       </IconButton>
       <ToolbarMenu state={anchorEl} onClose={handleMenuClose}>
         <div className="">
-          {props.members.map((member) => {
+          {JSON.parse(props.members).map((member) => {
             return (
               <MenuItem className="px-8" key={member.id} onClick={(ev) => {}}>
                 <Avatar className="w-32 h-32" src={member.avatar} />

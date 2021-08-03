@@ -16,19 +16,18 @@ const boardReducer = function (state = initialState, action) {
     case Actions.ORDER_LIST: {
       return {
         ...state,
-        lists: action.payload,
+        lists: JSON.stringify(action.payload),
       };
     }
     case Actions.ORDER_CARD: {
       return {
         ...state,
-        lists: action.payload,
+        lists: JSON.stringify(action.payload),
       };
     }
     case Actions.ADD_LIST: {
       return {
-        ...state,
-        lists: action.payload,
+        ...action.payload,
       };
     }
     case Actions.ADD_CARD: {
@@ -69,19 +68,12 @@ const boardReducer = function (state = initialState, action) {
     }
     case Actions.RENAME_LIST: {
       return {
-        ...state,
-        lists: state.lists.map((list) => {
-          if (list.id === action.listId) {
-            list.name = action.listTitle;
-          }
-          return list;
-        }),
+        ...action.payload,
       };
     }
     case Actions.REMOVE_LIST: {
       return {
-        ...state,
-        lists: _.reject(state.lists, { id: action.listId }),
+        ...action.payload,
       };
     }
     case Actions.CHANGE_BOARD_SETTINGS: {
