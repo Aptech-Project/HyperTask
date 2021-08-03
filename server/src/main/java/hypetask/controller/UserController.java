@@ -3,11 +3,14 @@ package hypetask.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -43,6 +46,22 @@ public class UserController {
 		userService.updateUser(user);
 		return user;
 	}
+	@PostMapping("/update-pass")
+	public ResponseEntity<Object> updatePass(@RequestParam("id") Integer  id,
+											 @RequestParam("oldpass") String oldpass,
+											 @RequestParam("newpass") String newpass
+	) {
+		User user1;
+		user1 = userService.getUserById(id);
+		if (user1.getPassword().equals(oldpass)){
+			user1.setPassword(newpass);
+			userService.updateUser(user1);
+		}
+		else{
+			return new ResponseEntity<Object>("failed", HttpStatus.OK);
+		}
+		return new ResponseEntity<Object>("successful", HttpStatus.OK);
+	}
 
 	@GetMapping("/get-user/{id}")
 	public User getUser(@PathVariable("id") int id) {
@@ -55,5 +74,25 @@ public class UserController {
 	@PostMapping("login/{username}&{password}")
 	public User getLogin(@PathVariable("username") String username,@PathVariable("password") String password){
 		return  userService.login(username,password);
+	}
+	@PostMapping("/send-friend-invitation/{id1}&{id2}")
+	public void sendFriendInvitation(@PathVariable("id1") int id1, @PathVariable("id2") int id2){
+		userService.sendFriendInvitation(id1,id2);
+	}
+	@PostMapping("/accept-friend/{id1}&{id2}")
+	public void acceptFriend(@PathVariable("id1") int id1, @PathVariable("id2") int id2){
+		userService.acceptFriend(id1,id2);
+	}
+	@GetMapping("/get-all-friend/{id}")
+	public List<User> allFriend(@PathVariable("id") int id1){
+		return userService.listFriend(id1);
+	}
+	@GetMapping("/get-send-friend/{id}")
+	public List<User> sendFriend(@PathVariable("id") int id1){
+		return userService.listSend(id1);
+	}
+	@GetMapping("/get-receive-friend/{id}")
+	public List<User> recieveFriend(@PathVariable("id") int id1){
+		return userService.listRecieve(id1);
 	}
 }
