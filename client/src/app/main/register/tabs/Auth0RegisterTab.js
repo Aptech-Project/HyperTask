@@ -68,7 +68,7 @@ const Auth0RegisterTab = ({ classes, ...props }) => {
             if (fieldValues.email === '') {
                 temp.email = fieldValues.email ? "" : "Email is required."
             } if (fieldValues.email !== '') {
-                temp.email = (/^$|.+@.+..+/).test(fieldValues.email) ? "" : "Email is not valid."
+                temp.email = (/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/).test(fieldValues.email) ? "" : "Email is not valid."
             }
             if (err >= 1) {
                 err < 1 ? temp.email = "" : temp.email = "Email is existed"

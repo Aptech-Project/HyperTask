@@ -65,7 +65,7 @@ public class FileUploadController {
 	private String getFileUrl(File file) {
 		String name = file.getAbsolutePath();
 		int lastIndexOf = name.lastIndexOf("storage");
-		String fileUrl = "localhost:4000/" + name.substring(lastIndexOf).replace("\\", "/");
+		String fileUrl = "http://localhost:4000/" + name.substring(lastIndexOf).replace("\\", "/");
 		return fileUrl;
 	}
 }
