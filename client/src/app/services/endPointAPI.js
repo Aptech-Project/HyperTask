@@ -14,6 +14,7 @@ export const endPointApi = {
     },
     boards: {
         getUserBoards: baseApi + 'board/get-user-boards/',
+        deleteBoard: baseApi + 'board/delete-board/',
     },
     file: {
         uploadFile: baseApi + "file/upload-file",

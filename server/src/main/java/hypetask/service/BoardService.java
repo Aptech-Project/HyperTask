@@ -45,4 +45,10 @@ public class BoardService {
 		});
 		return usersBoard;
 	}
+
+	public List<Board> deleteBoard(int userId, int boardId) {
+		boardRepository.delete(boardRepository.findById(boardId).get());
+		List<Board> usersBoard = this.getUserBoards(userId);
+		return usersBoard;
+	}
 }

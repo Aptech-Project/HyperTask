@@ -57,4 +57,9 @@ public class BoardController {
 		return Board;
 	}
 
+	@PutMapping("/delete-board/{userId}&{boardId}")
+	public List<Board> deleteBoard(@PathVariable("userId") int userId, @PathVariable("boardId") int boardId) {
+		return boardService.deleteBoard(userId, boardId);
+	}
+
 }
