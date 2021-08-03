@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/api/file")
 public class FileUploadController {
@@ -35,7 +37,8 @@ public class FileUploadController {
 			if (!directory.exists()) {
 				directory.mkdirs();
 			}
-			File myFile = new File(FILE_DIRECTORY + file.getOriginalFilename());
+			String convertFileName = (FILE_DIRECTORY + file.getOriginalFilename()).replaceAll("\s+", "_");
+			File myFile = new File(convertFileName);
 			myFile.createNewFile();
 			FileOutputStream fos = new FileOutputStream(myFile);
 			fos.write(file.getBytes());

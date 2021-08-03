@@ -1,7 +1,8 @@
-import React from 'react';
-import {Typography} from '@material-ui/core';
+import { Typography } from '@material-ui/core';
+import { makeStyles } from '@material-ui/styles';
 import clsx from 'clsx';
-import {makeStyles} from '@material-ui/styles';
+import React from 'react';
+import {Link} from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({
     root      : {
@@ -33,7 +34,10 @@ function Logo()
     return (
         <div className={clsx(classes.root, "flex items-center")}>
             <img className="logo-icon" src="assets/images/logos/hypertask.svg" alt="logo"/>
-            <Typography className="text-16 ml-12 font-light logo-text" color="textPrimary">Hyper Task</Typography>
+            
+            <Link className="font-medium" style={{ textDecoration: 'none' }} to="/">
+                <Typography className="text-16 ml-12 font-bold logo-text" color="textPrimary">Hyper Task</Typography>
+            </Link>
         </div>
     );
 }
