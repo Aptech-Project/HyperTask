@@ -37,7 +37,8 @@ public class FileUploadController {
 			if (!directory.exists()) {
 				directory.mkdirs();
 			}
-			File myFile = new File(FILE_DIRECTORY + file.getOriginalFilename());
+			String convertFileName = (FILE_DIRECTORY + file.getOriginalFilename()).replaceAll("\s+", "_");
+			File myFile = new File(convertFileName);
 			myFile.createNewFile();
 			FileOutputStream fos = new FileOutputStream(myFile);
 			fos.write(file.getBytes());
