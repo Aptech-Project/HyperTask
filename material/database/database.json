@@ -5,14 +5,22 @@
         "password": "",
         "email": "",
         "fullName": "",
-        "contact": ["userId1", "userId2"],
+        "contact": [
+            {
+                "userId": "",
+                "status": ""
+            }
+        ],
         "info": {
             "avatar": "",
             "phoneNumber": "",
-            "followingBoards":["board1", "board2"]
+            "followingBoards": [
+                "board1",
+                "board2"
+            ]
         }
     },
-    "board":{
+    "board": {
         "id": "",
         "name": "",
         "members": [
@@ -21,7 +29,7 @@
                 "role": ""
             }
         ],
-        "lists":[
+        "lists": [
             {
                 "id": "",
                 "name": "",
@@ -30,9 +38,9 @@
                         "id": "",
                         "name": "",
                         "content": "",
-                        "members":[],
+                        "members": [],
                         "labels": [],
-                        "checklist":[
+                        "checklist": [
                             {
                                 "id": "",
                                 "name": "",
@@ -40,7 +48,7 @@
                             }
                         ],
                         "dueDate": "",
-                        "comment":[
+                        "comment": [
                             {
                                 "userId": "",
                                 "content": "",
@@ -50,7 +58,7 @@
                         "info": {
                             "backgroundImage": "",
                             "author": "authorId",
-                            "files":[
+                            "files": [
                                 {
                                     "name": "",
                                     "url": ""
@@ -68,13 +76,13 @@
         },
         "activities": [
             {
-                "id":"",
+                "id": "",
                 "userId": "",
                 "type": [
-                    "joined/removed from board", 
-                    "create/detele list", 
-                    "create/delete card", 
-                    "comment", 
+                    "joined/removed from board",
+                    "create/detele list",
+                    "create/delete card",
+                    "comment",
                     "add flags",
                     "set dueDate",
                     "add labels",
@@ -87,9 +95,9 @@
         ],
         "labels": [
             {
-              "id": "",
-              "name": "",
-              "color": ""
+                "id": "",
+                "name": "",
+                "color": ""
             }
         ],
         "createdAt": "",

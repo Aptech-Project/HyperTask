@@ -7,7 +7,7 @@ import PhotosVideosTab from './tabs/PhotosVideosTab';
 import AboutTab from './tabs/about/AboutTab';
 import SecurityTab from './tabs/security/SecurityTab';
 import CardsTab from './tabs/cards/CardsTab';
-import ContactTab from './tabs/Contact';
+import ContactTab from './tabs/contact/ContactsApp';
 import withReducer from "app/store/withReducer";
 import reducer from "./tabs/store/reducers";
 

@@ -75,4 +75,24 @@ public class UserController {
 	public User getLogin(@PathVariable("username") String username,@PathVariable("password") String password){
 		return  userService.login(username,password);
 	}
+	@PostMapping("/send-friend-invitation/{id1}&{id2}")
+	public void sendFriendInvitation(@PathVariable("id1") int id1, @PathVariable("id2") int id2){
+		userService.sendFriendInvitation(id1,id2);
+	}
+	@PostMapping("/accept-friend/{id1}&{id2}")
+	public void acceptFriend(@PathVariable("id1") int id1, @PathVariable("id2") int id2){
+		userService.acceptFriend(id1,id2);
+	}
+	@GetMapping("/get-all-friend/{id}")
+	public List<User> allFriend(@PathVariable("id") int id1){
+		return userService.listFriend(id1);
+	}
+	@GetMapping("/get-send-friend/{id}")
+	public List<User> sendFriend(@PathVariable("id") int id1){
+		return userService.listSend(id1);
+	}
+	@GetMapping("/get-receive-friend/{id}")
+	public List<User> recieveFriend(@PathVariable("id") int id1){
+		return userService.listRecieve(id1);
+	}
 }
