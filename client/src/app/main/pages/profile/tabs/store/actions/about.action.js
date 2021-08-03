@@ -6,15 +6,15 @@ export const ACTION_TYPES = {
   GETINFO: 'LOGIN',
   FETCH_BY_ID: 'FETCH_BY_ID',
   FETCH_ALL: 'FETCH_ALL',
-  UPDATE: 'UPDATE',
-  UPLOADFILE: "UPLOADFILE",
+  PROFILEUPDATE: 'PROFILEUPDATE',
+  PROFILEUPLOADFILE: "PROFILEUPLOADFILE",
 }
 
 export const update = (data) => dispatch => {
   axios.post(endPointApi.users.update, data)
     .then(res => {
       dispatch({
-        type: ACTION_TYPES.UPDATE,
+        type: ACTION_TYPES.PROFILEUPDATE,
         payload: res.data
       })
       if (res.status == 200) {
@@ -33,15 +33,15 @@ export const uploadFile = (file, account) => dispatch => {
   axios.post(endPointApi.file.uploadFile, formData)
     .then(res => {
       dispatch({
-        type: ACTION_TYPES.UPLOADFILE,
+        type: ACTION_TYPES.PROFILEUPLOADFILE,
         payload: res.data
       })
-      if (res.status == 200) {
-        account.info = JSON.parse(account.info)
-        account.info.avatar = res.data.fileUrl
-        account.info = JSON.stringify(account.info)
-        dispatch(update(account))
-      }
+      // if (res.status == 200) {
+      //   account.info = JSON.parse(account.info)
+      //   account.info.avatar = res.data.fileUrl
+      //   account.info = JSON.stringify(account.info)
+      //   dispatch(update(account))
+      // }
     })
     .catch(err => console.log(err))
 }

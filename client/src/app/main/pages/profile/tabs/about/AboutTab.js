@@ -24,6 +24,7 @@ const AboutTab = ({ ...props }) => {
 
     const profile = useSelector(state => state.login.findId)
     const list = useSelector(state => state.ProfilePage.about)
+    const uploadData = useSelector(state => state.ProfilePage.about.uploadData)
     const [account, setAccount] = useState(null);
     const [info, setInfo] = useState(null);
     const [edit, setEdit] = useState(false);
@@ -34,6 +35,8 @@ const AboutTab = ({ ...props }) => {
     }, []);
     console.log("list")
     console.log(list)
+    console.log("uploadData")
+    console.log(uploadData)
     useEffect(() => {
         if (profile !== 'undefined') (
             setAccount(profile)
@@ -68,6 +71,15 @@ const AboutTab = ({ ...props }) => {
         }
         dispatch(Action.uploadFile(file, account))
     }
+    // useEffect(() => {
+    //     if (uploadData == {}) {
+    //         let dataUpload = account
+    //         dataUpload.info = JSON.parse(account.info)
+    //         dataUpload.info.avatar = uploadData.fileUrl
+    //         dataUpload.info = JSON.stringify(account.info)
+    //         dispatch(Action.update(dataUpload))
+    //     }
+    // }, [uploadData]);
     return (
         <div className="md:flex max-w">
 
@@ -110,25 +122,19 @@ const AboutTab = ({ ...props }) => {
                                 <Typography className="font-bold mb-4 text-15">Gender</Typography>
                                 <Typography>{info.gender}</Typography>
                             </div>
-
                             <div className="mb-24">
-                                <Typography className="font-bold mb-4 text-15">Birthday</Typography>
-                                <Typography>{info.birthday}</Typography>
-                            </div>
-
-                            <div className="mb-24">
-                                <Typography className="font-bold mb-4 text-15">Address</Typography>
-
-                                <Typography>{info.address}</Typography>
+                                <Typography className="font-bold mb-4 text-15">Email</Typography>
+                                <Typography>{account.email}</Typography>
                             </div>
                             <div className="mb-24">
                                 <Typography className="font-bold mb-4 text-15">Phone</Typography>
                                 <Typography>{info.phoneNumber}</Typography>
                             </div>
                             <div className="mb-24">
-                                <Typography className="font-bold mb-4 text-15">Email</Typography>
-                                <Typography>{account.email}</Typography>
+                                <Typography className="font-bold mb-4 text-15">Address</Typography>
+                                <Typography>{info.address}</Typography>
                             </div>
+
                             <Button
                                 id="submit1"
                                 type="submit"
