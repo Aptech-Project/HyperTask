@@ -52,10 +52,10 @@ const Auth0RegisterTab = ({ classes, ...props }) => {
             if (fieldValues.username === '') {
                 temp.username = fieldValues.username ? "" : "Username is required."
             } if (fieldValues.username !== '') {
-                temp.username = (/^[A-Za-z1-9]\w{4,}$/).test(fieldValues.username) ? "" : "Username must be at least 5 characters and no special characters"
+                temp.username = (/^[A-Za-z1-9]\w{4,}$/).test(fieldValues.username) ? "" : "Username must be at least 5 characters without any special characters"
             }
             if (err >= 1) {
-                err < 1 ? temp.username = "" : temp.username = "Username is exited"
+                err < 1 ? temp.username = "" : temp.username = "Username is existed"
             }
         }
         if ('email' in fieldValues) {
@@ -71,7 +71,7 @@ const Auth0RegisterTab = ({ classes, ...props }) => {
                 temp.email = (/^$|.+@.+..+/).test(fieldValues.email) ? "" : "Email is not valid."
             }
             if (err >= 1) {
-                err < 1 ? temp.email = "" : temp.email = "Email is exited"
+                err < 1 ? temp.email = "" : temp.email = "Email is existed"
             }
 
         }

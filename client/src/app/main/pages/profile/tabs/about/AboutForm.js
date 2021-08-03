@@ -56,7 +56,7 @@ const AboutForm = (props) => {
         temp.email = (/^$|.+@.+..+/).test(fieldValues.email) ? "" : "Email is not valid."
       }
       if (err >= 1) {
-        err < 1 ? temp.email = "" : temp.email = "Email is exited"
+        err < 1 ? temp.email = "" : temp.email = "Email is existed"
       }
     }
     if ('fullname' in fieldValues) {

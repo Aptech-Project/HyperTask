@@ -11,7 +11,9 @@ import history from '@history';
 const useStyles = makeStyles(theme => ({
     root: {
         background: 'linear-gradient(to right, ' + theme.palette.primary.dark + ' 0%, ' + darken(theme.palette.primary.dark, 0.5) + ' 100%)',
-        color: theme.palette.primary.contrastText
+        color: theme.palette.primary.contrastText,
+        backgroundImage: `url('assets/images/backgrounds/dark-material-bg.jpg')`,
+        backgroundSize: 'cover',
     }
 }));
 
@@ -38,14 +40,14 @@ function Register() {
                 </FuseAnimate>
 
                 <FuseAnimate animation="transition.slideUpIn" delay={300}>
-                    <Typography variant="h3" color="inherit" className="font-light">
-                        Welcome to the HyperTask!
+                    <Typography variant="h3" color="inherit" className="max-w-612 mt-16">
+                        Join Our Community!
                     </Typography>
                 </FuseAnimate>
 
                 <FuseAnimate delay={400}>
-                    <Typography variant="subtitle1" color="inherit" className="max-w-512 mt-16">
-                        Usability and convenience are everything we have for you
+                    <Typography variant="h5" color="inherit" className="max-w-500 font-light pt-16">
+                    Create an account and discovering the usability and convenience we designed for you!
                     </Typography>
                 </FuseAnimate>
             </div>
@@ -56,7 +58,7 @@ function Register() {
 
                     <CardContent className="flex flex-col items-center justify-center p-32 md:p-48 md:pt-100 ">
 
-                        <Typography variant="h6" className="md:w-full mb-32">CREATE AN ACCOUNT</Typography>
+                        <Typography variant="h6" className="text-center md:w-full mb-32">CREATE AN ACCOUNT</Typography>
 
                         <Tabs
                             value={selectedTab}

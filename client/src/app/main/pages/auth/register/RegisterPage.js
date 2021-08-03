@@ -10,7 +10,9 @@ import {Link} from 'react-router-dom';
 const useStyles = makeStyles(theme => ({
     root: {
         background: 'radial-gradient(' + darken(theme.palette.primary.dark, 0.5) + ' 0%, ' + theme.palette.primary.dark + ' 80%)',
-        color     : theme.palette.primary.contrastText
+        color     : theme.palette.primary.contrastText,
+        backgroundImage: `url('assets/images/backgrounds/dark-material-bg.jpg')`,
+        backgroundSize: 'cover',
     }
 }));
 
@@ -56,8 +58,8 @@ function RegisterPage()
                         <CardContent className="flex flex-col items-center justify-center p-32">
 
                             <img className="w-128 m-32" src="assets/images/logos/hypertask.svg" alt="logo"/>
-
-                            <Typography variant="h6" className="mt-16 mb-32">CREATE AN ACCOUNT</Typography>
+                            
+                            <Typography variant="h6" className="text-center md:w-full mb-48">CREATE AN ACCOUNT</Typography>
 
                             <form
                                 name="registerForm"

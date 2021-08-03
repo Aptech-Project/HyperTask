@@ -48,7 +48,6 @@ function Login() {
 
                 <FuseAnimate delay={400}>
                     <Typography variant="h5" color="inherit" className="font-light pt-16">
-                        {/* Usability and convenience are everything we have for you */}
                         Visualize your work however you want
                     </Typography>
                 </FuseAnimate>
