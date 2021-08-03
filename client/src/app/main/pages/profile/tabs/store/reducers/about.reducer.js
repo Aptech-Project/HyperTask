@@ -18,6 +18,11 @@ const contactReducer = (state = initialState, action) => {
         ...state,
         list: [...state.list, action.payload]
       }
+    case Actions.ACTION_TYPES.PROFILEUPDATE:
+      return {
+        ...state,
+        uploadData: {}
+      }
     default:
       return state
   }

@@ -26,7 +26,7 @@ export const updatePass = (data) => dispatch => {
       })
       if (res.status == 200 && res.data == "successful") {
         // dispatch(loginaction.fetchById(res.data.id))
-        dispatch(showMessage({ message: 'Update Pass Sussues.Please login again' }));
+        dispatch(showMessage({ message: 'Update password Successful.Please login again' }));
         dispatch(loginaction.userlogout())
         history.push({
           pathname: "/login",

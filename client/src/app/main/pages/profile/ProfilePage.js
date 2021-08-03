@@ -44,6 +44,7 @@ function ProfilePage() {
     const profile = useSelector(state => state.login.findId)
     const [account, setAccount] = useState(null);
     const [info, setInfo] = useState(null);
+    const [avatar, setAvatar] = useState("");
     useEffect(() => {
         if (profile !== 'undefined') (
             setAccount(profile)
@@ -55,6 +56,7 @@ function ProfilePage() {
     useEffect(() => {
         if (account && account !== 'undefined' && account !== []) {
             setInfo(JSON.parse(account.info))
+            setAvatar(JSON.parse(account.info).avatar)
         }
     }, [account]);
     if (!account) {
@@ -75,7 +77,7 @@ function ProfilePage() {
                 <div className="p-24 flex flex-1 flex-col items-center justify-center md:flex-row md:items-end">
                     <div className="flex flex-1 flex-col items-center justify-center md:flex-row md:items-center md:justify-start">
                         <FuseAnimate animation="transition.expandIn" delay={300}>
-                            <Avatar className="w-96 h-96" src={info.avatar ? info.avatar : "assets/images/avatars/Velazquez.jpg"}
+                            <Avatar className="w-96 h-96" src={avatar ? avatar : "assets/images/avatars/Velazquez.jpg"}
                             ></Avatar>
                         </FuseAnimate>
 

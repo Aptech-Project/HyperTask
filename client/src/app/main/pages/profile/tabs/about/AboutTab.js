@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Avatar, AppBar, InputAdornment, TextField, Button, Card, CardContent, Icon, IconButton, List, ListItem, ListItemSecondaryAction, ListItemText, Toolbar, Typography } from '@material-ui/core';
+import { DialogActions, Dialog, Avatar, AppBar, InputAdornment, TextField, Button, Card, CardContent, Icon, IconButton, List, ListItem, ListItemSecondaryAction, ListItemText, Toolbar, Typography } from '@material-ui/core';
 import { FuseAnimateGroup } from '@fuse';
 import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
@@ -28,7 +28,14 @@ const AboutTab = ({ ...props }) => {
     const [account, setAccount] = useState(null);
     const [info, setInfo] = useState(null);
     const [edit, setEdit] = useState(false);
+    const [avatar, setAvatar] = useState("");
+    const [isChangeAvatar, setIsChangeAvatar] = useState(false);
     const [user1, setUser1] = useState(null)
+    const [open, setOpen] = useState(false);
+    function closeComposeDialog() {
+        setAvatar(info.avatar)
+        setOpen(false)
+    }
     const dispatch = useDispatch();
     useEffect(() => {
         setAccount([])
@@ -48,6 +55,15 @@ const AboutTab = ({ ...props }) => {
             setEdit(false)
         }
     }, [account]);
+    useEffect(() => {
+        setAvatar(uploadData.fileUrl)
+    }, [uploadData]);
+    useEffect(() => {
+        if (info) {
+            setAvatar(info.avatar)
+        }
+    }, [info]);
+
     if (!account) {
         return null
     }
@@ -62,6 +78,9 @@ const AboutTab = ({ ...props }) => {
     const clickEdit = e => {
         setEdit(!edit)
     }
+    const openUploadImage = e => {
+        setOpen(true)
+    }
     console.log("profile")
     console.log(profile)
     function handleUploadChange(e) {
@@ -69,17 +88,18 @@ const AboutTab = ({ ...props }) => {
         if (!file) {
             return;
         }
+        setIsChangeAvatar(true)
         dispatch(Action.uploadFile(file, account))
     }
-    // useEffect(() => {
-    //     if (uploadData == {}) {
-    //         let dataUpload = account
-    //         dataUpload.info = JSON.parse(account.info)
-    //         dataUpload.info.avatar = uploadData.fileUrl
-    //         dataUpload.info = JSON.stringify(account.info)
-    //         dispatch(Action.update(dataUpload))
-    //     }
-    // }, [uploadData]);
+    function handleSubmit(event) {
+        event.preventDefault();
+        let userUpload = account
+        userUpload.info = JSON.parse(userUpload.info)
+        userUpload.info.avatar = avatar
+        userUpload.info = JSON.stringify(userUpload.info)
+        dispatch(Action.uploadAvatar(userUpload))
+        setOpen(false)
+    }
     return (
         <div className="md:flex max-w">
 
@@ -102,12 +122,16 @@ const AboutTab = ({ ...props }) => {
                                     type="file"
                                     onChange={handleUploadChange}
                                 />
-                                <Button>
+                                {/* <Button>
                                     <label
                                         htmlFor="button-file"
                                     >
                                         <Icon fontSize="large" color="action">cloud_upload</Icon>
                                     </label>
+                                </Button> */}
+                                <Button
+                                    onClick={openUploadImage}>
+                                    <Icon fontSize="large" color="action">cloud_upload</Icon>
                                 </Button>
                             </Toolbar>
 
@@ -151,6 +175,49 @@ const AboutTab = ({ ...props }) => {
                     </Card>
                 </FuseAnimateGroup>
             </div>
+            <Dialog
+                classes={{
+                    paper: "m-24"
+                }}
+                open={open}
+                onClose={closeComposeDialog}
+                fullWidth
+                maxWidth="xs"
+            >
+                <AppBar position="static" elevation={10}>
+                    <Toolbar className="flex w-full">
+                        <Typography variant="subtitle1" color="inherit">
+                            Upload avatar
+                        </Typography>
+                    </Toolbar>
+                    <div className="flex flex-col items-center justify-center pb-24">
+                        <Avatar className="w-96 h-96" alt="contact avatar" src={avatar} />
+                        <Typography variant="h6" color="inherit" className="pt-8">
+
+                        </Typography>
+                    </div>
+                </AppBar>
+                <DialogActions className="justify-between pl-16">
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        type="submit"
+                        onClick={handleSubmit}
+                        disabled={!isChangeAvatar}
+                    >
+                        Save
+                    </Button>
+                    <IconButton
+                    // onClick={handleRemove}
+                    >
+                        <label
+                            htmlFor="button-file"
+                        >
+                            <Icon fontSize="large" color="action">cloud_upload</Icon>
+                        </label>
+                    </IconButton>
+                </DialogActions>
+            </Dialog>
         </div >
     );
 }
