@@ -36,8 +36,8 @@ function BoardCardForm(props) {
   const board = useSelector(({ scrumboardApp }) => scrumboardApp.board);
 
   const { form: cardForm, handleChange, setForm, setInForm } = useForm(card);
-  const updateCard = useDebounce((boardId, newCard) => {
-    dispatch(Actions.updateCard(boardId, { ...newCard }));
+  const updateCard = useDebounce((board, newCard) => {
+    dispatch(Actions.updateCard(board, { ...newCard }));
   }, 600);
   const dueDate =
     cardForm && cardForm.due
@@ -45,23 +45,23 @@ function BoardCardForm(props) {
       : "";
 
   useUpdateEffect(() => {
-    updateCard(board.id, cardForm);
-  }, [dispatch, board.id, cardForm, updateCard]);
+    updateCard(board, cardForm);
+  }, [dispatch, board, cardForm, updateCard]);
 
   function removeDue() {
     setInForm("due", null);
   }
 
   function toggleLabel(labelId) {
-    setInForm("idLabels", _.xor(cardForm.labels, [labelId]));
+    setInForm("labels", _.xor(cardForm.labels, [labelId]));
   }
 
   function toggleMember(memberId) {
-    setInForm("idMembers", _.xor(cardForm.members, [memberId]));
+    setInForm("members", _.xor(cardForm.members, [memberId]));
   }
 
   function addCheckList(newList) {
-    setInForm("checklists", [...cardForm.checklist, newList]);
+    setInForm("checklist", [...cardForm.checklist, newList]);
   }
 
   function chipChange(name, value) {
@@ -224,7 +224,7 @@ function BoardCardForm(props) {
         <div className="w-full mb-24">
           <TextField
             label="Description"
-            name="description"
+            name="content"
             multiline
             rows="4"
             value={cardForm.content}
@@ -257,7 +257,7 @@ function BoardCardForm(props) {
                     }
                   );
                 })}
-                onChange={(value) => chipChange("idLabels", value)}
+                onChange={(value) => chipChange("labels", value)}
                 placeholder="Select multiple Labels"
                 isMulti
                 textFieldProps={{
@@ -276,7 +276,7 @@ function BoardCardForm(props) {
                   dispatch(Actions.addLabel(newLabel));
 
                   // Trigger handle chip change
-                  addNewChip("idLabels", newLabel.id);
+                  addNewChip("labels", newLabel.id);
 
                   return newLabel.id;
                 }}
@@ -296,23 +296,35 @@ function BoardCardForm(props) {
                 className={cardForm.labels.length > 0 && "sm:ml-8"}
                 value={cardForm.members.map((memberId) => {
                   const member = _.find(JSON.parse(board.members), {
-                    id: memberId,
+                    userId: memberId,
                   });
+                  const memberName = member.name.split(" ");
+                  const member1stChar = memberName[0].charAt(0).toUpperCase();
+                  const member2ndChar = memberName[1].charAt(0).toUpperCase();
                   return (
                     member && {
                       value: member.id,
                       label: (
                         <Tooltip title={member.name}>
-                          <Avatar
-                            className="-ml-12 w-32 h-32"
-                            src={member.avatar}
-                          />
+                          {member.avatar ? (
+                            <Avatar
+                              className="-ml-12 w-32 h-32"
+                              src={member.avatar}
+                            />
+                          ) : (
+                            <Avatar className="-ml-12 w-32 h-32">
+                              <Typography>
+                                {member1stChar}
+                                {member2ndChar}
+                              </Typography>
+                            </Avatar>
+                          )}
                         </Tooltip>
                       ),
                     }
                   );
                 })}
-                onChange={(value) => chipChange("idMembers", value)}
+                onChange={(value) => chipChange("members", value)}
                 placeholder="Select multiple Members"
                 isMulti
                 textFieldProps={{

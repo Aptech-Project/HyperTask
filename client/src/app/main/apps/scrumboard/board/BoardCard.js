@@ -133,13 +133,27 @@ function BoardCard(props) {
               {card.members.length > 0 && (
                 <div className="flex flex-wrap mb-12">
                   {card.members.map((id) => {
-                    const member = _.find(JSON.parse(board.members), { id });
+                    const member = _.find(JSON.parse(board.members), {
+                      userId: id,
+                    });
+                    const memberName = member.name.split(" ");
+                    const member1stChar = memberName[0].charAt(0).toUpperCase();
+                    const member2ndChar = memberName[1].charAt(0).toUpperCase();
                     return (
                       <Tooltip title={member.name} key={id}>
-                        <Avatar
-                          className="mr-8 w-32 h-32"
-                          src={member.avatar}
-                        />
+                        {member.avatar ? (
+                          <Avatar
+                            className="mr-8 w-32 h-32"
+                            src={member.avatar}
+                          />
+                        ) : (
+                          <Avatar className="mr-8 w-32 h-32">
+                            <Typography>
+                              {member1stChar}
+                              {member2ndChar}
+                            </Typography>
+                          </Avatar>
+                        )}
                       </Tooltip>
                     );
                   })}

@@ -6,6 +6,7 @@ import {
   IconButton,
   ListItemText,
   MenuItem,
+  Typography,
 } from "@material-ui/core";
 import ToolbarMenu from "./ToolbarMenu";
 
@@ -28,16 +29,29 @@ function MembersMenu(props) {
       <ToolbarMenu state={anchorEl} onClose={handleMenuClose}>
         <div className="">
           {props.members.map((member) => {
+            const memberName = member.name.split(" ");
+            const member1stChar = memberName[0].charAt(0).toUpperCase();
+            const member2ndChar = memberName[1].charAt(0).toUpperCase();
             return (
               <MenuItem
                 className="px-8"
-                key={member.id}
+                key={member.userId}
                 onClick={(ev) => {
-                  props.onToggleMember(member.id);
+                  props.onToggleMember(member.userId);
                 }}
               >
-                <Checkbox checked={props.idMembers.includes(member.id)} />
-                <Avatar className="w-32 h-32" src={member.avatar} />
+                <Checkbox checked={props.idMembers.includes(member.userId)} />
+                {member.avatar ? (
+                  <Avatar className="w-32 h-32" src={member.avatar} />
+                ) : (
+                  <Avatar className="w-32 h-32">
+                    <Typography>
+                      {member1stChar}
+                      {member2ndChar}
+                    </Typography>
+                  </Avatar>
+                )}
+                &nbsp;&nbsp;
                 <ListItemText>{member.name}</ListItemText>
               </MenuItem>
             );

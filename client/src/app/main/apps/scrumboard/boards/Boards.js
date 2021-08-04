@@ -104,6 +104,7 @@ const useStyles = makeStyles((theme) => ({
 function Boards(props) {
   const dispatch = useDispatch();
   const boards = useSelector(({ scrumboardApp }) => scrumboardApp.boards);
+  const profile = useSelector((state) => state.login.findId);
   const [searchValue, setSearchValue] = useState("");
   const [searchResult, setSearchResult] = useState([]);
   const [settingMenu, setSettingMenu] = useState({
@@ -144,14 +145,14 @@ function Boards(props) {
     setAddNewBoardLog({ ...addNewBoardLog, open: true });
   };
   const handleAddNewBoardConfirm = () => {
-    const boardsLength = boards.length;
+    const user = profile.fullname;
     dispatch(
       Actions.newBoard(
         {
           name: addNewBoardLog.value,
           members: addNewBoardLog.members,
         },
-        boardsLength
+        user
       )
     );
   };

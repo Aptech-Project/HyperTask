@@ -27,24 +27,26 @@ export function resetBoards() {
   };
 }
 
-export function newBoard(board /* , userAllBoardLength */) {
+export function newBoard(board, userName) {
   //const newBoardId = userAllBoardLength + 1;
   const userID = localStorage.getItem("user_authenticated");
-  const boardMember = [
-    ...board.members,
-    { userId: userID, role: "admin", avatar: "" },
-  ];
+  // const boardMember = [
+  //   ...board.members,
+  //   { userId: userID, role: "admin", avatar: "" },
+  // ];
   const newBoard = board
     ? new BoardModel({
         /* id: newBoardId, */
         name: board.name,
         members: [
           ...board.members,
-          { userId: userID, role: "admin", avatar: "" },
+          { userId: userID, name: userName, role: "admin", avatar: "" },
         ],
       })
     : new BoardModel({
-        members: [{ userId: userID, role: "admin", avatar: "" }],
+        members: [
+          { userId: userID, name: userName, role: "admin", avatar: "" },
+        ],
       });
   const boardConverted = convertBoardProperty(newBoard);
   const request = axios.post(

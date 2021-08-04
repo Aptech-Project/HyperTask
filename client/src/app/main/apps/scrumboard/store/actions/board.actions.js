@@ -131,14 +131,14 @@ export function newCard(board, listId, cardTitle) {
     (list) => list.id == listId
   );
   const listAddCard = JSON.parse(board.lists)[listAddCardIndex];
-  const cardID = `C${listAddCard.cards.length + 1}`;
+  const cardID = `${listId}C${listAddCard.cards.length + 1}`;
   const data = new CardModel({ id: cardID, name: cardTitle });
   const newCardList = [...listAddCard.cards];
   newCardList.push({ ...data });
   const listUpdate = { ...listAddCard, cards: newCardList };
 
   const allListUpdated = JSON.parse(board.lists).map((list) => {
-    if (list.id == listId) {
+    if (list.id === listId) {
       list = listUpdate;
     }
     return list;
@@ -234,10 +234,11 @@ export function removeList(board, listId) {
 }
 
 export function addLabel(label) {
+  console.log("label: ", { ...label });
   return (dispatch) => {
     return dispatch({
       type: ADD_LABEL,
-      payload: label,
+      payload: { ...label },
     });
   };
 }

@@ -36,20 +36,17 @@ const boardReducer = function (state = initialState, action) {
       };
     }
     case Actions.ADD_LABEL: {
+      const labelUpdate = JSON.parse(state.labels);
+      labelUpdate.push(action.payload);
       return {
         ...state,
-        labels: [...state.labels, action.payload],
+        labels: JSON.stringify(labelUpdate),
       };
     }
     case Actions.UPDATE_CARD: {
       return {
         ...state,
-        cards: state.cards.map((_card) => {
-          if (_card.id === action.payload.id) {
-            return action.payload;
-          }
-          return _card;
-        }),
+        lists: JSON.stringify(action.payload),
       };
     }
     case Actions.REMOVE_CARD: {
