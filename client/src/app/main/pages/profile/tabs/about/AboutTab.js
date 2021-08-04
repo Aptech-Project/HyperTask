@@ -99,6 +99,7 @@ const AboutTab = ({ ...props }) => {
         userUpload.info = JSON.stringify(userUpload.info)
         dispatch(Action.uploadAvatar(userUpload))
         setOpen(false)
+        setIsChangeAvatar(false)
     }
     return (
         <div className="md:flex max-w">
