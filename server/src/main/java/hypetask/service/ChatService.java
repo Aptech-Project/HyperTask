@@ -26,7 +26,7 @@ public class ChatService {
 		chatRepository.save(chat);
 	}
 
-	public Chat getChatById(int id) {
+	public Chat getChatById(String id) {
 		return chatRepository.findById(id).get();
 	}
 }

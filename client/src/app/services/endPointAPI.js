@@ -23,4 +23,8 @@ export const endPointApi = {
   file: {
     uploadFile: baseApi + "file/upload-file",
   },
+  chat: {
+    createChat: baseApi + "chat/create-chat",
+    getChat: baseApi + "chat/get-chat/"
+  }
 };

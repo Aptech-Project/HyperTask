@@ -56,12 +56,14 @@ function ChatPanel(props)
 {
     const dispatch = useDispatch();
     const contacts = useSelector(({chatPanel}) => chatPanel.contacts.entities);
+    const test = useSelector(({chatPanel}) => chatPanel.contacts);
+    console.log(test)
     const selectedContactId = useSelector(({chatPanel}) => chatPanel.contacts.selectedContactId);
     const state = useSelector(({chatPanel}) => chatPanel.state);
-
     const classes = useStyles(props);
     const selectedContact = contacts.find(_contact => _contact.id === selectedContactId);
-
+    const currentUserId = localStorage.getItem('user_authenticated');
+    
     const handleDocumentKeyDown = useCallback(event => {
         if ( keycode(event) === 'esc' )
         {
@@ -70,8 +72,8 @@ function ChatPanel(props)
     }, [dispatch]);
 
     useEffect(() => {
-        dispatch(Actions.getUserData());
-        dispatch(Actions.getContacts());
+        dispatch(Actions.getUserData(currentUserId));
+        dispatch(Actions.getContacts(currentUserId));
         return (() => {
             document.removeEventListener('keydown', handleDocumentKeyDown);
         });

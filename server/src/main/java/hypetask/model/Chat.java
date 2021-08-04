@@ -2,8 +2,6 @@ package hypetask.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -11,15 +9,25 @@ import javax.persistence.Table;
 @Table(name = "chat")
 public class Chat {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id", unique = true, nullable = false)
-	private int id;
+	private String id;
 	@Column(name = "dialog")
 	private String dialog;
+
+	public Chat() {
+	}
 
 	public Chat(String dialog) {
 		super();
 		this.dialog = dialog;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	public String getDialog() {

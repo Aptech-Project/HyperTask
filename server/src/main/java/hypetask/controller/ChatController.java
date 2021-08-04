@@ -40,7 +40,7 @@ public class ChatController {
 	}
 
 	@GetMapping("/get-chat/{id}")
-	public Chat getChat(@PathVariable("id") int id) {
+	public Chat getChat(@PathVariable("id") String id) {
 		return chatService.getChatById(id);
 	}
 

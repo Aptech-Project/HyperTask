@@ -26,7 +26,7 @@ CREATE TABLE `board` (
   PRIMARY KEY (`id`)
 );
 CREATE TABLE `chat` (
-  `id` int NOT NULL AUTO_INCREMENT,
+  `id` varchar(50) NOT NULL,
   `dialog` text NOT NULL,
   PRIMARY KEY (`id`)
 );

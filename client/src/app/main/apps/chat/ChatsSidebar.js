@@ -170,7 +170,7 @@ function ChatsSidebar(props)
                             return FuseUtils.filterArrayByString(arr, searchText);
                         }
 
-                        const chatListContacts = contacts.length > 0 && user && user.chatList ? user.chatList.map((_chat) => (
+                        const chatListContacts = contacts.length > 0 && user && user.conversations ? user.conversations.map((_chat) => (
                             {
                                 ..._chat,
                                 ...contacts.find((_contact) => _contact.id === _chat.contactId)
