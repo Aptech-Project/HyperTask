@@ -79,14 +79,7 @@ const AboutForm = (props) => {
         if (infoFieldValues.phoneNumber === '') {
           temp.phoneNumber = infoFieldValues.phoneNumber ? "" : "Phone number is required."
         } if (infoFieldValues.phoneNumber !== '') {
-          temp.phoneNumber = (/^\d{9,10}$/).test(infoFieldValues.phoneNumber) ? "" : "Phone number is not valid."
-        }
-      }
-      if ('phoneNumber' in infoFieldValues) {
-        if (infoFieldValues.address === '') {
-          temp.address = infoFieldValues.address ? "" : "Address is required."
-        } if (infoFieldValues.address !== '') {
-          temp.address = infoFieldValues.address.length < 500 && infoFieldValues.address.length > 50 ? "" : "Address is not valid."
+          temp.phoneNumber = (/^\d{9,11}$/).test(infoFieldValues.phoneNumber) ? "" : "Phone number is not valid."
         }
       }
     }
@@ -181,7 +174,7 @@ const AboutForm = (props) => {
         />
         <TextField
           className="mb-16"
-          type="text"
+          type="number"
           name="phoneNumber"
           value={values.info.phoneNumber}
           label="Phone Number"
@@ -206,9 +199,8 @@ const AboutForm = (props) => {
           autoComplete='off'
           variant="outlined"
           onChange={handleInputChange}
-          required
+
           multiline
-          {...(errors.address && { error: true, helperText: errors.address })}
         />
         {/* <Button
           id="submit1"
