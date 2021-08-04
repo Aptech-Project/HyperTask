@@ -1,8 +1,10 @@
+import { truncate } from "lodash";
 import { ACTION_TYPES } from "../actions/contact.action";
 const initialState = {
   listfriend: [],
   listsend: [],
-  listreceive: []
+  listreceive: [],
+  listsearchfriend: []
 }
 
 
@@ -23,6 +25,16 @@ const friend = (state = initialState, action) => {
       return {
         ...state,
         listsend: [...action.payload]
+      }
+    case ACTION_TYPES.FIND_FRIEND_TO_AND:
+      return {
+        ...state,
+        listsearchfriend: [...action.payload]
+      }
+    case ACTION_TYPES.SEND_FRIEND:
+      return {
+        ...state,
+        success: true
       }
     default:
       return state

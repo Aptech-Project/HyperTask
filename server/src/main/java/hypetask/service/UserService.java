@@ -156,11 +156,14 @@ public class UserService {
 		}
 		List<User> listAcp= new ArrayList<>();
 		for(int i=0;i<list.size();i++){
-			if(list.get(i).getStatus().equalsIgnoreCase("recieve")){
+			if(list.get(i).getStatus().equalsIgnoreCase("receive")){
 				User user=userRepository.findById(list.get(i).getId()).get();
 				listAcp.add(user);
 			}
 		}
 		return listAcp;
+	}
+	public  List<User> searchFriend(String textSeach){
+		return userRepository.searchNewFriend(textSeach);
 	}
 }

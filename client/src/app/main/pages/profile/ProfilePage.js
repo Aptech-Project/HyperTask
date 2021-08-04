@@ -130,7 +130,7 @@ function ProfilePage() {
                     <Tab
                         classes={{
                             root: "h-64"
-                        }} label="Contact " />
+                        }} label="Friends " />
                     <Tab
                         classes={{
                             root: "h-64"
