@@ -95,4 +95,11 @@ public class UserController {
 	public List<User> recieveFriend(@PathVariable("id") int id1){
 		return userService.listRecieve(id1);
 	}
+	@GetMapping(value = {"/search-friend/", "/search-friend/{textsearch}"})
+	public List<User> searchFriend(@PathVariable(value = "textsearch",required = false) String textSearch){
+		if(textSearch==null){
+			return null;
+		}else
+			return userService.searchFriend(textSearch);
+	}
 }

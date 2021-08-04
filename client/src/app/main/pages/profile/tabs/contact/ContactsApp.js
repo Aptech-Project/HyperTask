@@ -13,7 +13,7 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import withWidth, { isWidthDown, isWidthUp } from '@material-ui/core/withWidth';
-
+import AddContact from './AddContact';
 class ProfileTabs extends React.PureComponent {
     state = { activeIndex: 0 }
 
@@ -26,7 +26,7 @@ class ProfileTabs extends React.PureComponent {
         } else if (isWidthDown("sm", this.props.width)) {
             condTabOrientation = "block";
         } else if (isWidthDown("md", this.props.width)) {
-            condTabOrientation = "flex";
+            condTabOrientation = "block";
         }
         else {
             condTabOrientation = "flex";
@@ -38,7 +38,7 @@ class ProfileTabs extends React.PureComponent {
                     display: condTabOrientation
                 }}
             >
-                <Card style={{ display: 'block', marginBottom: '10px' }}>
+                <Card style={{ display: 'block', marginBottom: '10px', height: '100%' }}>
                     <CardMedia
                         component="img"
                         alt="Contemplative Reptile"
@@ -52,16 +52,19 @@ class ProfileTabs extends React.PureComponent {
                             onChange={this.handleChange}
                         >
                             <MyTab label='All Friend' />
-                            <MyTab label='Friend request' />
-                            <MyTab label='Invitations sent' />
+                            <MyTab label='Add Friend' />
+                            <MyTab label='Invitation Sent' />
+                            <MyTab label='Invitation Received' />
                         </VerticalTabs>
 
                     </CardContent>
                 </Card>
 
                 {activeIndex === 0 && <TabContainer><Contact /></TabContainer>}
-                {activeIndex === 1 && <TabContainer><ContactRequest /></TabContainer>}
-                {activeIndex === 2 && <TabContainer><ContactSend /></TabContainer>}
+                {activeIndex === 1 && <TabContainer><AddContact /></TabContainer>}
+                {activeIndex === 2 && <TabContainer><ContactRequest /></TabContainer>}
+                {activeIndex === 3 && <TabContainer><ContactSend /></TabContainer>}
+
             </div>
         )
     }
@@ -82,7 +85,7 @@ const VerticalTabs = withStyles(theme => ({
     },
     [theme.breakpoints.up('md')]: {
         flexContainer: {
-            flexDirection: 'column',
+            flexDirection: 'row',
             width: '100%'
         },
     },
@@ -102,7 +105,7 @@ const MyTab = withStyles(theme => ({
     selected: {
         color: '#41a9e6',
         borderBottom: '2px solid #41a9e6'
-    }
+    },
 }))(Tab);
 
 function TabContainer(props) {
