@@ -24,6 +24,8 @@ public class User {
 	private String fullname;
 	@Column(name = "contact")
 	private String contact;
+	@Column(name = "conversations")
+	private String conversations;
 	@Column(name = "info")
 	private String info;
 
@@ -91,6 +93,14 @@ public class User {
 	}
 
 	public void setInfo(String info) {
+		this.info = info;
+	}
+
+	public String getConversations() {
+		return info;
+	}
+
+	public void setConversations(String info) {
 		this.info = info;
 	}
 }

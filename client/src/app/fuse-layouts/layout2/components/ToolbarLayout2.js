@@ -58,7 +58,7 @@ function ToolbarLayout2(props)
 
                         <div className={classes.separator}/>
 
-                        <QuickPanelToggleButton/>
+                        {/* <QuickPanelToggleButton/> */}
                     </div>
 
                 </Toolbar>

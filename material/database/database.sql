@@ -9,6 +9,7 @@ CREATE TABLE `user` (
   `username` varchar(50) NOT NULL,
   `fullname` varchar(50) NOT NULL,
   `contact` text DEFAULT NULL,
+  `conversations` text DEFAULT NULL,
   `info` text DEFAULT NULL,
   PRIMARY KEY (`id`)
 );
@@ -22,6 +23,11 @@ CREATE TABLE `board` (
   `info` text NOT NULL,
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+);
+CREATE TABLE `chat` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `dialog` text NOT NULL,
   PRIMARY KEY (`id`)
 );
 

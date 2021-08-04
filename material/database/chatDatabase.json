@@ -1,0 +1,89 @@
+{
+    "user": {
+        "contact": [
+            { "id": 6, "status": "receive", "unread": "2" },
+            { "id": 3, "status": "friend", "unread": "2" },
+            { "id": 4, "status": "friend", "unread": "2" },
+            { "id": 5, "status": "friend", "unread": "2" }
+        ],
+        "conversations": [
+            {
+                "chatId": "testchat001",
+                "contactId": "3",
+                "lastMessageTime": "2017-06-12T02:10:18.931Z"
+            },
+            {
+                "chatId": "testchat002",
+                "contactId": "4",
+                "lastMessageTime": "2017-02-18T10:30:18.931Z"
+            },
+            {
+                "chatId": "testchat003",
+                "contactId": "5",
+                "lastMessageTime": "2017-03-18T12:30:18.931Z"
+            }
+        ]
+    },
+    "chat": [
+        {
+            "id": "testchat001",
+            "dialog": [
+                {
+                    "who": "3",
+                    "message": "Quickly come to the meeting room 1B, we have a big server issue",
+                    "time": "2017-03-22T08:54:28.299Z"
+                },
+                {
+                    "who": "2",
+                    "message": "I’m having breakfast right now, can’t you wait for 10 minutes?",
+                    "time": "2017-03-22T08:55:28.299Z"
+                },
+                {
+                    "who": "2",
+                    "message": "I’m having breakfast right now, can’t you wait for 10 minutes?",
+                    "time": "2017-03-22T08:56:28.299Z"
+                },
+                {
+                    "who": "3",
+                    "message": "We are losing money! Quick!",
+                    "time": "2017-03-22T09:00:28.299Z"
+                },
+                {
+                    "who": "2",
+                    "message": "It’s not my money, you know. I will eat my breakfast and then I will come to the meeting room.",
+                    "time": "2017-03-22T09:02:28.299Z"
+                },
+            ]
+        },
+        {
+            "id": "testchat002",
+            "dialog": [
+                {
+                    "who": "4",
+                    "message": "Quickly come to the meeting room 1B, we have a big server issue",
+                    "time": "2017-04-22T01:00:00.299Z"
+                },
+                {
+                    "who": "2",
+                    "message": "I’m having breakfast right now, can’t you wait for 10 minutes?",
+                    "time": "2017-04-22T01:05:00.299Z"
+                },
+                {
+                    "who": "4",
+                    "message": "We are losing money! Quick!",
+                    "time": "2017-04-22T01:10:00.299Z"
+                }
+            ]
+        },
+        {
+            "id": "testchat003",
+            "dialog": [
+                {
+                    "who": "5",
+                    "message": "Quickly come to the meeting room 1B, we have a big server issue",
+                    "time": "2017-04-22T02:10:00.299Z"
+                }
+            ]
+        }
+    ]
+}

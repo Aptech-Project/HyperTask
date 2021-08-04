@@ -12,3 +12,5 @@ const convertBoardProperty = (board) => {
 
 const boardConverted = convertBoardProperty(board);
 console.log(JSON.stringify(boardConverted))
+
+const uniqueId = new Date().valueOf();
