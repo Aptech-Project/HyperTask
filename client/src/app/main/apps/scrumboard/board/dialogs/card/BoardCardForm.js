@@ -96,13 +96,13 @@ function BoardCardForm(props) {
 
   const handleCheckListChange = useCallback(
     (item, index) => {
-      setInForm(`checklists[${index}]`, item);
+      setInForm(`checklist[${index}]`, item);
     },
     [setInForm]
   );
 
   function removeCheckList(id) {
-    setInForm("checklists", _.reject(cardForm.checklist, { id: id }));
+    setInForm("checklist", _.reject(cardForm.checklist, { id: id }));
   }
 
   function commentAdd(comment) {
