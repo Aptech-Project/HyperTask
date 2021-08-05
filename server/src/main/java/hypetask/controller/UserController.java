@@ -83,6 +83,10 @@ public class UserController {
 	public void acceptFriend(@PathVariable("id1") int id1, @PathVariable("id2") int id2){
 		userService.acceptFriend(id1,id2);
 	}
+	@PostMapping("/remove-friend/{id1}&{id2}")
+	public void removeFriend(@PathVariable("id1") int id1, @PathVariable("id2") int id2){
+		userService.removeFriend(id1,id2);
+	}
 	@GetMapping("/get-all-friend/{id}")
 	public List<User> allFriend(@PathVariable("id") int id1){
 		return userService.listFriend(id1);
@@ -95,11 +99,14 @@ public class UserController {
 	public List<User> recieveFriend(@PathVariable("id") int id1){
 		return userService.listRecieve(id1);
 	}
-	@GetMapping(value = {"/search-friend/", "/search-friend/{textsearch}"})
-	public List<User> searchFriend(@PathVariable(value = "textsearch",required = false) String textSearch){
+	@GetMapping(value = {"/search-friend/{id}","/search-friend/", "/search-friend/{textsearch}/{id}"})
+	public List<User> searchFriend(@PathVariable(value = "textsearch",required = false) String textSearch,
+		@PathVariable(value = "id",required = false) int id
+	){
 		if(textSearch==null){
 			return null;
 		}else
-			return userService.searchFriend(textSearch);
+			return userService.searchFriend(textSearch,id);
 	}
+
 }

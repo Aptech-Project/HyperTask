@@ -65,7 +65,7 @@ function ProfilePage() {
     if (!info) {
         return null
     }
-
+    console.log(avatar)
     return (
         <FusePageSimple
             classes={{

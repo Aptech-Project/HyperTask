@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import ReactTable from "react-table";
 import * as action from 'app/auth/store/actions/login.actions'
 import * as Actions from 'app/main/pages/profile/tabs/store/actions/contact.action'
+import Button from '@material-ui/core/Button';
 function ContactsList(props) {
     const dispatch = useDispatch();
     // const contacts = useSelector(({ contactsApp }) => contactsApp.contacts.entities);
@@ -85,37 +86,9 @@ function ContactsList(props) {
                 data={friend}
                 columns={[
                     {
-                        Header: () => (
-                            <Checkbox
-                            // onClick={(event) => {
-                            //     event.stopPropagation();
-                            // }}
-                            // onChange={(event) => {
-                            //     event.target.checked ? dispatch(Actions.selectAllContacts()) : dispatch(Actions.deSelectAllContacts());
-                            // }}
-                            // checked={selectedContactIds.length === Object.keys(contacts).length && selectedContactIds.length > 0}
-                            // indeterminate={selectedContactIds.length !== Object.keys(contacts).length && selectedContactIds.length > 0}
-                            />
-                        ),
-                        accessor: "",
-                        Cell: row => {
-                            return (<Checkbox
-                                onClick={(event) => {
-                                    event.stopPropagation();
-                                }}
-                            // checked={selectedContactIds.includes(row.value.id)}
-                            // onChange={() => dispatch(Actions.toggleInSelectedContacts(row.value.id))}
-                            />
-                            )
-                        },
-                        className: "justify-center",
-                        sortable: false,
-                        width: 64
-                    },
-                    {
                         accessor: "avatar",
                         Cell: row => (
-                            <Avatar className="mr-8" alt={row.original.name} src={row.value} />
+                            <Avatar className="mr-8" src={row.original.info ? row.original.info : "assets/images/avatars/Velazquez.jpg"} />
                         ),
                         className: "justify-center",
                         width: 64,
@@ -134,50 +107,25 @@ function ContactsList(props) {
                         className: "font-bold"
                     },
                     {
-                        Header: "Company",
-                        accessor: "info.phoneNumber",
-                        filterable: true
-                    },
-                    {
-                        Header: "Job Title",
-                        accessor: "jobTitle",
-                        filterable: true
-                    },
-                    {
                         Header: "Email",
                         accessor: "email",
                         filterable: true
                     },
                     {
-                        Header: "Phone",
-                        accessor: "phone",
-                        filterable: true
-                    },
-                    {
                         Header: "",
-                        width: 128,
+                        width: 75,
                         Cell: row => (
                             <div className="flex items-center">
-                                <IconButton
+                                <Button variant="contained"
+                                    size="small"
+                                    style={{ backgroundColor: 'rgb(180, 0, 0)', color: 'white', fontSize: 11 }}
                                     onClick={(ev) => {
                                         ev.stopPropagation();
-                                        // dispatch(Actions.toggleStarredContact(row.original.id))
+                                        dispatch(Actions.removeFriend(row.original.id, userAuth));
                                     }}
                                 >
-                                    {/* {user.starred && user.starred.includes(row.original.id) ? (
-                                        <Icon>star</Icon>
-                                    ) : (
-                                        <Icon>star_border</Icon>
-                                    )} */}
-                                </IconButton>
-                                <IconButton
-                                    onClick={(ev) => {
-                                        ev.stopPropagation();
-                                        // dispatch(Actions.removeContact(row.original.id));
-                                    }}
-                                >
-                                    <Icon>delete</Icon>
-                                </IconButton>
+                                    Remove
+                                </Button>
                             </div>
                         )
                     }

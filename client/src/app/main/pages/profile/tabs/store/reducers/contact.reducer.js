@@ -36,6 +36,16 @@ const friend = (state = initialState, action) => {
         ...state,
         success: true
       }
+    case ACTION_TYPES.ACCEPT_FRIEND:
+      return {
+        ...state,
+        successAcp: true
+      }
+    case ACTION_TYPES.REMOVE_FRIEND:
+      return {
+        ...state,
+        successRemove: true
+      }
     default:
       return state
   }

@@ -5,7 +5,9 @@ export const ACTION_TYPES = {
     FETCH_ALL_SEND: 'FETCH_ALL_SEND',
     FETCH_ALL_RECEIVE: 'FETCH_ALL_RECEIVE',
     FIND_FRIEND_TO_AND: 'FIND_FRIEND_TO_AND',
-    SEND_FRIEND: 'SEND_FRIEND'
+    SEND_FRIEND: 'SEND_FRIEND',
+    ACCEPT_FRIEND: 'ACCEPT_FRIEND',
+    REMOVE_FRIEND: 'REMOVE_FRIEND',
 }
 
 
@@ -39,8 +41,8 @@ export const fetchReceiveFriend = (id) => dispatch => {
         })
         .catch(err => console.log(err))
 }
-export const searchFriend = (textsearch) => dispatch => {
-    axios.get(endPointApi.users.searchFriendToAdd + textsearch)
+export const searchFriend = (textsearch, id) => dispatch => {
+    axios.get(endPointApi.users.searchFriendToAdd + textsearch + "/" + id)
         .then(response => {
             dispatch({
                 type: ACTION_TYPES.FIND_FRIEND_TO_AND,
@@ -54,6 +56,26 @@ export const sendFriend = (idSend, idRecieve) => dispatch => {
         .then(response => {
             dispatch({
                 type: ACTION_TYPES.SEND_FRIEND,
+                payload: response.data
+            })
+        })
+        .catch(err => console.log(err))
+}
+export const acceptFriend = (idSend, idRecieve) => dispatch => {
+    axios.post(endPointApi.users.acceptFriend + idSend + "&" + idRecieve)
+        .then(response => {
+            dispatch({
+                type: ACTION_TYPES.ACCEPT_FRIEND,
+                payload: response.data
+            })
+        })
+        .catch(err => console.log(err))
+}
+export const removeFriend = (idSend, idRecieve) => dispatch => {
+    axios.post(endPointApi.users.removeFriend + idSend + "&" + idRecieve)
+        .then(response => {
+            dispatch({
+                type: ACTION_TYPES.REMOVE_FRIEND,
                 payload: response.data
             })
         })

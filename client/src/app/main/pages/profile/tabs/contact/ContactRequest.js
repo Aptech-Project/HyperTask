@@ -1,54 +1,43 @@
 import React, { useEffect, useState } from 'react';
 import { Avatar, Checkbox, Icon, IconButton, Typography } from '@material-ui/core';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 import { FuseUtils, FuseAnimate } from '@fuse';
 import { useDispatch, useSelector } from 'react-redux';
 import ReactTable from "react-table";
 import * as action from 'app/auth/store/actions/login.actions'
 import * as Actions from 'app/main/pages/profile/tabs/store/actions/contact.action'
+import Button from '@material-ui/core/Button';
 function ContactRequest(props) {
     const dispatch = useDispatch();
-    // const contacts = useSelector(({ contactsApp }) => contactsApp.contacts.entities);
-    // const selectedContactIds = useSelector(({ contactsApp }) => contactsApp.contacts.selectedContactIds);
-    // const searchText = useSelector(({ contactsApp }) => contactsApp.contacts.searchText);
-    // const user = useSelector(({ contactsApp }) => contactsApp.user);
-    const [account, setAccount] = useState([]);
-    const user2 = useSelector(state => state.login.findId)
     const userAuth = useSelector(state => state.login.userAuth)
     useEffect(() => {
         dispatch(Actions.fetchReceiveFriend(userAuth))
     }, [])
     let allreceive = useSelector(state => state.friend.listreceive)
-    // useEffect(() => {
-    //     action.fetchById(1)
-    // }, [])
-    // useEffect(() => {
-    //     if (user2 !== undefined) (
-    //         setAccount(user2)
-    //     )
-    // }, [user2])
-    // console.log(JSON.parse(user2.contact))
     const [friend, setFriend] = useState([])
     const [filteredData, setFilteredData] = useState(null);
     console.log(allreceive)
+    const [open, setOpen] = React.useState(false);
+    const [id, setId] = React.useState();
+    const handleClickOpen = (idF) => {
+        setOpen(true);
+        setId(idF);
+    };
 
+    const handleClose = () => {
+        setOpen(false);
+    };
     useEffect(() => {
         if (allreceive !== undefined) (
             setFriend(allreceive)
         )
     }, [allreceive])
-    // console.log(user1)
     useEffect(() => {
-        // function getFilteredArray(entities, searchText) {
-        //     const arr = Object.keys(entities).map((id) => entities[id]);
-        //     if (searchText.length === 0) {
-        //         return arr;
-        //     }
-        //     return FuseUtils.filterArrayByString(arr, searchText);
-        // }
-
-        // if (contacts) {
         setFilteredData(friend);
-
     }, [friend]);
 
 
@@ -64,7 +53,11 @@ function ContactRequest(props) {
     //         </div>
     //     );
     // }
+    // const DeleteFriend = (id) => {
+    //     return (
 
+    //     );
+    // }
     return (
         <FuseAnimate animation="transition.slideUpIn" delay={300}>
             <ReactTable
@@ -82,37 +75,9 @@ function ContactRequest(props) {
                 data={friend}
                 columns={[
                     {
-                        Header: () => (
-                            <Checkbox
-                            // onClick={(event) => {
-                            //     event.stopPropagation();
-                            // }}
-                            // onChange={(event) => {
-                            //     event.target.checked ? dispatch(Actions.selectAllContacts()) : dispatch(Actions.deSelectAllContacts());
-                            // }}
-                            // checked={selectedContactIds.length === Object.keys(contacts).length && selectedContactIds.length > 0}
-                            // indeterminate={selectedContactIds.length !== Object.keys(contacts).length && selectedContactIds.length > 0}
-                            />
-                        ),
-                        accessor: "",
-                        Cell: row => {
-                            return (<Checkbox
-                                onClick={(event) => {
-                                    event.stopPropagation();
-                                }}
-                            // checked={selectedContactIds.includes(row.value.id)}
-                            // onChange={() => dispatch(Actions.toggleInSelectedContacts(row.value.id))}
-                            />
-                            )
-                        },
-                        className: "justify-center",
-                        sortable: false,
-                        width: 64
-                    },
-                    {
                         accessor: "avatar",
                         Cell: row => (
-                            <Avatar className="mr-8" alt={row.original.name} src={row.value} />
+                            <Avatar className="mr-8" src={row.original.info ? row.original.info : "assets/images/avatars/Velazquez.jpg"} />
                         ),
                         className: "justify-center",
                         width: 64,
@@ -131,50 +96,54 @@ function ContactRequest(props) {
                         className: "font-bold"
                     },
                     {
-                        Header: "Company",
-                        accessor: "info.phoneNumber",
-                        filterable: true
-                    },
-                    {
-                        Header: "Job Title",
-                        accessor: "jobTitle",
-                        filterable: true
-                    },
-                    {
                         Header: "Email",
                         accessor: "email",
                         filterable: true
                     },
                     {
-                        Header: "Phone",
-                        accessor: "phone",
-                        filterable: true
-                    },
-                    {
                         Header: "",
-                        width: 128,
-                        Cell: row => (
+                        width: 75,
+                        grow: 0,
+                        Cell: (row, index) => (
                             <div className="flex items-center">
-                                <IconButton
+                                <Button variant="contained"
+                                    size="small"
+                                    style={{ backgroundColor: 'rgb(180, 0, 0)', color: 'white', fontSize: 11 }}
                                     onClick={(ev) => {
-                                        ev.stopPropagation();
-                                        // dispatch(Actions.toggleStarredContact(row.original.id))
+                                        handleClickOpen(row.original.id);
                                     }}
                                 >
-                                    {/* {user.starred && user.starred.includes(row.original.id) ? (
-                                        <Icon>star</Icon>
-                                    ) : (
-                                        <Icon>star_border</Icon>
-                                    )} */}
-                                </IconButton>
-                                <IconButton
-                                    onClick={(ev) => {
-                                        ev.stopPropagation();
-                                        // dispatch(Actions.removeContact(row.original.id));
-                                    }}
+                                    Remove
+                                </Button>
+                                <Dialog
+                                    open={open}
+                                    onClose={handleClose}
+                                    aria-labelledby="alert-dialog-title"
+                                    aria-describedby="alert-dialog-description"
                                 >
-                                    <Icon>delete</Icon>
-                                </IconButton>
+                                    <DialogTitle>{""}</DialogTitle>
+                                    <DialogContent>
+                                        <DialogContentText id="alert-dialog-description">
+                                            Remove the invitation you sent
+                                        </DialogContentText>
+                                    </DialogContent>
+                                    <DialogActions>
+                                        <Button
+                                            style={{ fontSize: 10, backgroundColor: 'rgb(180, 0, 0)', color: 'white' }}
+                                            onClick={() => {
+                                                handleClose();
+                                                dispatch(Actions.removeFriend(id, userAuth));
+
+                                                console.log(allreceive)
+                                            }}
+                                            color="primary">
+                                            Remove
+                                        </Button>
+                                        <Button style={{ fontSize: 10 }} onClick={handleClose} color="primary" autoFocus>
+                                            Cancel
+                                        </Button>
+                                    </DialogActions>
+                                </Dialog>
                             </div>
                         )
                     }

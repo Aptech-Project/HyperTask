@@ -78,15 +78,15 @@ const Auth0RegisterTab = ({ classes, ...props }) => {
         if ('fullname' in fieldValues) {
             if (fieldValues.fullname === '') {
                 temp.fullname = fieldValues.fullname ? "" : "Fullname is required."
-            } if (fieldValues.email !== '') {
-                temp.fullname = (/^[a-zA-Z]{1,}(?: [a-zA-Z]+){0,6}$/).test(fieldValues.fullname) ? "" : "Fullname is not valid."
+            } if (fieldValues.fullname !== '') {
+                temp.fullname = (/^[a-zA-ZàáãạảăắằẳẵặâấầẩẫậèéẹẻẽêềếểễệđìíĩỉịòóõọỏôốồổỗộơớờởỡợùúũụủưứừửữựỳỵỷỹýÀÁÃẠẢĂẮẰẲẴẶÂẤẦẨẪẬÈÉẸẺẼÊỀẾỂỄỆĐÌÍĨỈỊÒÓÕỌỎÔỐỒỔỖỘƠỚỜỞỠỢÙÚŨỤỦƯỨỪỬỮỰỲỴỶỸÝ]{1,}(?: [a-zA-ZàáãạảăắằẳẵặâấầẩẫậèéẹẻẽêềếểễệđìíĩỉịòóõọỏôốồổỗộơớờởỡợùúũụủưứừửữựỳỵỷỹýÀÁÃẠẢĂẮẰẲẴẶÂẤẦẨẪẬÈÉẸẺẼÊỀẾỂỄỆĐÌÍĨỈỊÒÓÕỌỎÔỐỒỔỖỘƠỚỜỞỠỢÙÚŨỤỦƯỨỪỬỮỰỲỴỶỸÝ]+){0,6}$/).test(fieldValues.fullname) ? "" : "Fullname is not valid."
             }
         }
         if ('password' in fieldValues)
             if (fieldValues.password === '') {
                 temp.password = fieldValues.password ? "" : "Password is required."
             } if (fieldValues.password !== '') {
-                temp.password = (/^[A-Za-z0-9]\w{5,}$/).test(fieldValues.password) ? "" : "Passwords must be at least 6 in length and contain no special characters"
+                temp.password = (/^[A-Za-z0-9!@#$%^&*]{6,20}$/).test(fieldValues.password) ? "" : "Passwords must be at least 6 in length"
             }
         if ('passwordconfirm' in fieldValues) {
             fieldValues.passwordconfirm == values.password ? temp.passwordconfirm = "" : temp.passwordconfirm = "Confirmation password does not match"
@@ -180,7 +180,7 @@ const Auth0RegisterTab = ({ classes, ...props }) => {
                     onChange={handleInputChange}
                     autoComplete='off'
                     InputProps={{
-                        endAdornment: <InputAdornment position="end"><Icon className="text-20" color="action">vpn_key</Icon></InputAdornment>
+                        endAdornment: <InputAdornment position="end"><Icon className="text-20" color="action">remove_red_eye</Icon></InputAdornment>
                     }}
                     variant="outlined"
                     {...(errors.password && { error: true, helperText: errors.password })}
@@ -194,7 +194,7 @@ const Auth0RegisterTab = ({ classes, ...props }) => {
                     name="passwordconfirm"
                     label="Confirm Password"
                     InputProps={{
-                        endAdornment: <InputAdornment position="end"><Icon className="text-20" color="action">vpn_key</Icon></InputAdornment>
+                        endAdornment: <InputAdornment position="end"><Icon className="text-20" color="action">remove_red_eye</Icon></InputAdornment>
                     }}
                     variant="outlined"
                     autoComplete='off'
