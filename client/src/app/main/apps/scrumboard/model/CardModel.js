@@ -18,6 +18,7 @@ class CardModel {
     this.checkItemsChecked = card.checkItemsChecked || 0;
     this.activities = card.activities || [];
     this.due = card.due || "";
+    this.createAt = card.createAt || new Date();
   }
 }
 
