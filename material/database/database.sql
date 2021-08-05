@@ -30,6 +30,11 @@ CREATE TABLE `chat` (
   `dialog` text NOT NULL,
   PRIMARY KEY (`id`)
 );
+CREATE TABLE `common` (
+  `id` varchar(50) NOT NULL,
+  `content` text NOT NULL,
+  PRIMARY KEY (`id`)
+);
 
 -- insert into board(name, members, lists, activities, labels, info) values ('board1', 'test', 'board1', 'test','board1', 'test');
 -- UPDATE board set name = "test update" where id = 1;

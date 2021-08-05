@@ -46,6 +46,7 @@ public class FileUploadController {
 			HashMap<String, String> fileObject = new HashMap<>();
 			fileObject.put("fileUrl", getFileUrl(myFile));
 			fileObject.put("fileName", file.getOriginalFilename());
+			fileObject.put("fileExtension", this.getFileExtension(file));
 			fileObject.put("status", "Upload successfully");
 			return new ResponseEntity<Object>(fileObject, HttpStatus.OK);
 		} catch (Exception e) {

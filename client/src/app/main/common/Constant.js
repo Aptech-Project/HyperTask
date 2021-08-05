@@ -1,0 +1,3 @@
+export const COMMON_CONSTANT = {
+    ONLINE_USER: "ONLINE_USER",
+};

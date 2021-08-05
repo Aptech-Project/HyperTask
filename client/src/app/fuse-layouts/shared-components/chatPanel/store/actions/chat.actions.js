@@ -1,14 +1,13 @@
 import axios from "axios";
 import { setselectedContactId } from "./contacts.actions";
-import { closeMobileChatsSidebar } from "app/main/apps/chat/store/actions/sidebars.actions";
 import { FuseUtils } from "@fuse";
 import _ from "@lodash";
 import { endPointApi } from "app/services/endPointAPI";
-import { showMessage } from "app/store/actions/fuse";
 import {
     deserializeObject,
     serializeObject,
 } from "app/main/common/CommonFunctions";
+import { closeMobileChatsSidebar } from "./sidebars.actions";
 
 export const GET_CHAT = "[CHAT APP] GET CHAT";
 export const REMOVE_CHAT = "[CHAT APP] REMOVE CHAT";
@@ -56,11 +55,12 @@ async function createNewChat(contactId, user) {
         },
         ...user.conversations,
     ];
+    // Create new user conversations
     await axios
         .post(endPointApi.users.update, serializeObject({ ...user }))
         .then((res) => {
             if (res.status == 200) {
-                console.log("Update conversations success");
+                console.log("Update user conversations success");
             }
         })
         .catch((err) => console.log(err));
@@ -68,6 +68,34 @@ async function createNewChat(contactId, user) {
         id: chatId,
         dialog: [],
     };
+
+    // Also create new friend conversations
+    // 1. Find friend data
+    let friend = null;
+    await axios
+        .get(endPointApi.users.fetchById + contactId)
+        .then( async (response) => {
+            friend = deserializeObject(response.data);
+            // 2. Update conversation data for friend
+            friend.conversations = [
+                {
+                    chatId: chatId,
+                    contactId: user.id,
+                    lastMessageTime: "",
+                },
+                ...friend.conversations,
+            ];
+            await axios
+                .post(endPointApi.users.update, serializeObject({ ...friend }))
+                .then((res) => {
+                    if (res.status == 200) {
+                        console.log("Update friend conversations success");
+                    }
+                })
+                .catch((err) => console.log(err));
+        })
+        .catch((err) => console.log(err));
+
 
     // Update chat db
     await axios
@@ -97,36 +125,6 @@ export function getChat(contactId) {
         });
     };
 }
-
-const getChatResponse = {
-    chat: {
-        id: "2725a680b8d240c011dd2243",
-        dialog: [
-            {
-                who: "5725a680606588342058356d",
-                message:
-                    "Quickly come to the meeting room 1B, we have a big server issue",
-                time: "2017-04-22T01:00:00.299Z",
-            },
-            {
-                who: "5725a6802d10e277a0f35724",
-                message:
-                    "I’m having breakfast right now, can’t you wait for 10 minutes?",
-                time: "2017-04-22T01:05:00.299Z",
-            },
-            {
-                who: "5725a680606588342058356d",
-                message: "We are losing money! Quick!",
-                time: "2017-04-22T01:10:00.299Z",
-            },
-        ],
-    },
-    userChatData: {
-        chatId: "2725a680b8d240c011dd2243",
-        contactId: "5725a680606588342058356d",
-        lastMessageTime: "2017-02-18T10:30:18.931Z",
-    },
-};
 
 export function removeChat() {
     return {
