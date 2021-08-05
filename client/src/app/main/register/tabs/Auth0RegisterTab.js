@@ -22,6 +22,7 @@ const initialFieldValues = {
     username: '',
     contact: '[]',
     info: JSON.stringify({ address: "", gender: "", avatar: "", phoneNumber: "", birthday: today }),
+    conversation: '[]',
     passwordconfirm: ''
 }
 

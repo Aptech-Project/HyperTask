@@ -25,6 +25,7 @@ export const endPointApi = {
   },
   chat: {
     createChat: baseApi + "chat/create-chat",
-    getChat: baseApi + "chat/get-chat/"
+    getChat: baseApi + "chat/get-chat/",
+    updateChat: baseApi + "chat/update-chat/"
   }
 };

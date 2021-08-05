@@ -34,7 +34,7 @@ public class ChatController {
 	}
 
 	@PostMapping("/create-chat")
-	public Chat saveBoard(@RequestBody Chat chat) {
+	public Chat saveChat(@RequestBody Chat chat) {
 		chatService.createChat(chat);
 		return chat;
 	}
@@ -44,7 +44,7 @@ public class ChatController {
 		return chatService.getChatById(id);
 	}
 
-	@PutMapping("/update-board")
+	@PutMapping("/update-chat")
 	public Chat updateChat(@RequestBody Chat chat) {
 		chatService.createChat(chat);
 		return chat;

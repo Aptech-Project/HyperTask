@@ -21,7 +21,7 @@ const chat = function (state = initialState, action) {
                 ...state,
                 dialog: [
                     ...state.dialog,
-                    action.message
+                    // action.message
                 ]
             };
         }

@@ -1,11 +1,14 @@
 import axios from "axios";
 import { setselectedContactId } from "./contacts.actions";
-import {closeMobileChatsSidebar} from 'app/main/apps/chat/store/actions/sidebars.actions';
+import { closeMobileChatsSidebar } from "app/main/apps/chat/store/actions/sidebars.actions";
 import { FuseUtils } from "@fuse";
 import _ from "@lodash";
 import { endPointApi } from "app/services/endPointAPI";
 import { showMessage } from "app/store/actions/fuse";
-import { deserializeObject } from "app/main/common/CommonFunctions";
+import {
+    deserializeObject,
+    serializeObject,
+} from "app/main/common/CommonFunctions";
 
 export const GET_CHAT = "[CHAT APP] GET CHAT";
 export const REMOVE_CHAT = "[CHAT APP] REMOVE CHAT";
@@ -16,7 +19,7 @@ const getChatData = async (contactId, user) => {
     const chat = user.conversations.find(
         (_chat) => _chat.contactId == contactId
     );
-    const chatId = chat ? chat.chatId : createNewChat(contactId, user);
+    const chatId = chat ? chat.chatId : await createNewChat(contactId, user);
     // Get chat data in chat table
     await axios
         .get(`${endPointApi.chat.getChat}${chatId.toString()}`)
@@ -28,11 +31,12 @@ const getChatData = async (contactId, user) => {
         })
         .catch((err) => console.log(err));
     if (!chat) {
-        await axios.get(endPointApi.users.fetchById + user.id)
-        .then(response => {
-            user = deserializeObject(response.data);
-        })
-        .catch(err => console.log(err))
+        await axios
+            .get(endPointApi.users.fetchById + user.id)
+            .then((response) => {
+                user = deserializeObject(response.data);
+            })
+            .catch((err) => console.log(err));
     }
     return {
         chat: chatData,
@@ -42,7 +46,7 @@ const getChatData = async (contactId, user) => {
     };
 };
 
-function createNewChat(contactId, user) {
+async function createNewChat(contactId, user) {
     let chatId = FuseUtils.generateGUID();
     user.conversations = [
         {
@@ -52,9 +56,8 @@ function createNewChat(contactId, user) {
         },
         ...user.conversations,
     ];
-    // Update user conversations
-    axios
-        .post(endPointApi.users.update, user)
+    await axios
+        .post(endPointApi.users.update, serializeObject({ ...user }))
         .then((res) => {
             if (res.status == 200) {
                 console.log("Update conversations success");
@@ -67,8 +70,8 @@ function createNewChat(contactId, user) {
     };
 
     // Update chat db
-    axios
-        .post(endPointApi.chat.create, newChat)
+    await axios
+        .post(endPointApi.chat.createChat, serializeObject({ ...newChat }))
         .then((res) => {
             if (res.status == 200) {
                 console.log("Update chat db success");
@@ -131,24 +134,32 @@ export function removeChat() {
     };
 }
 
-export function sendMessage(messageText, chatId, userId) {
-    const message = {
-        who: userId,
-        message: messageText,
-        time: new Date(),
+export const sendMessage =
+    (messageText, chatId, userId) => async (dispatch, getState) => {
+        const message = {
+            who: userId,
+            message: messageText,
+            time: new Date(),
+        };
+
+        console.log(getState());
+
+        console.log(message);
+
+        let userChatData = getState().chatPanel.user.conversations.find(
+            (item) => item.chatId == chatId
+        );
+        let chat = getState().chatPanel.chat;
+        chat.dialog = [...chat.dialog, message];
+
+        await axios
+            .put(endPointApi.chat.updateChat, serializeObject({ ...chat }))
+            .then((response) => {
+                dispatch({
+                    type: SEND_MESSAGE,
+                    message: message,
+                    userChatData: userChatData,
+                });
+            })
+            .catch((err) => console.log(err));
     };
-
-    const request = axios.post("/api/chat/send-message", {
-        chatId,
-        message,
-    });
-
-    return (dispatch) =>
-        request.then((response) => {
-            return dispatch({
-                type: SEND_MESSAGE,
-                message: response.data.message,
-                userChatData: response.data.userChatData,
-            });
-        });
-}

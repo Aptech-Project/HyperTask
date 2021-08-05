@@ -5,7 +5,7 @@ import { FuseUtils } from "@fuse";
 import _ from "@lodash";
 import { endPointApi } from "app/services/endPointAPI";
 import { showMessage } from "app/store/actions/fuse";
-import { deserializeObject } from "app/main/common/CommonFunctions";
+import { deserializeObject, serializeObject } from "app/main/common/CommonFunctions";
 
 export const GET_CHAT = "[CHAT APP] GET CHAT";
 export const REMOVE_CHAT = "[CHAT APP] REMOVE CHAT";
@@ -52,6 +52,7 @@ function createNewChat(contactId, user) {
         },
         ...user.conversations,
     ];
+    user = serializeObject(user);
     // Update user conversations
     axios
         .post(endPointApi.users.update, user)
