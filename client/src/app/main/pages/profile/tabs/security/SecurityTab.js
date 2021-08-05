@@ -78,7 +78,7 @@ const SecurityTab = ({ ...props }) => {
             <AppBar position="static" elevation={0}>
               <Toolbar className="pl-16 pr-8">
                 <Typography variant="subtitle1" color="inherit" className="flex-1">
-                  General Information
+                  Security
                 </Typography>
               </Toolbar>
             </AppBar>

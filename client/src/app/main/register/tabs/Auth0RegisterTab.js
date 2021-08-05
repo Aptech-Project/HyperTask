@@ -9,19 +9,14 @@ import { connect } from "react-redux";
 import history from "@history";
 import { showMessage } from 'app/store/actions/fuse';
 import { use } from 'marked';
-var today = new Date();
-var dd = String(today.getDate()).padStart(2, '0');
-var mm = String(today.getMonth() + 1).padStart(2, '0');
-var yyyy = today.getFullYear();
 
-today = yyyy + '-' + mm + '-' + dd;
 const initialFieldValues = {
     email: '',
     password: '',
     fullname: '',
     username: '',
     contact: '[]',
-    info: JSON.stringify({ address: "", gender: "", avatar: "", phoneNumber: "", birthday: today }),
+    info: JSON.stringify({ address: "", gender: "", avatar: "assets/images/avatars/default-avatar.png", phoneNumber: "" }),
     passwordconfirm: ''
 }
 

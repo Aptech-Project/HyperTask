@@ -68,13 +68,6 @@ const AboutForm = (props) => {
     }
     if ("info" in fieldValues) {
       let infoFieldValues = fieldValues.info;
-      if ('gender' in infoFieldValues) {
-        console.log(infoFieldValues)
-        console.log("infoFieldValues")
-        if (infoFieldValues.gender === '') {
-          temp.gender = infoFieldValues.gender ? "" : "Gender is required."
-        }
-      }
       if ('phoneNumber' in infoFieldValues) {
         if (infoFieldValues.phoneNumber === '') {
           temp.phoneNumber = infoFieldValues.phoneNumber ? "" : "Phone number is required."
@@ -83,8 +76,6 @@ const AboutForm = (props) => {
         }
       }
     }
-
-
     setErrors({
       ...temp
     })
@@ -145,15 +136,14 @@ const AboutForm = (props) => {
           value={values.info.gender}
           label="Gender"
           InputProps={{
-            endAdornment: <InputAdornment position="end"><Icon className="text-20" color="action">person_pin</Icon></InputAdornment>
+            endAdornment: <InputAdornment position="end"><Icon className="text-20" color="action">wc</Icon></InputAdornment>
           }}
           autoComplete='off'
           variant="outlined"
           onChange={handleInputChange}
-          required
           select
-          {...(errors.gender && { error: true, helperText: errors.gender })}
         >
+          <MenuItem >None</MenuItem>
           <MenuItem value="Male">Male</MenuItem>
           <MenuItem value=" FeMale"> FeMale</MenuItem>
         </TextField>
@@ -164,7 +154,7 @@ const AboutForm = (props) => {
           value={values.email}
           label="Email"
           InputProps={{
-            endAdornment: <InputAdornment position="end"><Icon className="text-20" color="action">person_pin</Icon></InputAdornment>
+            endAdornment: <InputAdornment position="end"><Icon className="text-20" color="action">email</Icon></InputAdornment>
           }}
           autoComplete='off'
           variant="outlined"
@@ -179,7 +169,7 @@ const AboutForm = (props) => {
           value={values.info.phoneNumber}
           label="Phone Number"
           InputProps={{
-            endAdornment: <InputAdornment position="end"><Icon className="text-20" color="action">person_pin</Icon></InputAdornment>
+            endAdornment: <InputAdornment position="end"><Icon className="text-20" color="action">phone</Icon></InputAdornment>
           }}
           autoComplete='off'
           variant="outlined"
@@ -194,7 +184,7 @@ const AboutForm = (props) => {
           value={values.info.address}
           label="Address"
           InputProps={{
-            endAdornment: <InputAdornment position="end"><Icon className="text-20" color="action">person_pin</Icon></InputAdornment>
+            endAdornment: <InputAdornment position="end"><Icon className="text-20" color="action">home</Icon></InputAdornment>
           }}
           autoComplete='off'
           variant="outlined"

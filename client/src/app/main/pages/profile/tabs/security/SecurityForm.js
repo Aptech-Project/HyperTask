@@ -97,7 +97,7 @@ const SecurityForm = (props) => {
           type="password"
           value={values.oldpass}
           name="oldpass"
-          label="Password"
+          label="Current password"
           onChange={handleInputChange}
           autoComplete='off'
           InputProps={{
@@ -112,7 +112,7 @@ const SecurityForm = (props) => {
           type="password"
           value={values.newpass}
           name="newpass"
-          label="Password"
+          label="New password"
           onChange={handleInputChange}
           autoComplete='off'
           InputProps={{
@@ -128,7 +128,7 @@ const SecurityForm = (props) => {
           value={values.passwordconfirm}
           onChange={handleInputChange}
           name="passwordconfirm"
-          label="Confirm Password"
+          label="Confirm new password"
           InputProps={{
             endAdornment: <InputAdornment position="end"><Icon className="text-20" color="action">vpn_key</Icon></InputAdornment>
           }}

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { DialogActions, Dialog, Avatar, AppBar, InputAdornment, TextField, Button, Card, CardContent, Icon, IconButton, List, ListItem, ListItemSecondaryAction, ListItemText, Toolbar, Typography } from '@material-ui/core';
+import { Tooltip, DialogActions, Dialog, Avatar, AppBar, InputAdornment, TextField, Button, Card, CardContent, Icon, IconButton, List, ListItem, ListItemSecondaryAction, ListItemText, Toolbar, Typography } from '@material-ui/core';
 import { FuseAnimateGroup } from '@fuse';
 import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
@@ -123,17 +123,13 @@ const AboutTab = ({ ...props }) => {
                                     type="file"
                                     onChange={handleUploadChange}
                                 />
-                                {/* <Button>
-                                    <label
-                                        htmlFor="button-file"
-                                    >
+                                <Tooltip title="Upload Avatar" placement="bottom">
+                                    <Button
+                                        onClick={openUploadImage}>
                                         <Icon fontSize="large" color="action">cloud_upload</Icon>
-                                    </label>
-                                </Button> */}
-                                <Button
-                                    onClick={openUploadImage}>
-                                    <Icon fontSize="large" color="action">cloud_upload</Icon>
-                                </Button>
+
+                                    </Button>
+                                </Tooltip>
                             </Toolbar>
 
                         </AppBar>
@@ -174,6 +170,70 @@ const AboutTab = ({ ...props }) => {
                         </CardContent>}
                         {edit && <AboutForm account={tmpAccount} />}
                     </Card>
+                </FuseAnimateGroup>
+            </div>
+            <div className="flex flex-col md:w-320">
+                <FuseAnimateGroup
+                    enter={{
+                        animation: "transition.slideUpBigIn"
+                    }}
+                >
+                    <Card className="w-full mb-16">
+                        <AppBar position="static" elevation={0}>
+                            <Toolbar className="pl-16 pr-8">
+                                <Typography variant="subtitle1" color="inherit" className="flex-1">
+                                    Friends
+                                </Typography>
+                                <Button className="normal-case" color="inherit" size="small">See  more</Button>
+                            </Toolbar>
+                        </AppBar>
+                        <CardContent className="p-0">
+                            {/* <List className="p-8">
+                                {friends.map((friend) => (
+                                    <img key={friend.id} className="w-64 m-4" src={friend.avatar} alt={friend.name} />
+                                ))}
+                            </List> */}
+                        </CardContent>
+                    </Card>
+
+                    {/* <Card className="w-full mb-16">
+                        <AppBar position="static" elevation={0}>
+                            <Toolbar className="pl-16 pr-8">
+                                <Typography variant="subtitle1" color="inherit" className="flex-1">
+                                    Joined Groups
+                                </Typography>
+                                <Button className="normal-case" color="inherit" size="small">See 6 more</Button>
+                            </Toolbar>
+                        </AppBar>
+                        <CardContent className="p-0">
+                            <List className="p-0">
+                                {groups.map((group) => (
+                                    <ListItem key={group.id}>
+                                        <Avatar alt={group.name}>{group.name[0]}</Avatar>
+                                        <ListItemText
+                                            primary={(
+                                                <div className="">
+                                                    <Typography className="inline font-medium" color="secondary" paragraph={false}>
+                                                        {group.name}
+                                                    </Typography>
+
+                                                    <Typography className="inline ml-4" paragraph={false}>
+                                                        {group.category}
+                                                    </Typography>
+                                                </div>
+                                            )}
+                                            secondary={group.members}
+                                        />
+                                        <ListItemSecondaryAction>
+                                            <IconButton>
+                                                <Icon>more_vert</Icon>
+                                            </IconButton>
+                                        </ListItemSecondaryAction>
+                                    </ListItem>
+                                ))}
+                            </List>
+                        </CardContent>
+                    </Card> */}
                 </FuseAnimateGroup>
             </div>
             <Dialog
