@@ -36,14 +36,17 @@ public class User {
 		this.username = username;
 		this.fullname = fullname;
 	}
-	public User( String username,String email) {
+
+	public User(String username, String email) {
 		super();
 		this.username = username;
 		this.email = email;
 
 	}
+
 	public User() {
 	}
+
 	public int getId() {
 		return id;
 	}
@@ -97,10 +100,10 @@ public class User {
 	}
 
 	public String getConversations() {
-		return info;
+		return conversations;
 	}
 
-	public void setConversations(String info) {
-		this.info = info;
+	public void setConversations(String conversations) {
+		this.conversations = conversations;
 	}
 }

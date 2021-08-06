@@ -1,16 +1,17 @@
-import axios from 'axios';
+import { deserializeObject } from "app/main/common/CommonFunctions";
+import { endPointApi } from "app/services/endPointAPI";
+import axios from "axios";
 
-export const GET_USER_DATA = '[CHAT PANEL] GET USER DATA';
+export const GET_USER_DATA = "[CHAT PANEL] GET USER DATA";
 
-export function getUserData()
-{
-    const request = axios.get('/api/chat/user');
-
-    return (dispatch) =>
-        request.then((response) =>
+export const getUserData = (id) => dispatch => {
+    axios.get(endPointApi.users.fetchById + id)
+        .then(response => {
+            response.data = deserializeObject(response.data);
             dispatch({
-                type   : GET_USER_DATA,
+                type: GET_USER_DATA,
                 payload: response.data
             })
-        );
+        })
+        .catch(err => console.log(err))
 }

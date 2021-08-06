@@ -24,14 +24,14 @@ const userReducer = function (state = {}, action) {
 function getUpdatedUser(state, action)
 {
     let newUserData = _.merge({}, state);
-    let userChatData = newUserData.chatList.find(_chat => _chat.contactId === action.userChatData.contactId);
+    let userChatData = newUserData.conversations.find(_chat => _chat.contactId == action.userChatData.contactId);
     if ( userChatData )
     {
-        newUserData.chatList = newUserData.chatList.map(_chat => _chat.contactId === action.userChatData.contactId ? action.userChatData : _chat);
+        newUserData.conversations = newUserData.conversations.map(_chat => _chat.contactId == action.userChatData.contactId ? action.userChatData : _chat);
     }
     else
     {
-        newUserData.chatList = [action.userChatData, ...newUserData.chatList];
+        newUserData.conversations = [action.userChatData, ...newUserData.conversations];
     }
     return newUserData;
 }

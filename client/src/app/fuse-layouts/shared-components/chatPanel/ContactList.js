@@ -5,6 +5,7 @@ import clsx from 'clsx';
 import {useDispatch, useSelector} from 'react-redux';
 import * as Actions from './store/actions';
 import {makeStyles} from '@material-ui/styles';
+import { deserializeObject } from 'app/main/common/CommonFunctions';
 
 const useStyles = makeStyles(theme => ({
     root         : {
@@ -77,7 +78,11 @@ function ContactList(props)
     const dispatch = useDispatch();
     const contacts = useSelector(({chatPanel}) => chatPanel.contacts.entities);
     const selectedContactId = useSelector(({chatPanel}) => chatPanel.contacts.selectedContactId);
-    const user = useSelector(({chatPanel}) => chatPanel.user);
+    let user = useSelector(({chatPanel}) => chatPanel.user);
+
+    if (user) {
+        user = deserializeObject(user);
+    }
 
     const classes = useStyles();
     const contactListScroll = useRef(null);
@@ -127,16 +132,16 @@ function ContactList(props)
                         }}
                         className="flex flex-col flex-shrink-0"
                     >
-                        {(user && user.chatList) &&
-                        user.chatList.map(chat => {
-                            const contact = contacts.find((_contact) => _contact.id === chat.contactId);
+                        {(user && user.conversations) &&
+                        user.conversations.map(chat => {
+                            const contact = contacts.find((_contact) => _contact.id == chat.contactId);
                             return (
                                 <ContactButton key={contact.id} contact={contact}/>
                             )
                         })}
                         <Divider className="mx-24 my-8"/>
                         {contacts.map(contact => {
-                            const chatContact = user.chatList.find((_chat) => _chat.contactId === contact.id);
+                            const chatContact = user.conversations.find((_chat) => _chat.contactId == contact.id);
                             return !chatContact ? <ContactButton key={contact.id} contact={contact}/> : '';
                         })}
                     </FuseAnimateGroup>

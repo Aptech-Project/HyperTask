@@ -8,17 +8,17 @@
         ],
         "conversations": [
             {
-                "chatId": "testchat001",
+                "chatId": "1",
                 "contactId": "3",
                 "lastMessageTime": "2017-06-12T02:10:18.931Z"
             },
             {
-                "chatId": "testchat002",
+                "chatId": "2",
                 "contactId": "4",
                 "lastMessageTime": "2017-02-18T10:30:18.931Z"
             },
             {
-                "chatId": "testchat003",
+                "chatId": "3",
                 "contactId": "5",
                 "lastMessageTime": "2017-03-18T12:30:18.931Z"
             }
@@ -26,7 +26,7 @@
     },
     "chat": [
         {
-            "id": "testchat001",
+            "id": "1",
             "dialog": [
                 {
                     "who": "3",
@@ -52,11 +52,11 @@
                     "who": "2",
                     "message": "It’s not my money, you know. I will eat my breakfast and then I will come to the meeting room.",
                     "time": "2017-03-22T09:02:28.299Z"
-                },
+                }
             ]
         },
         {
-            "id": "testchat002",
+            "id": "2",
             "dialog": [
                 {
                     "who": "4",
@@ -76,7 +76,7 @@
             ]
         },
         {
-            "id": "testchat003",
+            "id": "3",
             "dialog": [
                 {
                     "who": "5",
