@@ -9,13 +9,24 @@ export const GET_ONLINE_USER = "[CHAT PANEL] GET_ONLINE_USER";
 export const SET_ONLINE_STATUS = "[CHAT PANEL] SET_ONLINE_STATUS";
 
 
-export const getContacts = (id) => (dispatch) => {
-    axios
+export const getContacts = (id) => async (dispatch) => {
+    let allUser = null;
+    await axios
+        .get(endPointApi.users.getAll)
+        .then((response) => {
+            allUser = response.data;
+        })
+        .catch((err) => console.log(err));
+
+
+    await axios
         .get(endPointApi.users.fetchById + id)
         .then((response) => {
             const contact = deserializeObject(response.data).contact.map(item => {
-                const avatar = "assets/images/avatars/alice.jpg";
-                const name = item.id;
+                console.log(allUser);
+                const currentUser = allUser.find(el => el.id == item.id);
+                const avatar = JSON.parse(currentUser.info).avatar || "assets/images/avatars/default-avatar.png";
+                const name = currentUser.fullname;
                 item = {...item, avatar, name}
                 return item;
             });

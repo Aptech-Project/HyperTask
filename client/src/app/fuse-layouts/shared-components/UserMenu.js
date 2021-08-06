@@ -11,8 +11,10 @@ import { setUserStatus } from './chatPanel/store/actions';
 function UserMenu(props) {
 
     const user = useSelector(state => state.login.userAuth);
+    const profile = useSelector(state => state.login.findId)
     const dispatch = useDispatch();
     const [userMenu, setUserMenu] = useState(null);
+    const [avatar, setAvatar] = useState("");
 
     const userMenuClick = event => {
         setUserMenu(event.currentTarget);
@@ -31,6 +33,11 @@ function UserMenu(props) {
             setIsAdmin(false)
         }
     }, [user])
+    useEffect(() => {
+        if (profile && profile !== 'undefined' && profile !== []) {
+            setAvatar(JSON.parse(profile.info).avatar)
+        }
+    }, [profile]);
     const [account, setAccount] = useState([]);
     const user1 = useSelector(state => state.login.findId)
     useEffect(() => {
@@ -48,36 +55,10 @@ function UserMenu(props) {
         <React.Fragment>
 
             <Button className="h-64" onClick={userMenuClick}>
-                {
-                    isAdmin ? (
-                        <Avatar className="" alt="user photo" >
-                            <Icon style={{ fontSize: '30px' }}>person</Icon>
-                        </Avatar>
-                    )
-                        :
-                        (
-                            <Avatar className="">
-                                <Icon style={{ fontSize: '30px' }}>person</Icon>
-                            </Avatar>
-                        )
-                }
+                <Avatar className="w-30 h-30" src={avatar || "assets/images/avatars/default-avatar.png"}/>
                 <div className="hidden md:flex flex-col ml-12 items-start">
-                    {
-                        isAdmin ? (
-                            <Typography component="span" className="normal-case font-600 flex">
-                                Account
-                            </Typography>
-                        )
-                            :
-                            (
-                                <Typography component="span" className="normal-case font-600 flex">
-                                    {account.fullname}
-                                </Typography>
-                            )
-                    }
-
-                    <Typography className="text-11 capitalize" color="textSecondary">
-                        {/* {user.role.toString()} */}
+                    <Typography component="span" className="normal-case font-600 flex">
+                        {account.fullname}
                     </Typography>
                 </div>
 
@@ -131,7 +112,7 @@ function UserMenu(props) {
                         </MenuItem>
                         <MenuItem
                             onClick={() => {
-                                props.setUserOffline(user, false);
+                                props.setUserOffline(user, false)
                                 logoutDispatch(userlogout());
                                 dispatch(showMessage({ message: 'Log out !!!' }));
                                 history.push({

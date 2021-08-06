@@ -77,8 +77,7 @@ function ProfilePage() {
                 <div className="p-24 flex flex-1 flex-col items-center justify-center md:flex-row md:items-end">
                     <div className="flex flex-1 flex-col items-center justify-center md:flex-row md:items-center md:justify-start">
                         <FuseAnimate animation="transition.expandIn" delay={300}>
-                            <Avatar className="w-96 h-96" src={avatar ? avatar : "assets/images/avatars/default-avatar.png"}
-                            ></Avatar>
+                            <Avatar className="w-96 h-96" src={avatar || "assets/images/avatars/default-avatar.png"}/>
                         </FuseAnimate>
 
                         <FuseAnimate animation="transition.slideLeftIn" delay={300}>

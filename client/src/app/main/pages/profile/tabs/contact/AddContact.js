@@ -12,6 +12,7 @@ import { useForm } from '@fuse/hooks';
 import { connect } from "react-redux";
 import { showMessage } from 'app/store/actions/fuse';
 import * as Actions from '../store/actions/contact.action'
+import { getContacts } from 'app/fuse-layouts/shared-components/chatPanel/store/actions';
 const AddContact = ({ ...props }) => {
 
     const dispatch = useDispatch();
@@ -78,7 +79,10 @@ const AddContact = ({ ...props }) => {
                                                     variant="contained"
                                                     color="primary"
                                                     style={{ float: "right", fontSize: "10px", marginTop: '30px' }}
-                                                    onClick={() => dispatch(Actions.sendFriend(userAuth, record.id))}
+                                                    onClick={() => {
+                                                        dispatch(Actions.sendFriend(userAuth, record.id))
+                                                        dispatch(getContacts(userAuth))
+                                                    }}
                                                 >
                                                     Add Friend
                                                 </Button>
