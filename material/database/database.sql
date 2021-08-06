@@ -11,6 +11,8 @@ CREATE TABLE `user` (
   `contact` text DEFAULT NULL,
   `conversations` text DEFAULT NULL,
   `info` text DEFAULT NULL,
+  `notes` text DEFAULT NULL,
+  `labels` text DEFAULT NULL,
   PRIMARY KEY (`id`)
 );
 CREATE TABLE `board` (

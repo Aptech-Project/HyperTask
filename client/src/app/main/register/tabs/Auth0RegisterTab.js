@@ -18,7 +18,9 @@ const initialFieldValues = {
     contact: '[]',
     info: JSON.stringify({ address: "", gender: "", avatar: "assets/images/avatars/default-avatar.png", phoneNumber: "" }),
     conversations: '[]',
-    passwordconfirm: ''
+    passwordconfirm: '',
+    notes: '[]',
+    labels: '[]',
 }
 
 const Auth0RegisterTab = ({ classes, ...props }) => {
