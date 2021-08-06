@@ -179,7 +179,7 @@ function EventDialog(props) {
 
                     <DarkerDisabledTextField
                         className="mt-8 mb-16"
-                        id="desc" label="Description"
+                        id="desc" label="Content"
                         type="text"
                         name="desc"
                         value={form.desc}
