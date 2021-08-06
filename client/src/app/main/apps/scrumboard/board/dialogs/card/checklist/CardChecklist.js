@@ -59,7 +59,6 @@ function CardChecklist(props) {
   }
 
   function handleListItemAdd(item) {
-    console.log("form: ", form);
     setInForm("checkItems", [...form.checkItems, { ...item }]);
   }
 

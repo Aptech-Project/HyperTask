@@ -13,13 +13,31 @@ const useStyles = makeStyles((theme) => ({
 
 function CardActivity(props) {
   const classes = useStyles(props);
-  const user = _.find(props.members, { id: props.item.idMember });
+  const user = _.find(props.members, { userId: props.item.idMember });
+  const showAvatar = () => {
+    const memberName = user.name.split(" ");
+    const member1stChar = memberName[0].charAt(0).toUpperCase();
+    let member2ndChar = "";
+    if (memberName.length > 1) {
+      member2ndChar = memberName[1].charAt(0).toUpperCase();
+    }
+    return user.avatar ? (
+      <Avatar className="w-32 h-32" alt={user.name} src={user.avatar} />
+    ) : (
+      <Avatar className="w-32 h-32">
+        <Typography>
+          {member1stChar}
+          {member2ndChar}
+        </Typography>
+      </Avatar>
+    );
+  };
 
   switch (props.item.type) {
     case "comment": {
       return (
         <ListItem dense className="px-0">
-          <Avatar alt={user.name} src={user.avatar} className="w-32 h-32" />
+          {showAvatar()}
           <div
             className={clsx(classes.commentBubble, "flex flex-col ml-16 p-12")}
           >
@@ -37,7 +55,7 @@ function CardActivity(props) {
     case "attachment": {
       return (
         <ListItem dense className="px-0">
-          <Avatar alt={user.name} src={user.avatar} className="w-32 h-32" />
+          {showAvatar()}
           <div className="flex items-center ml-16">
             <Typography>{user.name},</Typography>
             <Typography className="ml-8">{props.item.message}</Typography>

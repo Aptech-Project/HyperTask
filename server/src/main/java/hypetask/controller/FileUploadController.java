@@ -46,6 +46,7 @@ public class FileUploadController {
 			fos.close();
 			HashMap<String, String> fileObject = new HashMap<>();
 			fileObject.put("fileUrl", getFileUrl(myFile));
+			fileObject.put("fileExtension", this.getFileExtension(file));
 			fileObject.put("fileName", file.getOriginalFilename());
 			fileObject.put("fileExtension", this.getFileExtension(file));
 			fileObject.put("status", "Upload successfully");

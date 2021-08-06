@@ -64,16 +64,15 @@ function BoardCard(props) {
             elevation={snapshot.isDragging ? 3 : 0}
             onClick={(ev) => handleCardClick(ev, card)}
           >
-            {/* {board.info.cardCoverImages &&
-              card.idAttachmentCover !== "" && (
-                <img
-                  className="block"
-                  src={
-                    _.find(card.attachments, { id: card.idAttachmentCover }).src
-                  }
-                  alt="card cover"
-                />
-              )} */}
+            {card.idAttachmentCover && card.idAttachmentCover !== "" && (
+              <img
+                className="block"
+                src={
+                  _.find(card.attachments, { id: card.idAttachmentCover }).src
+                }
+                alt="card cover"
+              />
+            )}
 
             <div className="p-16 pb-0">
               {card.labels.length > 0 && (
@@ -138,7 +137,10 @@ function BoardCard(props) {
                     });
                     const memberName = member.name.split(" ");
                     const member1stChar = memberName[0].charAt(0).toUpperCase();
-                    const member2ndChar = memberName[1].charAt(0).toUpperCase();
+                    let member2ndChar = "";
+                    if (memberName.length > 1) {
+                      member2ndChar = memberName[1].charAt(0).toUpperCase();
+                    }
                     return (
                       <Tooltip title={member.name} key={id}>
                         {member.avatar ? (
