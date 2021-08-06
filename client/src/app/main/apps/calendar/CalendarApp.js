@@ -27,7 +27,8 @@ let defaultEvent = [
         title: 'No Event',
         allDay: true,
         start: new Date(),
-        end: new Date()
+        end: new Date(),
+        desc: "",
     },
 ]
 const useStyles = makeStyles(theme => ({
@@ -229,7 +230,8 @@ function CalendarApp(props) {
                     title: element.name,
                     allDay: true,
                     start: element.createAt ? element.createAt : new Date(),
-                    end: element.due ? element.due : new Date()
+                    end: element.due ? element.due : new Date(),
+                    desc: element.content
                 })
             });
             setEventsTest(arryEvent)
