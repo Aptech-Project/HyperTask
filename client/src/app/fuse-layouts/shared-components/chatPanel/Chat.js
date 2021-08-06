@@ -145,6 +145,14 @@ function Chat(props)
         scrollToBottom();
     }, [chat]);
 
+    useEffect(() => {
+        let fetchchat;
+        if (selectedContactId) {
+            fetchchat = setInterval(() => dispatch(Actions.getChat(selectedContactId)), 1000);
+        }
+        return () => clearInterval(fetchchat);
+    },[selectedContactId])
+
     function scrollToBottom()
     {
         chatScroll.current.scrollTop = chatScroll.current.scrollHeight;

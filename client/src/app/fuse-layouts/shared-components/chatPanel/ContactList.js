@@ -47,8 +47,8 @@ const useStyles = makeStyles(theme => ({
     },
     status       : {
         position    : 'absolute',
-        width       : 12,
-        height      : 12,
+        width       : 15,
+        height      : 15,
         bottom      : 4,
         left        : 44,
         border      : '2px solid ' + theme.palette.background.default,
@@ -57,14 +57,6 @@ const useStyles = makeStyles(theme => ({
 
         '&.online': {
             backgroundColor: '#4CAF50'
-        },
-
-        '&.do-not-disturb': {
-            backgroundColor: '#F44336'
-        },
-
-        '&.away': {
-            backgroundColor: '#FFC107'
         },
 
         '&.offline': {
@@ -78,6 +70,7 @@ function ContactList(props)
     const dispatch = useDispatch();
     const contacts = useSelector(({chatPanel}) => chatPanel.contacts.entities);
     const selectedContactId = useSelector(({chatPanel}) => chatPanel.contacts.selectedContactId);
+    const onlineUser = useSelector(({chatPanel}) => chatPanel.contacts.onlineUser?.content);
     let user = useSelector(({chatPanel}) => chatPanel.user);
 
     if (user) {
@@ -97,6 +90,14 @@ function ContactList(props)
         contactListScroll.current.scrollTop = 0;
     };
 
+    const findStatus = (contactId) => {
+        let status = "offline"
+        if (onlineUser && onlineUser.includes(contactId)) {
+            status = "online";
+        }
+        return status;
+    }
+
     const ContactButton = ({contact}) => {
         return (
             <Tooltip title={contact.name} placement="left">
@@ -107,7 +108,7 @@ function ContactList(props)
                     {contact.unread && (
                         <div className={classes.unreadBadge}>{contact.unread}</div>
                     )}
-                    <div className={clsx(contact.status, classes.status)}/>
+                    <div className={clsx(findStatus(contact.id), classes.status)}/>
                     <Avatar
                         src={contact.avatar}
                         alt={contact.name}

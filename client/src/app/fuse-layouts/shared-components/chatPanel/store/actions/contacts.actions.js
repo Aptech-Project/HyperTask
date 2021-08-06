@@ -1,4 +1,4 @@
-import { deserializeObject } from "app/main/common/CommonFunctions";
+import { deserializeObject, serializeObject } from "app/main/common/CommonFunctions";
 import { endPointApi } from "app/services/endPointAPI";
 import axios from "axios";
 
@@ -48,6 +48,30 @@ export const getOnlineUser = () => (dispatch) => {
                 type   : GET_ONLINE_USER,
                 payload: response.data
             })
+        })
+        .catch((err) => console.log(err));
+}
+
+export const setUserStatus = (userId, status) => (dispatch, getState) => {
+    console.log(getState());
+    const userCommon = getState().chatPanel.contacts.onlineUser;
+    if (userCommon) {
+        let newUserCommon = deserializeObject({...userCommon});
+        const userIndex = newUserCommon.content.indexOf(userId.toString());
+        if (status && userIndex === -1) {
+            newUserCommon.content.push(userId);
+            setUserStatusAxios(newUserCommon);
+        } else if (!status && userIndex > -1) {
+            newUserCommon.content.splice(userIndex,1);
+            setUserStatusAxios(newUserCommon);
+        }
+    }
+}
+
+const setUserStatusAxios = (newUserCommon) => {
+    axios
+        .put(endPointApi.common.updateCommonData, serializeObject({...newUserCommon}))
+        .then((response) => {
         })
         .catch((err) => console.log(err));
 }

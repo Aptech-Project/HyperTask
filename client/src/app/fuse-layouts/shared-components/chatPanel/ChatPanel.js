@@ -56,7 +56,7 @@ function ChatPanel(props)
 {
     const dispatch = useDispatch();
     const contacts = useSelector(({chatPanel}) => chatPanel.contacts.entities);
-    const onlineUser = useSelector(({chatPanel}) => chatPanel.contacts.onlineUser);
+    const onlineUser = useSelector(({chatPanel}) => chatPanel.contacts.onlineUser?.content);
     console.log('onlineUser')
     console.log(onlineUser)
     const selectedContactId = useSelector(({chatPanel}) => chatPanel.contacts.selectedContactId);
@@ -73,7 +73,7 @@ function ChatPanel(props)
     }, [dispatch]);
 
     useEffect(() => {
-        setInterval(() => dispatch(Actions.getOnlineUser()),2000);
+        setInterval(() => dispatch(Actions.getOnlineUser()), 2000);
     },[dispatch])
 
     useEffect(() => {
@@ -83,6 +83,19 @@ function ChatPanel(props)
             document.removeEventListener('keydown', handleDocumentKeyDown);
         });
     }, [dispatch, handleDocumentKeyDown]);
+
+    const handleUnload = () => {
+        dispatch(Actions.setUserStatus(currentUserId, false));
+    }
+
+    useEffect(() => {
+        dispatch(Actions.setUserStatus(currentUserId, true));
+        window.addEventListener("beforeunload", (ev) => {
+            ev.preventDefault();
+            handleUnload();
+            return (ev.returnValue = "Are you sure you want to close?");
+        });
+    })
 
     useEffect(() => {
         if ( state )
@@ -126,8 +139,12 @@ function ChatPanel(props)
                         </Toolbar>
                     </AppBar>
                     <Paper className="flex flex-1 flex-row min-h-px">
-                        <ContactList className="flex flex-shrink-0"/>
-                        <Chat className="flex flex-1 z-10"/>
+                        {contacts.length ? 
+                            <>
+                                (<ContactList className="flex flex-shrink-0"/>
+                                <Chat className="flex flex-1 z-10"/>) 
+                            </>
+                        : null}
                     </Paper>
                 </div>
             </ClickAwayListener>

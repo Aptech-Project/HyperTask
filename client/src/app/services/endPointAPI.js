@@ -32,6 +32,6 @@ export const endPointApi = {
   },
   common: {
     getOnlineUser: baseApi + "common/get-common/ONLINE_USER",
-    setUserStatus: baseApi + "common/update-common",
+    updateCommonData: baseApi + "common/update-common",
   }
 };

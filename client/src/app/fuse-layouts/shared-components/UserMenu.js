@@ -7,6 +7,7 @@ import history from "@history";
 import * as actions from "app/auth/store/actions/login.actions";
 import { showMessage } from 'app/store/actions/fuse';
 import { connect } from "react-redux";
+import { setUserStatus } from './chatPanel/store/actions';
 function UserMenu(props) {
 
     const user = useSelector(state => state.login.userAuth);
@@ -130,6 +131,7 @@ function UserMenu(props) {
                         </MenuItem>
                         <MenuItem
                             onClick={() => {
+                                props.setUserOffline(user, false);
                                 logoutDispatch(userlogout());
                                 dispatch(showMessage({ message: 'Log out !!!' }));
                                 history.push({
@@ -150,6 +152,6 @@ function UserMenu(props) {
 }
 const mapActionToProps = {
     findid: actions.fetchById,
-
+    setUserOffline: setUserStatus,
 }
 export default connect(null, mapActionToProps)(UserMenu);

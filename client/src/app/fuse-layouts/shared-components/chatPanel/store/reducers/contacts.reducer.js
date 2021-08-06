@@ -33,7 +33,7 @@ const contactsReducer = function (state = initialState, action) {
         case Actions.GET_ONLINE_USER:
             return {
                 ...state,
-                onlineUser: action.payload.content,
+                onlineUser: action.payload,
             };
         default:
         {
