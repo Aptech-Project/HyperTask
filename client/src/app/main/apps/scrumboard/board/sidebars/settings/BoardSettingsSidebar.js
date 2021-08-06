@@ -24,7 +24,7 @@ function BoardSettingsSidebar(props) {
       </AppBar>
 
       <List className="py-16" dense>
-        <ListItem
+        {/* <ListItem
           button
           // onClick={() =>
           //   dispatch(
@@ -50,7 +50,7 @@ function BoardSettingsSidebar(props) {
             // checked={board.settings.cardCoverImages}
             />
           </ListItemSecondaryAction>
-        </ListItem>
+        </ListItem> */}
 
         <ListItem
           button

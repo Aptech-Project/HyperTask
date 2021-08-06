@@ -7,6 +7,7 @@ export const OPEN_CARD_DIALOG = "[SCRUMBOARD APP] OPEN CARD DIALOG";
 export const CLOSE_CARD_DIALOG = "[SCRUMBOARD APP] CLOSE CARD DIALOG";
 export const UPDATE_CARD = "[SCRUMBOARD APP] UPDATE CARD";
 export const REMOVE_CARD = "[SCRUMBOARD APP] REMOVE CARD";
+export const UPDATE_FILE_CARD = "[SCRUMBOARD APP] UPDATE FILE CARD";
 
 export function openCardDialog(data) {
   return {
@@ -49,16 +50,16 @@ export function updateCard(board, newCard) {
       boardConverted
     );
     return request.then((response) => {
-      dispatch(
-        showMessage({
-          message: "Card Saved",
-          autoHideDuration: 2000,
-          anchorOrigin: {
-            vertical: "top",
-            horizontal: "right",
-          },
-        })
-      );
+      // dispatch(
+      //   showMessage({
+      //     message: "Card Saved",
+      //     autoHideDuration: 2000,
+      //     anchorOrigin: {
+      //       vertical: "top",
+      //       horizontal: "right",
+      //     },
+      //   })
+      // );
       return dispatch({
         type: UPDATE_CARD,
         payload: allListUpdated,
@@ -67,19 +68,51 @@ export function updateCard(board, newCard) {
   };
 }
 
-export function removeCard(boardId, cardId) {
+export function removeCard(board, cardId) {
   return (dispatch) => {
-    const request = axios.post("/api/scrumboard-app/card/remove", {
-      boardId,
-      cardId,
+    const allList = JSON.parse(board.lists);
+    const allListUpdated = allList.map((list) => {
+      let listToUpdate;
+      let allListCardUpdate;
+      list.cards.map((card) => {
+        if (card.id === cardId) {
+          listToUpdate = list;
+          allListCardUpdate = list.cards.filter((card) => card.id !== cardId);
+        }
+      });
+      listToUpdate = { ...listToUpdate, cards: allListCardUpdate };
+      if (listToUpdate) {
+        if (list.id === listToUpdate.id) {
+          list = listToUpdate;
+        }
+      }
+      return list;
     });
+    const boardUpdate = { ...board, lists: allListUpdated };
+    const boardConverted = convertBoardProperty(boardUpdate);
+    const request = axios.put(
+      `${endPointApi.boards.updateBoard}`,
+      boardConverted
+    );
 
     return request.then((response) =>
       dispatch({
         type: REMOVE_CARD,
-        boardId,
-        cardId,
+        payload: allListUpdated,
       })
     );
   };
+}
+
+export function updateFileCard(attachment) {
+  let formData = new FormData();
+  formData.append("File", attachment);
+  const request = axios.post(`${endPointApi.file.uploadFile}`, formData);
+  return (dispatch) =>
+    request.then((response) =>
+      dispatch({
+        type: UPDATE_FILE_CARD,
+        payload: response.data,
+      })
+    );
 }
