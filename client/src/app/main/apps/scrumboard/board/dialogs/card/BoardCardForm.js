@@ -29,6 +29,8 @@ import OptionsMenu from "./toolbar/OptionsMenu";
 import CardChecklist from "./checklist/CardChecklist";
 import CardActivity from "./activity/CardActivity";
 import CardComment from "./comment/CardComment";
+import AttachmentMenu from "./toolbar/AttachmentMenu";
+import CommentModel from "../../../model/CommentModel";
 
 function BoardCardForm(props) {
   const dispatch = useDispatch();
@@ -45,6 +47,19 @@ function BoardCardForm(props) {
       : "";
 
   useUpdateEffect(() => {
+    // const userID = localStorage.getItem("user_authenticated");
+    // const memberList = JSON.parse(board.members);
+    // let isAdmin;
+    // memberList.map((member) => {
+    //   if (member.userId === userID && member.userId.role === "admin") {
+    //     isAdmin = true;
+    //   }
+    // });
+    // if (isAdmin == false) {
+    //   updateCard(board, cardForm);
+    // } else {
+    //   alert("you are not admin");
+    // }
     updateCard(board, cardForm);
   }, [dispatch, board, cardForm, updateCard]);
 
@@ -58,6 +73,23 @@ function BoardCardForm(props) {
 
   function toggleMember(memberId) {
     setInForm("members", _.xor(cardForm.members, [memberId]));
+  }
+
+  function toggleAttachment(attachment) {
+    setInForm("attachments", _.xor(cardForm.attachments, [attachment]));
+    const userID = localStorage.getItem("user_authenticated");
+    const newActivity = new CommentModel({
+      idMember: userID,
+      type: "attachment",
+      message:
+        attachment.type === "image"
+          ? `Add new Image ${attachment.name}`
+          : `Add new File ${attachment.name}`,
+    });
+    return setInForm("activities", [
+      { ...newActivity },
+      ...cardForm.activities,
+    ]);
   }
 
   function addCheckList(newList) {
@@ -106,7 +138,7 @@ function BoardCardForm(props) {
   }
 
   function commentAdd(comment) {
-    return setInForm("activities", [comment, ...cardForm.activities]);
+    return setInForm("activities", [{ ...comment }, ...cardForm.activities]);
   }
 
   return (
@@ -133,15 +165,13 @@ function BoardCardForm(props) {
                 idMembers={cardForm.members}
               />
 
-              <IconButton color="inherit">
-                <Icon>attachment</Icon>
-              </IconButton>
+              <AttachmentMenu onAddAttachment={toggleAttachment} />
 
               <CheckListMenu onAddCheckList={addCheckList} />
 
               <OptionsMenu
                 onRemoveCard={() =>
-                  dispatch(Actions.removeCard(board.id, cardForm.id))
+                  dispatch(Actions.removeCard(board, cardForm.id))
                 }
               />
             </div>
@@ -300,7 +330,10 @@ function BoardCardForm(props) {
                   });
                   const memberName = member.name.split(" ");
                   const member1stChar = memberName[0].charAt(0).toUpperCase();
-                  const member2ndChar = memberName[1].charAt(0).toUpperCase();
+                  let member2ndChar = "";
+                  if (memberName.length > 1) {
+                    member2ndChar = memberName[1].charAt(0).toUpperCase();
+                  }
                   return (
                     member && {
                       value: member.id,
@@ -354,14 +387,14 @@ function BoardCardForm(props) {
               <Typography className="font-600 text-16">Attachments</Typography>
             </div>
             <div className="flex flex-col sm:flex-row flex-wrap">
-              {cardForm.attachments.map((item) => (
+              {cardForm.attachments.map((item, index) => (
                 <CardAttachment
-                  item={item}
+                  item={{ ...item }}
                   card={cardForm}
                   makeCover={makeCover}
                   removeCover={removeCover}
                   removeAttachment={removeAttachment}
-                  key={item.id}
+                  key={index}
                 />
               ))}
             </div>

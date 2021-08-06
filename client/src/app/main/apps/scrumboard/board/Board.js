@@ -137,7 +137,7 @@ function Board(props) {
 
       <Drawer
         anchor="right"
-        style={{ top: "120px" }}
+        style={{ top: "120px", right: "55px" }}
         className="absolute overflow-hidden"
         classes={{
           paper: "absolute w-320",

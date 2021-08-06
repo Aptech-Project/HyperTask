@@ -29,9 +29,13 @@ function MembersMenu(props) {
       <ToolbarMenu state={anchorEl} onClose={handleMenuClose}>
         <div className="">
           {props.members.map((member) => {
+            console.log("member: ", member);
             const memberName = member.name.split(" ");
             const member1stChar = memberName[0].charAt(0).toUpperCase();
-            const member2ndChar = memberName[1].charAt(0).toUpperCase();
+            let member2ndChar = "";
+            if (memberName.length > 1) {
+              member2ndChar = memberName[1].charAt(0).toUpperCase();
+            }
             return (
               <MenuItem
                 className="px-8"
