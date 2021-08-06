@@ -108,6 +108,7 @@ const AddContact = ({ ...props }) => {
                                                         style={{ float: "right", fontSize: "10px", marginTop: '30px', backgroundColor: { color } }}
                                                         onClick={() => {
                                                             dispatch(Actions.sendFriend(userAuth, record.id, textsearch));
+                                                            dispatch(getContacts(userAuth))
                                                             setListSearch(listSearch)
                                                             handleClickButton(record.username)
                                                             b(index)

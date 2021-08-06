@@ -28,6 +28,10 @@ public class User {
 	private String conversations;
 	@Column(name = "info")
 	private String info;
+	@Column(name = "notes")
+	private String notes;
+	@Column(name = "labels")
+	private String labels;
 
 	public User(String email, String password, String username, String fullname) {
 		super();
@@ -105,5 +109,21 @@ public class User {
 
 	public void setConversations(String conversations) {
 		this.conversations = conversations;
+	}
+
+	public String getNotes() {
+		return notes;
+	}
+
+	public void setNotes(String notes) {
+		this.notes = notes;
+	}
+
+	public String getLabels() {
+		return labels;
+	}
+
+	public void setLabels(String labels) {
+		this.labels = labels;
 	}
 }
