@@ -14,20 +14,19 @@ import Button from '@material-ui/core/Button';
 function ContactRequest(props) {
     const dispatch = useDispatch();
     const userAuth = useSelector(state => state.login.userAuth)
-    useEffect(() => {
-        dispatch(Actions.fetchReceiveFriend(userAuth))
-    }, [])
+
     let allreceive = useSelector(state => state.friend.listreceive)
     const [friend, setFriend] = useState([])
     const [filteredData, setFilteredData] = useState(null);
-    console.log(allreceive)
     const [open, setOpen] = React.useState(false);
     const [id, setId] = React.useState();
     const handleClickOpen = (idF) => {
         setOpen(true);
         setId(idF);
     };
-
+    useEffect(() => {
+        dispatch(Actions.fetchReceiveFriend(userAuth))
+    }, [])
     const handleClose = () => {
         setOpen(false);
     };
@@ -40,17 +39,12 @@ function ContactRequest(props) {
         setFilteredData(friend);
     }, [friend]);
 
-
     if (!filteredData) {
         return null;
     }
     // if (filteredData.length === 0) {
     //     return (
-    //         <div className="flex flex-1 items-center justify-center h-full">
-    //             <Typography color="textSecondary" variant="h5">
-    //                 There are no contacts!
-    //             </Typography>
-    //         </div>
+
     //     );
     // }
     // const DeleteFriend = (id) => {
@@ -131,15 +125,13 @@ function ContactRequest(props) {
                                         <Button
                                             style={{ fontSize: 10, backgroundColor: 'rgb(180, 0, 0)', color: 'white' }}
                                             onClick={() => {
+                                                dispatch(Actions.removeFriendSend(id, userAuth));
                                                 handleClose();
-                                                dispatch(Actions.removeFriend(id, userAuth));
-
-                                                console.log(allreceive)
                                             }}
                                             color="primary">
                                             Remove
                                         </Button>
-                                        <Button style={{ fontSize: 10 }} onClick={handleClose} color="primary" autoFocus>
+                                        <Button style={{ fontSize: 10, backgroundColor: '#C67732 ', color: 'white' }} onClick={handleClose} color="primary" autoFocus>
                                             Cancel
                                         </Button>
                                     </DialogActions>

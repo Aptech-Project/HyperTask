@@ -75,17 +75,33 @@ public class UserController {
 	public User getLogin(@PathVariable("username") String username,@PathVariable("password") String password){
 		return  userService.login(username,password);
 	}
-	@PostMapping("/send-friend-invitation/{id1}&{id2}")
-	public void sendFriendInvitation(@PathVariable("id1") int id1, @PathVariable("id2") int id2){
+	@PostMapping(value = {"/send-friend-invitation/{id1}&{id2}","/send-friend-invitation/{id1}&{id2}/{textsearch}"})
+	public List<User>  sendFriendInvitation(@PathVariable("id1") int id1, @PathVariable("id2") int id2,@PathVariable(value = "textsearch",required = false) String textSearch){
 		userService.sendFriendInvitation(id1,id2);
+		if(textSearch==null){
+			return null;
+		}else
+			return userService.searchFriend(textSearch,id1);
 	}
 	@PostMapping("/accept-friend/{id1}&{id2}")
-	public void acceptFriend(@PathVariable("id1") int id1, @PathVariable("id2") int id2){
+	public  List<User> acceptFriend(@PathVariable("id1") int id1, @PathVariable("id2") int id2){
 		userService.acceptFriend(id1,id2);
+		return userService.listRecieve(id2);
+	}
+	@PostMapping("/remove-friend-send/{id1}&{id2}")
+	public List<User> removeFriendSend(@PathVariable("id1") int id1, @PathVariable("id2") int id2){
+		userService.removeFriend(id1,id2);
+		return userService.listSend(id2);
+	}
+	@PostMapping("/remove-friend-receive/{id1}&{id2}")
+	public List<User> removeFriendRequest(@PathVariable("id1") int id1, @PathVariable("id2") int id2){
+		userService.removeFriend(id1,id2);
+		return userService.listRecieve(id2);
 	}
 	@PostMapping("/remove-friend/{id1}&{id2}")
-	public void removeFriend(@PathVariable("id1") int id1, @PathVariable("id2") int id2){
+	public List<User> removeFriend(@PathVariable("id1") int id1, @PathVariable("id2") int id2){
 		userService.removeFriend(id1,id2);
+		return userService.listFriend(id2);
 	}
 	@GetMapping("/get-all-friend/{id}")
 	public List<User> allFriend(@PathVariable("id") int id1){

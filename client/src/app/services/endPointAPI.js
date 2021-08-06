@@ -14,7 +14,9 @@ export const endPointApi = {
     searchFriendToAdd: baseApi + "user/search-friend/",
     sendFriend: baseApi + "user/send-friend-invitation/",
     acceptFriend: baseApi + "user/accept-friend/",
-    removeFriend: baseApi + "user/remove-friend/"
+    removeFriend: baseApi + "user/remove-friend/",
+    removeFriendSend: baseApi + "user/remove-friend-send/",
+    removeFriendReceive: baseApi + "user/remove-friend-receive/"
   },
   boards: {
     getUserBoards: baseApi + "board/get-user-boards/",

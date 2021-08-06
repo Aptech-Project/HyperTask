@@ -34,17 +34,27 @@ const friend = (state = initialState, action) => {
     case ACTION_TYPES.SEND_FRIEND:
       return {
         ...state,
-        success: true
+        listsearchfriend: [...action.payload]
       }
     case ACTION_TYPES.ACCEPT_FRIEND:
       return {
         ...state,
-        successAcp: true
+        listsend: [...action.payload]
       }
     case ACTION_TYPES.REMOVE_FRIEND:
       return {
         ...state,
-        successRemove: true
+        listfriend: [...action.payload]
+      }
+    case ACTION_TYPES.REMOVE_FRIEND_SEND:
+      return {
+        ...state,
+        listreceive: [...action.payload]
+      }
+    case ACTION_TYPES.REMOVE_FRIEND_RECEIVE:
+      return {
+        ...state,
+        listsend: [...action.payload]
       }
     default:
       return state

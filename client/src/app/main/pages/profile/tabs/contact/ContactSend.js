@@ -2,6 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { Avatar, Checkbox, Icon, IconButton, Typography } from '@material-ui/core';
 import { FuseUtils, FuseAnimate } from '@fuse';
 import { useDispatch, useSelector } from 'react-redux';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
 import ReactTable from "react-table";
 import * as Actions from 'app/main/pages/profile/tabs/store/actions/contact.action'
@@ -11,22 +16,31 @@ function ContactSend(props) {
     // const selectedContactIds = useSelector(({ contactsApp }) => contactsApp.contacts.selectedContactIds);
     // const searchText = useSelector(({ contactsApp }) => contactsApp.contacts.searchText);
     // const user = useSelector(({ contactsApp }) => contactsApp.user);
-    const [account, setAccount] = useState([]);
-    const user2 = useSelector(state => state.login.findId)
     const userAuth = useSelector(state => state.login.userAuth)
+    const [open, setOpen] = React.useState(false);
+    const [openAcp, setOpenAcp] = React.useState(false);
+    const [id, setId] = React.useState();
+    const handleClickOpen = (idF) => {
+        setOpen(true);
+        setId(idF);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+    const [idAcp, setIdAcp] = React.useState();
+    const handleClickOpenAcp = (idFAcp) => {
+        setOpenAcp(true);
+        setIdAcp(idFAcp);
+    };
+
+    const handleCloseAcp = () => {
+        setOpenAcp(false);
+    };
     useEffect(() => {
         dispatch(Actions.fetchSendFriend(userAuth))
     }, [])
     let allsend = useSelector(state => state.friend.listsend)
-    // useEffect(() => {
-    //     action.fetchById(1)
-    // }, [])
-    // useEffect(() => {
-    //     if (user2 !== undefined) (
-    //         setAccount(user2)
-    //     )
-    // }, [user2])
-    // console.log(JSON.parse(user2.contact))
     const [friend, setFriend] = useState([])
     const [filteredData, setFilteredData] = useState(null);
 
@@ -116,7 +130,7 @@ function ContactSend(props) {
                                     style={{ backgroundColor: 'rgb(180, 0, 0)', color: 'white', fontSize: 11 }}
                                     onClick={(ev) => {
                                         ev.stopPropagation();
-                                        dispatch(Actions.acceptFriend(row.original.id, userAuth));
+                                        handleClickOpen(row.original.id);
                                     }}
                                 >
                                     Remove
@@ -128,11 +142,65 @@ function ContactSend(props) {
                                     style={{ fontSize: 11 }}
                                     onClick={(ev) => {
                                         ev.stopPropagation();
-                                        dispatch(Actions.acceptFriend(row.original.id, userAuth));
+                                        handleClickOpenAcp(row.original.id);
                                     }}
                                 >
                                     Accept
                                 </Button>
+                                <Dialog
+                                    open={open}
+                                    onClose={handleClose}
+                                    aria-labelledby="alert-dialog-title"
+                                    aria-describedby="alert-dialog-description"
+                                >
+                                    <DialogTitle>{""}</DialogTitle>
+                                    <DialogContent>
+                                        <DialogContentText id="alert-dialog-description">
+                                            Decline a friend request from this person
+                                        </DialogContentText>
+                                    </DialogContent>
+                                    <DialogActions>
+                                        <Button
+                                            style={{ fontSize: 10, backgroundColor: 'rgb(180, 0, 0)', color: 'white' }}
+                                            onClick={() => {
+                                                handleClose();
+                                                dispatch(Actions.removeFriendReceive(id, userAuth));
+                                            }}
+                                            color="primary">
+                                            Remove
+                                        </Button>
+                                        <Button style={{ fontSize: 10, backgroundColor: '#C67732 ', color: 'white' }} onClick={handleClose} color="primary" autoFocus>
+                                            Cancel
+                                        </Button>
+                                    </DialogActions>
+                                </Dialog>
+                                <Dialog
+                                    open={openAcp}
+                                    onClose={handleCloseAcp}
+                                    aria-labelledby="alert-dialog-title"
+                                    aria-describedby="alert-dialog-description"
+                                >
+                                    <DialogTitle>{""}</DialogTitle>
+                                    <DialogContent>
+                                        <DialogContentText id="alert-dialog-description">
+                                            Accept a friend request from this person
+                                        </DialogContentText>
+                                    </DialogContent>
+                                    <DialogActions>
+                                        <Button
+                                            style={{ fontSize: 10, backgroundColor: '#3c4454', color: 'white' }}
+                                            onClick={() => {
+                                                handleCloseAcp();
+                                                dispatch(Actions.acceptFriend(row.original.id, userAuth));
+                                            }}
+                                            color="primary">
+                                            Accept
+                                        </Button>
+                                        <Button style={{ fontSize: 10, backgroundColor: '#C67732 ', color: 'white' }} onClick={handleCloseAcp} color="primary" autoFocus>
+                                            Cancel
+                                        </Button>
+                                    </DialogActions>
+                                </Dialog>
                             </div>
                         )
                     }
