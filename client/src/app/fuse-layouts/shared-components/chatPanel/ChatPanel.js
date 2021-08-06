@@ -74,7 +74,7 @@ function ChatPanel(props)
 
     useEffect(() => {
         setInterval(() => dispatch(Actions.getOnlineUser()),2000);
-    },[])
+    },[dispatch])
 
     useEffect(() => {
         dispatch(Actions.getUserData(currentUserId));
