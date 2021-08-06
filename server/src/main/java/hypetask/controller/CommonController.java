@@ -14,40 +14,40 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.google.gson.Gson;
 
-import hypetask.model.Chat;
-import hypetask.service.ChatService;
+import hypetask.model.Common;
+import hypetask.service.CommonService;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/api/chat/")
-public class ChatController {
+@RequestMapping("/api/common/")
+public class CommonController {
 
 	Gson json = new Gson();
 
 	@Autowired
-	private ChatService chatService;
+	private CommonService commonService;
 
 	// Get all Boards
-	@GetMapping("/get-all-chats")
-	public List<Chat> getAllBoards() {
-		return chatService.getAllChat();
+	@GetMapping("/get-all-common")
+	public List<Common> getAllBoards() {
+		return commonService.getAllCommon();
 	}
 
-	@PostMapping("/create-chat")
-	public Chat saveChat(@RequestBody Chat chat) {
-		chatService.createChat(chat);
-		return chat;
+	@PostMapping("/create-common")
+	public Common saveCommon(@RequestBody Common common) {
+		commonService.createCommon(common);
+		return common;
 	}
 
-	@GetMapping("/get-chat/{id}")
-	public Chat getChat(@PathVariable("id") String id) {
-		return chatService.getChatById(id);
+	@GetMapping("/get-common/{id}")
+	public Common getCommon(@PathVariable("id") String id) {
+		return commonService.getCommonById(id);
 	}
 
-	@PutMapping("/update-chat")
-	public Chat updateChat(@RequestBody Chat chat) {
-		chatService.createChat(chat);
-		return chat;
+	@PutMapping("/update-common")
+	public Common updateCommon(@RequestBody Common common) {
+		commonService.createCommon(common);
+		return common;
 	}
 
 }

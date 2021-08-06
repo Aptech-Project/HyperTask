@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.concurrent.TimeUnit;
 
 import javax.servlet.ServletContext;
 
@@ -47,7 +48,9 @@ public class FileUploadController {
 			fileObject.put("fileUrl", getFileUrl(myFile));
 			fileObject.put("fileExtension", this.getFileExtension(file));
 			fileObject.put("fileName", file.getOriginalFilename());
+			fileObject.put("fileExtension", this.getFileExtension(file));
 			fileObject.put("status", "Upload successfully");
+			TimeUnit.MILLISECONDS.sleep(500);
 			return new ResponseEntity<Object>(fileObject, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<Object>("Upload failed: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);

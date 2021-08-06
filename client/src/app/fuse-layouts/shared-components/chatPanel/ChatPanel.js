@@ -56,12 +56,15 @@ function ChatPanel(props)
 {
     const dispatch = useDispatch();
     const contacts = useSelector(({chatPanel}) => chatPanel.contacts.entities);
+    const onlineUser = useSelector(({chatPanel}) => chatPanel.contacts.onlineUser?.content);
+    console.log('onlineUser')
+    console.log(onlineUser)
     const selectedContactId = useSelector(({chatPanel}) => chatPanel.contacts.selectedContactId);
     const state = useSelector(({chatPanel}) => chatPanel.state);
-
     const classes = useStyles(props);
     const selectedContact = contacts.find(_contact => _contact.id === selectedContactId);
-
+    const currentUserId = localStorage.getItem('user_authenticated');
+    
     const handleDocumentKeyDown = useCallback(event => {
         if ( keycode(event) === 'esc' )
         {
@@ -70,12 +73,29 @@ function ChatPanel(props)
     }, [dispatch]);
 
     useEffect(() => {
-        dispatch(Actions.getUserData());
-        dispatch(Actions.getContacts());
+        setInterval(() => dispatch(Actions.getOnlineUser()), 2000);
+    },[dispatch])
+
+    useEffect(() => {
+        dispatch(Actions.getUserData(currentUserId));
+        dispatch(Actions.getContacts(currentUserId));
         return (() => {
             document.removeEventListener('keydown', handleDocumentKeyDown);
         });
     }, [dispatch, handleDocumentKeyDown]);
+
+    const handleUnload = () => {
+        dispatch(Actions.setUserStatus(currentUserId, false));
+    }
+
+    useEffect(() => {
+        dispatch(Actions.setUserStatus(currentUserId, true));
+        window.addEventListener("beforeunload", (ev) => {
+            ev.preventDefault();
+            handleUnload();
+            return (ev.returnValue = "Are you sure you want to close?");
+        });
+    })
 
     useEffect(() => {
         if ( state )
@@ -119,8 +139,12 @@ function ChatPanel(props)
                         </Toolbar>
                     </AppBar>
                     <Paper className="flex flex-1 flex-row min-h-px">
-                        <ContactList className="flex flex-shrink-0"/>
-                        <Chat className="flex flex-1 z-10"/>
+                        {contacts.length ? 
+                            <>
+                                (<ContactList className="flex flex-shrink-0"/>
+                                <Chat className="flex flex-1 z-10"/>) 
+                            </>
+                        : null}
                     </Paper>
                 </div>
             </ClickAwayListener>

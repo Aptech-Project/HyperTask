@@ -5,6 +5,7 @@ import clsx from 'clsx';
 import {useDispatch, useSelector} from 'react-redux';
 import * as Actions from './store/actions';
 import {makeStyles} from '@material-ui/styles';
+import { deserializeObject } from 'app/main/common/CommonFunctions';
 
 const useStyles = makeStyles(theme => ({
     root         : {
@@ -46,8 +47,8 @@ const useStyles = makeStyles(theme => ({
     },
     status       : {
         position    : 'absolute',
-        width       : 12,
-        height      : 12,
+        width       : 15,
+        height      : 15,
         bottom      : 4,
         left        : 44,
         border      : '2px solid ' + theme.palette.background.default,
@@ -56,14 +57,6 @@ const useStyles = makeStyles(theme => ({
 
         '&.online': {
             backgroundColor: '#4CAF50'
-        },
-
-        '&.do-not-disturb': {
-            backgroundColor: '#F44336'
-        },
-
-        '&.away': {
-            backgroundColor: '#FFC107'
         },
 
         '&.offline': {
@@ -77,7 +70,12 @@ function ContactList(props)
     const dispatch = useDispatch();
     const contacts = useSelector(({chatPanel}) => chatPanel.contacts.entities);
     const selectedContactId = useSelector(({chatPanel}) => chatPanel.contacts.selectedContactId);
-    const user = useSelector(({chatPanel}) => chatPanel.user);
+    const onlineUser = useSelector(({chatPanel}) => chatPanel.contacts.onlineUser?.content);
+    let user = useSelector(({chatPanel}) => chatPanel.user);
+
+    if (user) {
+        user = deserializeObject(user);
+    }
 
     const classes = useStyles();
     const contactListScroll = useRef(null);
@@ -92,6 +90,14 @@ function ContactList(props)
         contactListScroll.current.scrollTop = 0;
     };
 
+    const findStatus = (contactId) => {
+        let status = "offline"
+        if (onlineUser && onlineUser.includes(contactId)) {
+            status = "online";
+        }
+        return status;
+    }
+
     const ContactButton = ({contact}) => {
         return (
             <Tooltip title={contact.name} placement="left">
@@ -102,7 +108,7 @@ function ContactList(props)
                     {contact.unread && (
                         <div className={classes.unreadBadge}>{contact.unread}</div>
                     )}
-                    <div className={clsx(contact.status, classes.status)}/>
+                    <div className={clsx(findStatus(contact.id), classes.status)}/>
                     <Avatar
                         src={contact.avatar}
                         alt={contact.name}
@@ -127,16 +133,16 @@ function ContactList(props)
                         }}
                         className="flex flex-col flex-shrink-0"
                     >
-                        {(user && user.chatList) &&
-                        user.chatList.map(chat => {
-                            const contact = contacts.find((_contact) => _contact.id === chat.contactId);
+                        {(user && user.conversations) &&
+                        user.conversations.map(chat => {
+                            const contact = contacts.find((_contact) => _contact.id == chat.contactId);
                             return (
                                 <ContactButton key={contact.id} contact={contact}/>
                             )
                         })}
                         <Divider className="mx-24 my-8"/>
                         {contacts.map(contact => {
-                            const chatContact = user.chatList.find((_chat) => _chat.contactId === contact.id);
+                            const chatContact = user.conversations.find((_chat) => _chat.contactId == contact.id);
                             return !chatContact ? <ContactButton key={contact.id} contact={contact}/> : '';
                         })}
                     </FuseAnimateGroup>

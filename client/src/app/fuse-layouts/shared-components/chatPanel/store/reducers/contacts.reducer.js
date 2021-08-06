@@ -2,7 +2,8 @@ import * as Actions from '../actions';
 
 const initialState = {
     entities         : [],
-    selectedContactId: null
+    selectedContactId: null,
+    onlineUser: null,
 };
 
 const contactsReducer = function (state = initialState, action) {
@@ -29,6 +30,11 @@ const contactsReducer = function (state = initialState, action) {
                 selectedContactId: null
             };
         }
+        case Actions.GET_ONLINE_USER:
+            return {
+                ...state,
+                onlineUser: action.payload,
+            };
         default:
         {
             return state;

@@ -1,26 +1,36 @@
-import React, {useCallback, useEffect} from 'react';
-import {TextField, Button, Dialog, DialogActions, DialogContent, Icon, IconButton, Typography, Toolbar, AppBar, FormControlLabel, Switch} from '@material-ui/core';
+import React, { useCallback, useEffect } from 'react';
+import { TextField, Button, Dialog, DialogActions, DialogContent, Icon, IconButton, Typography, Toolbar, AppBar, FormControlLabel, Switch } from '@material-ui/core';
 import FuseUtils from '@fuse/FuseUtils';
-import {useForm} from '@fuse/hooks';
-import {useDispatch, useSelector} from 'react-redux';
+import { useForm } from '@fuse/hooks';
+import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import * as Actions from './store/actions';
+import { withStyles } from '@material-ui/core/styles';
 
 const defaultFormState = {
-    id    : FuseUtils.generateGUID(),
-    title : '',
+    id: FuseUtils.generateGUID(),
+    title: '',
     allDay: true,
-    start : new Date(),
-    end   : new Date(),
-    desc  : ''
+    start: new Date(),
+    end: new Date(),
+    desc: ''
 };
-
-function EventDialog(props)
-{
+const DarkerDisabledTextField = withStyles({
+    root: {
+        marginRight: 8,
+        "& .MuiInputBase-root.Mui-disabled": {
+            color: "rgba(0, 0, 0, 0.6)" // (default alpha is 0.38)
+        },
+        ".MuiInputBase-input": {
+            color: "red"
+        }
+    }
+})(TextField);
+function EventDialog(props) {
     const dispatch = useDispatch();
-    const eventDialog = useSelector(({calendarApp}) => calendarApp.events.eventDialog);
+    const eventDialog = useSelector(({ calendarApp }) => calendarApp.events.eventDialog);
 
-    const {form, handleChange, setForm} = useForm(defaultFormState);
+    const { form, handleChange, setForm } = useForm(defaultFormState);
     let start = moment(form.start).format(moment.HTML5_FMT.DATETIME_LOCAL_SECONDS);
     let end = moment(form.end).format(moment.HTML5_FMT.DATETIME_LOCAL_SECONDS);
 
@@ -29,16 +39,14 @@ function EventDialog(props)
             /**
              * Dialog type: 'edit'
              */
-            if ( eventDialog.type === 'edit' && eventDialog.data )
-            {
-                setForm({...eventDialog.data});
+            if (eventDialog.type === 'edit' && eventDialog.data) {
+                setForm({ ...eventDialog.data });
             }
 
             /**
              * Dialog type: 'new'
              */
-            if ( eventDialog.type === 'new' )
-            {
+            if (eventDialog.type === 'new') {
                 setForm({
                     ...defaultFormState,
                     ...eventDialog.data,
@@ -53,41 +61,34 @@ function EventDialog(props)
         /**
          * After Dialog Open
          */
-        if ( eventDialog.props.open )
-        {
+        if (eventDialog.props.open) {
             initDialog();
         }
     }, [eventDialog.props.open, initDialog]);
 
-    function closeComposeDialog()
-    {
+    function closeComposeDialog() {
         eventDialog.type === 'edit' ? dispatch(Actions.closeEditEventDialog()) : dispatch(Actions.closeNewEventDialog());
     }
 
-    function canBeSubmitted()
-    {
+    function canBeSubmitted() {
         return (
             form.title.length > 0
         );
     }
 
-    function handleSubmit(event)
-    {
+    function handleSubmit(event) {
         event.preventDefault();
 
-        if ( eventDialog.type === 'new' )
-        {
+        if (eventDialog.type === 'new') {
             dispatch(Actions.addEvent(form));
         }
-        else
-        {
+        else {
             dispatch(Actions.updateEvent(form));
         }
         closeComposeDialog();
     }
 
-    function handleRemove()
-    {
+    function handleRemove() {
         dispatch(Actions.removeEvent(form.id));
         closeComposeDialog();
     }
@@ -98,14 +99,15 @@ function EventDialog(props)
             <AppBar position="static">
                 <Toolbar className="flex w-full">
                     <Typography variant="subtitle1" color="inherit">
-                        {eventDialog.type === 'new' ? 'New Event' : 'Edit Event'}
+                        {eventDialog.type === 'new' ? 'New Event' : 'View Card'}
                     </Typography>
+
                 </Toolbar>
             </AppBar>
 
             <form noValidate onSubmit={handleSubmit}>
-                <DialogContent classes={{root: "p-16 pb-0 sm:p-24 sm:pb-0"}}>
-                    <TextField
+                <DialogContent classes={{ root: "p-16 pb-0 sm:p-24 sm:pb-0" }}>
+                    <DarkerDisabledTextField
                         id="title"
                         label="Title"
                         className="mt-8 mb-16"
@@ -122,9 +124,10 @@ function EventDialog(props)
                         autoFocus
                         required
                         fullWidth
+                        disabled
                     />
 
-                    <FormControlLabel
+                    {/* <FormControlLabel
                         className="mt-8 mb-16"
                         label="All Day"
                         control={
@@ -134,9 +137,9 @@ function EventDialog(props)
                                 name="allDay"
                                 onChange={handleChange}
                             />
-                        }/>
+                        } /> */}
 
-                    <TextField
+                    <DarkerDisabledTextField
                         id="start"
                         name="start"
                         label="Start"
@@ -152,9 +155,10 @@ function EventDialog(props)
                         onChange={handleChange}
                         variant="outlined"
                         fullWidth
+                        disabled
                     />
 
-                    <TextField
+                    <DarkerDisabledTextField
                         id="end"
                         name="end"
                         label="End"
@@ -170,9 +174,10 @@ function EventDialog(props)
                         onChange={handleChange}
                         variant="outlined"
                         fullWidth
+                        disabled
                     />
 
-                    <TextField
+                    <DarkerDisabledTextField
                         className="mt-8 mb-16"
                         id="desc" label="Description"
                         type="text"
@@ -182,6 +187,7 @@ function EventDialog(props)
                         multiline rows={5}
                         variant="outlined"
                         fullWidth
+                        disabled
                     />
                 </DialogContent>
 
@@ -198,16 +204,14 @@ function EventDialog(props)
                     </DialogActions>
                 ) : (
                     <DialogActions className="justify-between pl-8 sm:pl-16">
-                        <Button
+                        {/* <Button
                             variant="contained"
                             color="primary"
                             type="submit"
                             disabled={!canBeSubmitted()}
                         > Save
-                        </Button>
-                        <IconButton onClick={handleRemove}>
-                            <Icon>delete</Icon>
-                        </IconButton>
+                        </Button> */}
+
                     </DialogActions>
                 )}
             </form>

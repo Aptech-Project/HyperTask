@@ -66,17 +66,8 @@ function ProjectDashboardApp(props) {
         id: 1,
         menuEl: null,
     });
-
-    // const handleUnload = () => {
-    //     console.log('window will be closed');
-    // }
-
+    
     useEffect(() => {
-        // window.addEventListener("beforeunload", (ev) => {
-        //     ev.preventDefault();
-        //     handleUnload();
-        //     return (ev.returnValue = "Are you sure you want to close?");
-        // });
         dispatch(Actions.getWidgets());
         dispatch(Actions.getProjects());
     }, [dispatch]);

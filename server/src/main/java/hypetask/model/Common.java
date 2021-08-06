@@ -6,20 +6,20 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "chat")
-public class Chat {
+@Table(name = "common")
+public class Common {
 	@Id
 	@Column(name = "id", unique = true, nullable = false)
 	private String id;
-	@Column(name = "dialog")
-	private String dialog;
+	@Column(name = "content")
+	private String content;
 
-	public Chat() {
+	public Common() {
 	}
 
-	public Chat(String dialog) {
+	public Common(String content) {
 		super();
-		this.dialog = dialog;
+		this.content = content;
 	}
 
 	public String getId() {
@@ -30,11 +30,11 @@ public class Chat {
 		this.id = id;
 	}
 
-	public String getDialog() {
-		return dialog;
+	public String getContent() {
+		return content;
 	}
 
-	public void setDialog(String dialog) {
-		this.dialog = dialog;
+	public void setContent(String content) {
+		this.content = content;
 	}
 }
