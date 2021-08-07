@@ -71,7 +71,6 @@ function ContactList(props)
     const contacts = useSelector(({chatPanel}) => chatPanel.contacts.entities);
     const selectedContactId = useSelector(({chatPanel}) => chatPanel.contacts.selectedContactId);
     const onlineUser = useSelector(({chatPanel}) => chatPanel.contacts.onlineUser?.content);
-    console.log('onlineUser: ' + onlineUser)
     const user = useSelector(({chatPanel}) => chatPanel.user);
 
     useEffect(() => {

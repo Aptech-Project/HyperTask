@@ -82,14 +82,14 @@ function ChatPanel(props)
         dispatch(Actions.setUserStatus(currentUserId, false));
     }
 
-    useEffect(() => {
-        dispatch(Actions.setUserStatus(currentUserId, true));
-        window.addEventListener("beforeunload", (ev) => {
-            ev.preventDefault();
-            handleUnload();
-            return (ev.returnValue = "Are you sure you want to close?");
-        });
-    })
+    // useEffect(() => {
+    //     dispatch(Actions.setUserStatus(currentUserId, true));
+    //     window.addEventListener("beforeunload", (ev) => {
+    //         ev.preventDefault();
+    //         handleUnload();
+    //         return (ev.returnValue = "Are you sure you want to close?");
+    //     });
+    // })
 
     useEffect(() => {
         if ( state )

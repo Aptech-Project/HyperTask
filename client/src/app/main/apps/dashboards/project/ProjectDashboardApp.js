@@ -12,11 +12,11 @@ import {
 import { FuseAnimateGroup, FusePageSimple } from "@fuse";
 import { useDispatch, useSelector } from "react-redux";
 import withReducer from "app/store/withReducer";
-import * as Actions from "./store/actions";
-import reducer from "./store/reducers";
 import _ from "lodash";
 import clsx from "clsx";
-import Widget1 from "./widgets/Widget1";
+import * as Actions from "./store/actions/projects.actions";
+import reducer from "./store/reducers/projects.reducer";
+import WidgetTotal from "./widgets/WidgetTotal";
 import Widget2 from "./widgets/Widget2";
 import Widget3 from "./widgets/Widget3";
 import Widget4 from "./widgets/Widget4";
@@ -27,9 +27,8 @@ import Widget8 from "./widgets/Widget8";
 import Widget9 from "./widgets/Widget9";
 import Widget10 from "./widgets/Widget10";
 import Widget11 from "./widgets/Widget11";
-import WidgetNow from "./widgets/WidgetNow";
-import WidgetWeather from "./widgets/WidgetWeather";
 import { makeStyles } from "@material-ui/styles";
+import { projectData } from './MockData';
 
 const useStyles = makeStyles((theme) => ({
     content: {
@@ -52,12 +51,9 @@ const useStyles = makeStyles((theme) => ({
 
 function ProjectDashboardApp(props) {
     const dispatch = useDispatch();
-    const widgets = useSelector(
-        ({ projectDashboardApp }) => projectDashboardApp.widgets
-    );
-    const projects = useSelector(
-        ({ projectDashboardApp }) => projectDashboardApp.projects
-    );
+    const projects = projectData.projects;
+    const widgets = projectData.widgets;
+    const user = useSelector((state)=>state.login.findId);
 
     const classes = useStyles(props);
     const pageLayout = useRef(null);
@@ -66,11 +62,6 @@ function ProjectDashboardApp(props) {
         id: 1,
         menuEl: null,
     });
-    
-    useEffect(() => {
-        dispatch(Actions.getWidgets());
-        dispatch(Actions.getProjects());
-    }, [dispatch]);
 
     function handleChangeTab(event, tabValue) {
         setTabValue(tabValue);
@@ -97,10 +88,6 @@ function ProjectDashboardApp(props) {
         });
     }
 
-    if (!widgets || !projects) {
-        return null;
-    }
-
     return (
         <FusePageSimple
             classes={{
@@ -113,7 +100,7 @@ function ProjectDashboardApp(props) {
                 <div className="flex flex-col justify-between flex-1 px-24 pt-24">
                     <div className="flex justify-between items-start">
                         <Typography className="py-0 sm:py-24" variant="h4">
-                            Welcome back, Ngoc Hai!
+                            Welcome back, {(user && user.fullname) || "Guest "} !
                         </Typography>
                         <Hidden lgUp>
                             <IconButton
@@ -210,7 +197,7 @@ function ProjectDashboardApp(props) {
                             }}
                         >
                             <div className="widget flex w-full sm:w-1/2 md:w-1/4 p-12">
-                                <Widget1 widget={widgets.widget1} />
+                                <WidgetTotal widget={widgets.widget1} />
                             </div>
                             <div className="widget flex w-full sm:w-1/2 md:w-1/4 p-12">
                                 <Widget2 widget={widgets.widget2} />
@@ -263,21 +250,6 @@ function ProjectDashboardApp(props) {
                         </FuseAnimateGroup>
                     )}
                 </div>
-            }
-            rightSidebarContent={
-                <FuseAnimateGroup
-                    className="w-full"
-                    enter={{
-                        animation: "transition.slideUpBigIn",
-                    }}
-                >
-                    <div className="widget w-full p-12">
-                        <WidgetNow />
-                    </div>
-                    <div className="widget w-full p-12">
-                        <WidgetWeather widget={widgets.weatherWidget} />
-                    </div>
-                </FuseAnimateGroup>
             }
             ref={pageLayout}
         />

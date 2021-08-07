@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {Icon, Typography, Select, Paper, IconButton} from '@material-ui/core';
 
-function Widget1(props)
+function WidgetTotal(props)
 {
     const [currentRange, setCurrentRange] = useState(props.widget.currentRange);
 
@@ -48,4 +48,4 @@ function Widget1(props)
     );
 }
 
-export default React.memo(Widget1);
+export default React.memo(WidgetTotal);
