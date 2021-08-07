@@ -57,13 +57,13 @@ function ChatPanel(props)
     const dispatch = useDispatch();
     const contacts = useSelector(({chatPanel}) => chatPanel.contacts.entities);
     const onlineUser = useSelector(({chatPanel}) => chatPanel.contacts.onlineUser?.content);
-    console.log('onlineUser')
-    console.log(onlineUser)
+    console.log('onlineUser: ' + onlineUser)
     const selectedContactId = useSelector(({chatPanel}) => chatPanel.contacts.selectedContactId);
     const state = useSelector(({chatPanel}) => chatPanel.state);
     const classes = useStyles(props);
     const selectedContact = contacts.find(_contact => _contact.id === selectedContactId);
     const currentUserId = localStorage.getItem('user_authenticated');
+   
     
     const handleDocumentKeyDown = useCallback(event => {
         if ( keycode(event) === 'esc' )

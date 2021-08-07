@@ -25,7 +25,6 @@ const getChatData = async (contactId, user) => {
         .then((res) => {
             if (res.status == 200) {
                 chatData = deserializeObject(res.data);
-                console.log("get chat success");
             }
         })
         .catch((err) => console.log(err));
@@ -59,9 +58,6 @@ async function createNewChat(contactId, user) {
     await axios
         .post(endPointApi.users.update, serializeObject({ ...user }))
         .then((res) => {
-            if (res.status == 200) {
-                console.log("Update user conversations success");
-            }
         })
         .catch((err) => console.log(err));
     const newChat = {
@@ -88,9 +84,6 @@ async function createNewChat(contactId, user) {
             await axios
                 .post(endPointApi.users.update, serializeObject({ ...friend }))
                 .then((res) => {
-                    if (res.status == 200) {
-                        console.log("Update friend conversations success");
-                    }
                 })
                 .catch((err) => console.log(err));
         })
@@ -101,9 +94,6 @@ async function createNewChat(contactId, user) {
     await axios
         .post(endPointApi.chat.createChat, serializeObject({ ...newChat }))
         .then((res) => {
-            if (res.status == 200) {
-                console.log("Update chat db success");
-            }
         })
         .catch((err) => console.log(err));
     return chatId;

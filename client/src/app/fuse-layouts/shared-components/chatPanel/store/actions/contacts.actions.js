@@ -23,7 +23,6 @@ export const getContacts = (id) => async (dispatch) => {
         .get(endPointApi.users.fetchById + id)
         .then((response) => {
             const contact = deserializeObject(response.data).contact.map(item => {
-                console.log(allUser);
                 const currentUser = allUser.find(el => el.id == item.id);
                 const avatar = JSON.parse(currentUser.info).avatar || "assets/images/avatars/default-avatar.png";
                 const name = currentUser.fullname;
@@ -64,7 +63,6 @@ export const getOnlineUser = () => (dispatch) => {
 }
 
 export const setUserStatus = (userId, status) => (dispatch, getState) => {
-    console.log(getState());
     const userCommon = getState().chatPanel.contacts.onlineUser;
     if (userCommon) {
         let newUserCommon = deserializeObject({...userCommon});

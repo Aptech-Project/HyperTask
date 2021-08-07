@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React, {useMemo, useRef} from 'react';
 import {Button, Avatar, Divider, Tooltip} from '@material-ui/core';
 import {FuseScrollbars, FuseAnimateGroup} from '@fuse';
 import clsx from 'clsx';
@@ -125,29 +125,34 @@ function ContactList(props)
             className={clsx(classes.root, "flex flex-shrink-0 flex-col overflow-y-auto py-8")}
             ref={contactListScroll}
         >
-            {contacts.length > 0 && (
-                <React.Fragment>
-                    <FuseAnimateGroup
-                        enter={{
-                            animation: "transition.expandIn"
-                        }}
-                        className="flex flex-col flex-shrink-0"
-                    >
-                        {(user && user.conversations) &&
-                        user.conversations.map(chat => {
-                            const contact = contacts.find((_contact) => _contact.id == chat.contactId);
-                            return (
-                                <ContactButton key={contact.id} contact={contact}/>
-                            )
-                        })}
-                        <Divider className="mx-24 my-8"/>
-                        {contacts.map(contact => {
-                            const chatContact = user.conversations.find((_chat) => _chat.contactId == contact.id);
-                            return !chatContact ? <ContactButton key={contact.id} contact={contact}/> : '';
-                        })}
-                    </FuseAnimateGroup>
-                </React.Fragment>
-            )}
+            {useMemo(() => {
+                console.log("conponent re-render")
+                return (contacts.length > 0 && (
+                    <React.Fragment>
+                        <FuseAnimateGroup
+                            enter={{
+                                animation: "transition.expandIn"
+                            }}
+                            className="flex flex-col flex-shrink-0"
+                        >
+                            
+                            
+                            {(user && user.conversations) &&
+                            user.conversations.map(chat => {
+                                const contact = contacts.find((_contact) => _contact.id == chat.contactId);
+                                return (
+                                    <ContactButton key={contact.id} contact={contact}/>
+                                )
+                            })}
+                            <Divider className="mx-24 my-8"/>
+                            {contacts.map(contact => {
+                                const chatContact = user.conversations.find((_chat) => _chat.contactId == contact.id);
+                                return !chatContact ? <ContactButton key={contact.id} contact={contact}/> : '';
+                            })}
+                        </FuseAnimateGroup>
+                    </React.Fragment>
+                ))           
+            }, [contacts, selectedContactId, user])}
         </FuseScrollbars>
     );
 }
