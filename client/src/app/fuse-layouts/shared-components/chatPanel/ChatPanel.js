@@ -56,8 +56,6 @@ function ChatPanel(props)
 {
     const dispatch = useDispatch();
     const contacts = useSelector(({chatPanel}) => chatPanel.contacts.entities);
-    const onlineUser = useSelector(({chatPanel}) => chatPanel.contacts.onlineUser?.content);
-    console.log('onlineUser: ' + onlineUser)
     const selectedContactId = useSelector(({chatPanel}) => chatPanel.contacts.selectedContactId);
     const state = useSelector(({chatPanel}) => chatPanel.state);
     const classes = useStyles(props);
@@ -71,10 +69,6 @@ function ChatPanel(props)
             dispatch(Actions.closeChatPanel());
         }
     }, [dispatch]);
-
-    useEffect(() => {
-        setInterval(() => dispatch(Actions.getOnlineUser()), 2000);
-    },[dispatch])
 
     useEffect(() => {
         dispatch(Actions.getUserData(currentUserId));

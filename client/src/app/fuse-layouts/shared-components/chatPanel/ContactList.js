@@ -1,4 +1,4 @@
-import React, {useMemo, useRef} from 'react';
+import React, {useEffect, useMemo, useRef} from 'react';
 import {Button, Avatar, Divider, Tooltip} from '@material-ui/core';
 import {FuseScrollbars, FuseAnimateGroup} from '@fuse';
 import clsx from 'clsx';
@@ -71,11 +71,12 @@ function ContactList(props)
     const contacts = useSelector(({chatPanel}) => chatPanel.contacts.entities);
     const selectedContactId = useSelector(({chatPanel}) => chatPanel.contacts.selectedContactId);
     const onlineUser = useSelector(({chatPanel}) => chatPanel.contacts.onlineUser?.content);
-    let user = useSelector(({chatPanel}) => chatPanel.user);
+    console.log('onlineUser: ' + onlineUser)
+    const user = useSelector(({chatPanel}) => chatPanel.user);
 
-    if (user) {
-        user = deserializeObject(user);
-    }
+    useEffect(() => {
+        setInterval(() => dispatch(Actions.getOnlineUser()), 2000);
+    },[dispatch])
 
     const classes = useStyles();
     const contactListScroll = useRef(null);
@@ -125,9 +126,8 @@ function ContactList(props)
             className={clsx(classes.root, "flex flex-shrink-0 flex-col overflow-y-auto py-8")}
             ref={contactListScroll}
         >
-            {useMemo(() => {
-                console.log("conponent re-render")
-                return (contacts.length > 0 && (
+
+                {(contacts.length > 0 && (
                     <React.Fragment>
                         <FuseAnimateGroup
                             enter={{
@@ -151,8 +151,7 @@ function ContactList(props)
                             })}
                         </FuseAnimateGroup>
                     </React.Fragment>
-                ))           
-            }, [contacts, selectedContactId, user])}
+                ))}
         </FuseScrollbars>
     );
 }
