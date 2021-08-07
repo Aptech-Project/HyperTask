@@ -10,6 +10,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
 import ReactTable from "react-table";
 import * as Actions from 'app/main/pages/profile/tabs/store/actions/contact.action'
+import { getContacts } from 'app/fuse-layouts/shared-components/chatPanel/store/actions';
 function ContactSend(props) {
     const dispatch = useDispatch();
     // const contacts = useSelector(({ contactsApp }) => contactsApp.contacts.entities);
@@ -192,6 +193,7 @@ function ContactSend(props) {
                                             onClick={() => {
                                                 handleCloseAcp();
                                                 dispatch(Actions.acceptFriend(row.original.id, userAuth));
+                                                dispatch(getContacts(userAuth));
                                             }}
                                             color="primary">
                                             Accept

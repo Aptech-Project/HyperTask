@@ -11,6 +11,7 @@ import ReactTable from "react-table";
 import * as action from 'app/auth/store/actions/login.actions'
 import * as Actions from 'app/main/pages/profile/tabs/store/actions/contact.action'
 import Button from '@material-ui/core/Button';
+import { getContacts } from 'app/fuse-layouts/shared-components/chatPanel/store/actions';
 function ContactRequest(props) {
     const dispatch = useDispatch();
     const userAuth = useSelector(state => state.login.userAuth)
@@ -126,6 +127,7 @@ function ContactRequest(props) {
                                             style={{ fontSize: 10, backgroundColor: 'rgb(180, 0, 0)', color: 'white' }}
                                             onClick={() => {
                                                 dispatch(Actions.removeFriendSend(id, userAuth));
+                                                dispatch(getContacts(userAuth));
                                                 handleClose();
                                             }}
                                             color="primary">
