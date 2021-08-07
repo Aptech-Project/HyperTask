@@ -57,8 +57,7 @@ async function createNewChat(contactId, user) {
     // Create new user conversations
     await axios
         .post(endPointApi.users.update, serializeObject({ ...user }))
-        .then((res) => {
-        })
+        .then((res) => {})
         .catch((err) => console.log(err));
     const newChat = {
         id: chatId,
@@ -70,7 +69,7 @@ async function createNewChat(contactId, user) {
     let friend = null;
     await axios
         .get(endPointApi.users.fetchById + contactId)
-        .then( async (response) => {
+        .then(async (response) => {
             friend = deserializeObject(response.data);
             // 2. Update conversation data for friend
             friend.conversations = [
@@ -83,25 +82,29 @@ async function createNewChat(contactId, user) {
             ];
             await axios
                 .post(endPointApi.users.update, serializeObject({ ...friend }))
-                .then((res) => {
-                })
+                .then((res) => {})
                 .catch((err) => console.log(err));
         })
         .catch((err) => console.log(err));
 
-
     // Update chat db
     await axios
         .post(endPointApi.chat.createChat, serializeObject({ ...newChat }))
-        .then((res) => {
-        })
+        .then((res) => {})
         .catch((err) => console.log(err));
     return chatId;
 }
 
 export function getChat(contactId) {
     return async (dispatch, getState) => {
-        const user = getState().chatPanel.user;
+        let user;
+        const currentUserId = getState().chatPanel.user.id;
+        await axios
+            .get(endPointApi.users.fetchById + currentUserId)
+            .then(async (response) => {
+                user = deserializeObject(response.data);
+            })
+            .catch((err) => console.log(err));
         const { chat, userChatData } = await getChatData(contactId, user);
 
         dispatch(setselectedContactId(contactId));
