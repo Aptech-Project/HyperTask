@@ -82,6 +82,7 @@ function ChatPanel(props)
         dispatch(Actions.setUserStatus(currentUserId, false));
     }
 
+    // haiduongtodo: re open these lines
     // useEffect(() => {
     //     dispatch(Actions.setUserStatus(currentUserId, true));
     //     window.addEventListener("beforeunload", (ev) => {

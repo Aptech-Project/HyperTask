@@ -47,6 +47,16 @@ const useStyles = makeStyles((theme) => ({
         borderRadius: "0 8px 0 0",
         marginLeft: 1,
     },
+    headerIcon: {
+        position: 'absolute',
+        top: 0,
+        left: '80%',
+        opacity: .2,
+        fontSize: 160,
+        width: 200,
+        height: 200,
+        pointerEvents: 'none'
+    }
 }));
 
 function ProjectDashboardApp(props) {
@@ -62,6 +72,12 @@ function ProjectDashboardApp(props) {
         id: 1,
         menuEl: null,
     });
+
+    useEffect(() => {
+        if (user) {
+            dispatch(Actions.getDashBoardData(user.id));
+        }
+    }, [])
 
     function handleChangeTab(event, tabValue) {
         setTabValue(tabValue);
@@ -102,6 +118,9 @@ function ProjectDashboardApp(props) {
                         <Typography className="py-0 sm:py-24" variant="h4">
                             Welcome back, {(user && user.fullname) || "Guest "} !
                         </Typography>
+                            <Icon className={classes.headerIcon}>insert_chart_outlined</Icon>
+                            {/* <Icon style={{left:'60%'}} className={classes.headerIcon}>show_chart</Icon>
+                            <Icon style={{left:'70%'}} className={classes.headerIcon}>bubble_chart</Icon> */}
                         <Hidden lgUp>
                             <IconButton
                                 onClick={(ev) =>

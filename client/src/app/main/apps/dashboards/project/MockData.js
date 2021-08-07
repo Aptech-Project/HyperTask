@@ -1,26 +1,13 @@
 export const projectData = {
     widgets: {
         widget1: {
-            ranges: {
-                DY: "Yesterday",
-                DT: "Today",
-                DTM: "Tomorrow",
-            },
-            currentRange: "DT",
+            title: "On going",
             data: {
                 label: "DUE TASKS",
-                count: {
-                    DY: 21,
-                    DT: 25,
-                    DTM: 19,
-                },
+                count: 4,
                 extra: {
                     label: "Completed",
-                    count: {
-                        DY: 6,
-                        DT: 7,
-                        DTM: "-",
-                    },
+                    count: 7,
                 },
             },
             detail: "You can show some detailed information about this widget in here.",

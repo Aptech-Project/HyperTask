@@ -43,3 +43,6 @@ VI. Run & Debug java app in VSCode app
         Add breakpoint then click run
 
     
+VII. Dashboard design:
+    4 widget: ongoing task, overdue task, completed task, check lists
+    

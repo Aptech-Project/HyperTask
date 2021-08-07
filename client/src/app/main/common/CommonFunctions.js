@@ -8,6 +8,15 @@ export const serializeObject = (object) => {
 }
 
 export const deserializeObject = (object) => {
+    if (Array.isArray(object)) {
+        object.forEach(item => {
+            Object.keys(item).forEach(key => {
+                try {
+                    item[key] = JSON.parse(`${item[key]}`)
+                } catch (error) { }
+            })
+        })
+    }
     Object.keys(object).forEach(key => {
         try {
             object[key] = JSON.parse(`${object[key]}`)
