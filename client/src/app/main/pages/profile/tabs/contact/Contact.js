@@ -11,6 +11,7 @@ import ReactTable from "react-table";
 import * as action from 'app/auth/store/actions/login.actions'
 import * as Actions from 'app/main/pages/profile/tabs/store/actions/contact.action'
 import Button from '@material-ui/core/Button';
+import { showMessage } from 'app/store/actions/fuse';
 function ContactsList(props) {
     const dispatch = useDispatch();
     const [account, setAccount] = useState([]);
@@ -31,15 +32,6 @@ function ContactsList(props) {
     }, [])
 
     let allfriend = useSelector(state => state.friend.listfriend)
-    // useEffect(() => {
-    //     action.fetchById(1)
-    // }, [])
-    // useEffect(() => {
-    //     if (user2 !== undefined) (
-    //         setAccount(user2)
-    //     )
-    // }, [user2])
-    // console.log(JSON.parse(user2.contact))
     const [friend, setFriend] = useState([])
     const [filteredData, setFilteredData] = useState(null);
     console.log(allfriend)
@@ -52,17 +44,7 @@ function ContactsList(props) {
             setFriend(allfriend)
         )
     }, [allfriend])
-    // console.log(user1)
     useEffect(() => {
-        // function getFilteredArray(entities, searchText) {
-        //     const arr = Object.keys(entities).map((id) => entities[id]);
-        //     if (searchText.length === 0) {
-        //         return arr;
-        //     }
-        //     return FuseUtils.filterArrayByString(arr, searchText);
-        // }
-
-        // if (contacts) {
         setFilteredData(friend);
 
     }, [friend]);
@@ -71,15 +53,6 @@ function ContactsList(props) {
     if (!filteredData) {
         return null;
     }
-    // if (filteredData.length === 0) {
-    //     return (
-    //         <div className="flex flex-1 items-center justify-center h-full">
-    //             <Typography color="textSecondary" variant="h5">
-    //                 There are no contacts!
-    //             </Typography>
-    //         </div>
-    //     );
-    // }
 
     return (
         <FuseAnimate animation="transition.slideUpIn" delay={300}>
@@ -155,6 +128,17 @@ function ContactsList(props) {
                                             style={{ fontSize: 10, backgroundColor: 'rgb(180, 0, 0)', color: 'white' }}
                                             onClick={() => {
                                                 handleClose();
+                                                dispatch(
+                                                    showMessage({
+                                                        message: "Successfully deleted friend !",
+                                                        variant: "success",
+                                                        autoHideDuration: 2000,
+                                                        anchorOrigin: {
+                                                            vertical: "top",
+                                                            horizontal: "right",
+                                                        },
+                                                    })
+                                                );
                                                 dispatch(Actions.removeFriend(id, userAuth));
                                             }}
                                             color="primary">

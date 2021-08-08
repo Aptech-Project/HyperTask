@@ -10,23 +10,17 @@ import { makeStyles } from '@material-ui/core/styles';
 import { showMessage } from 'app/store/actions/fuse';
 import * as Actions from '../store/actions/contact.action'
 import { getContacts } from 'app/fuse-layouts/shared-components/chatPanel/store/actions';
+
 const AddContact = ({ ...props }) => {
     const [textsearch, setTextSearch] = useState('')
     const dispatch = useDispatch();
     const listSearch = useSelector(state => state.friend.listsearchfriend)
     const [listSearchFriend, setListSearch] = useState([])
     const userAuth = useSelector(state => state.login.userAuth)
-    const [a, A] = useState([-1, 2])
-    const [color, setColors] = useState("");
-    const [active, setActive] = useState(false);
-    const handleClickButton = (name) => {
-        setActive(true);
-        setColors("red");
-        if (active === true) {
-            setActive(false);
-            setColors("red");
-        }
-    };
+    useEffect(() => {
+        dispatch(Actions.searchFriend("", userAuth));
+    }, [])
+
     useEffect(() => {
         if (listSearch !== undefined) (
             setListSearch(listSearch)
@@ -55,9 +49,6 @@ const AddContact = ({ ...props }) => {
     }));
     console.log(listSearchFriend);
     const classes = useStyles();
-    const b = (index) => {
-        A(index)
-    }
     const renderListSearch = () => {
         console.log(textsearch)
         if (!listSearchFriend.length) {
@@ -105,13 +96,22 @@ const AddContact = ({ ...props }) => {
                                                     <Button
                                                         variant="contained"
                                                         color="primary"
-                                                        style={{ float: "right", fontSize: "10px", marginTop: '30px', backgroundColor: { color } }}
+                                                        style={{ float: "right", fontSize: "10px", marginTop: '30px' }}
                                                         onClick={() => {
+                                                            dispatch(
+                                                                showMessage({
+                                                                    message: "Add new friend success !",
+                                                                    variant: "success",
+                                                                    autoHideDuration: 2000,
+                                                                    anchorOrigin: {
+                                                                        vertical: "top",
+                                                                        horizontal: "right",
+                                                                    },
+                                                                })
+                                                            );
                                                             dispatch(Actions.sendFriend(userAuth, record.id, textsearch));
                                                             dispatch(getContacts(userAuth))
                                                             setListSearch(listSearch)
-                                                            handleClickButton(record.username)
-                                                            b(index)
                                                         }}
                                                     >
                                                         Add Friend

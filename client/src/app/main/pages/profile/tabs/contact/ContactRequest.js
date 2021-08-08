@@ -11,7 +11,9 @@ import ReactTable from "react-table";
 import * as action from 'app/auth/store/actions/login.actions'
 import * as Actions from 'app/main/pages/profile/tabs/store/actions/contact.action'
 import Button from '@material-ui/core/Button';
+import { showMessage } from 'app/store/actions/fuse';
 import { getContacts } from 'app/fuse-layouts/shared-components/chatPanel/store/actions';
+
 function ContactRequest(props) {
     const dispatch = useDispatch();
     const userAuth = useSelector(state => state.login.userAuth)
@@ -129,6 +131,17 @@ function ContactRequest(props) {
                                                 dispatch(Actions.removeFriendSend(id, userAuth));
                                                 dispatch(getContacts(userAuth));
                                                 handleClose();
+                                                dispatch(
+                                                    showMessage({
+                                                        message: "Successfully deleted the sent invitation !",
+                                                        variant: "success",
+                                                        autoHideDuration: 2000,
+                                                        anchorOrigin: {
+                                                            vertical: "top",
+                                                            horizontal: "right",
+                                                        },
+                                                    })
+                                                );
                                             }}
                                             color="primary">
                                             Remove
@@ -143,7 +156,7 @@ function ContactRequest(props) {
                     }
                 ]}
                 defaultPageSize={10}
-                noDataText="No contacts found"
+                noDataText="Sent invitation not found"
             />
         </FuseAnimate>
     );

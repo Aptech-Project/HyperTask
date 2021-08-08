@@ -11,6 +11,7 @@ import Button from '@material-ui/core/Button';
 import ReactTable from "react-table";
 import * as Actions from 'app/main/pages/profile/tabs/store/actions/contact.action'
 import { getContacts } from 'app/fuse-layouts/shared-components/chatPanel/store/actions';
+import { showMessage } from 'app/store/actions/fuse';
 function ContactSend(props) {
     const dispatch = useDispatch();
     // const contacts = useSelector(({ contactsApp }) => contactsApp.contacts.entities);
@@ -164,6 +165,17 @@ function ContactSend(props) {
                                         <Button
                                             style={{ fontSize: 10, backgroundColor: 'rgb(180, 0, 0)', color: 'white' }}
                                             onClick={() => {
+                                                dispatch(
+                                                    showMessage({
+                                                        message: "Successfully deleted the request invitation !",
+                                                        variant: "success",
+                                                        autoHideDuration: 2000,
+                                                        anchorOrigin: {
+                                                            vertical: "top",
+                                                            horizontal: "right",
+                                                        },
+                                                    })
+                                                );
                                                 handleClose();
                                                 dispatch(Actions.removeFriendReceive(id, userAuth));
                                             }}
@@ -191,9 +203,21 @@ function ContactSend(props) {
                                         <Button
                                             style={{ fontSize: 10, backgroundColor: '#3c4454', color: 'white' }}
                                             onClick={() => {
+                                                dispatch(
+                                                    showMessage({
+                                                        message: "Accepted friend request successfully !",
+                                                        variant: "success",
+                                                        autoHideDuration: 2000,
+                                                        anchorOrigin: {
+                                                            vertical: "top",
+                                                            horizontal: "right",
+                                                        },
+                                                    })
+                                                );
                                                 handleCloseAcp();
                                                 dispatch(Actions.acceptFriend(row.original.id, userAuth));
                                                 dispatch(getContacts(userAuth));
+
                                             }}
                                             color="primary">
                                             Accept
@@ -208,7 +232,7 @@ function ContactSend(props) {
                     }
                 ]}
                 defaultPageSize={10}
-                noDataText="No contacts found"
+                noDataText="Received invitation not found"
             />
         </FuseAnimate>
     );
