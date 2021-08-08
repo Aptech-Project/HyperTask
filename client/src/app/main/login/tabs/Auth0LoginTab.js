@@ -29,7 +29,7 @@ const Auth0LoginTab = ({ classes, ...props }) => {
         }
         if (props.user !== '') {
             setIsAccount(false);
-            dispatch(showMessage({ message: 'Welcome !   ' + props.user.fullname }));
+            dispatch(showMessage({ message: 'Welcome !   ' + props.user.fullname, variant: "success" }));
             loginDispatch(isAuthenticated(props.user.id));
             history.push({
                 pathname: "/",

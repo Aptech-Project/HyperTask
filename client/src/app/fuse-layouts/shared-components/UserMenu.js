@@ -55,7 +55,7 @@ function UserMenu(props) {
         <React.Fragment>
 
             <Button className="h-64" onClick={userMenuClick}>
-                <Avatar className="w-30 h-30" src={avatar || "assets/images/avatars/default-avatar.png"}/>
+                <Avatar className="w-30 h-30" src={avatar || "assets/images/avatars/default-avatar.png"} />
                 <div className="hidden md:flex flex-col ml-12 items-start">
                     <Typography component="span" className="normal-case font-600 flex">
                         {account.fullname}
@@ -114,7 +114,7 @@ function UserMenu(props) {
                             onClick={() => {
                                 props.setUserOffline(user, false)
                                 logoutDispatch(userlogout());
-                                dispatch(showMessage({ message: 'Log out !!!' }));
+                                dispatch(showMessage({ message: 'Log out !!!', variant: "success" }));
                                 history.push({
                                     pathname: "/login",
                                 });

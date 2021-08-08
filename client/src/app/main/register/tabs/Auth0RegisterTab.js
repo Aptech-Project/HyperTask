@@ -36,7 +36,6 @@ const Auth0RegisterTab = ({ classes, ...props }) => {
             setUser(check)
         )
     }, [check])
-    console.log(user)
 
     const validate = (fieldValues = values) => {
         let temp = { ...errors }
@@ -108,7 +107,7 @@ const Auth0RegisterTab = ({ classes, ...props }) => {
 
     const handleSubmit = e => {
         const onSuccess = () => {
-            dispatch(showMessage({ message: 'Register successfull. Please login to website' }));
+            dispatch(showMessage({ message: 'Register successfull. Please login to website', variant: "success" }));
             history.push({
                 pathname: "/login",
             });
@@ -116,10 +115,8 @@ const Auth0RegisterTab = ({ classes, ...props }) => {
         }
         if (validate()) {
             props.createUser(values, onSuccess)
-            console.log(values)
         }
     }
-    //console.log(values)
     return (
         <div className="w-full">
             <Formsy
