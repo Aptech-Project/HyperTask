@@ -7,10 +7,6 @@ const useForm = (initialFieldValues, validate) => {
     const handleInputChange = e => {
         const { name, value } = e.target
         let tmp = {}
-        console.log("namename")
-        console.log(name)
-        console.log(typeof name)
-        console.log(["gender", "birthday", "phoneNumber", "address"].includes(name))
 
         if (["gender", "birthday", "phoneNumber", "address"].includes(name)) {
             tmp = Object.assign({}, values)
@@ -18,8 +14,6 @@ const useForm = (initialFieldValues, validate) => {
         } else {
             tmp = { [name]: value }
         }
-        console.log("tmptmp")
-        console.log(tmp)
         const fieldValue = tmp
 
         setValues({

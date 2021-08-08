@@ -18,7 +18,6 @@ const AboutForm = (props) => {
   const [account, setAccount] = useState(null);
   const [info, setInfo] = useState(null);
   const [user, setUser] = useState([])
-  // const [initialFieldValues, setInitialFieldValues] = useState(null);
   useEffect(() => {
     setAccount([])
   }, []);
@@ -31,8 +30,6 @@ const AboutForm = (props) => {
   useEffect(() => {
     if (account && account !== 'undefined' && account !== []) {
       setInfo(JSON.parse(account.info))
-      // setInitialFieldValues(account);
-      // initialFieldValues = props.account
     }
   }, [account]);
   let check = useSelector(state => state.login.check);
@@ -47,7 +44,7 @@ const AboutForm = (props) => {
       if (fieldValues.fullname === '') {
         temp.fullname = fieldValues.fullname ? "" : "Fullname is required."
       } if (fieldValues.email !== '') {
-        temp.fullname = (/^[a-zA-Z]{1,}(?: [a-zA-Z]+){0,6}$/).test(fieldValues.fullname) ? "" : "Fullname is not valid."
+        temp.fullname = (/^[a-zA-ZàáãạảăắằẳẵặâấầẩẫậèéẹẻẽêềếểễệđìíĩỉịòóõọỏôốồổỗộơớờởỡợùúũụủưứừửữựỳỵỷỹýÀÁÃẠẢĂẮẰẲẴẶÂẤẦẨẪẬÈÉẸẺẼÊỀẾỂỄỆĐÌÍĨỈỊÒÓÕỌỎÔỐỒỔỖỘƠỚỜỞỠỢÙÚŨỤỦƯỨỪỬỮỰỲỴỶỸÝ]{1,}(?: [a-zA-ZàáãạảăắằẳẵặâấầẩẫậèéẹẻẽêềếểễệđìíĩỉịòóõọỏôốồổỗộơớờởỡợùúũụủưứừửữựỳỵỷỹýÀÁÃẠẢĂẮẰẲẴẶÂẤẦẨẪẬÈÉẸẺẼÊỀẾỂỄỆĐÌÍĨỈỊÒÓÕỌỎÔỐỒỔỖỘƠỚỜỞỠỢÙÚŨỤỦƯỨỪỬỮỰỲỴỶỸÝ]+){0,6}$/).test(fieldValues.fullname) ? "" : "Fullname is not valid."
       }
     }
     if ('email' in fieldValues) {
@@ -60,7 +57,7 @@ const AboutForm = (props) => {
       if (fieldValues.email === '') {
         temp.email = fieldValues.email ? "" : "Email is required."
       } if (fieldValues.email !== '') {
-        temp.email = (/^$|.+@.+..+/).test(fieldValues.email) ? "" : "Email is not valid."
+        temp.email = (/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/).test(fieldValues.email) ? "" : "Email is not valid."
       }
       if (err >= 1) {
         err < 1 ? temp.email = "" : temp.email = "Email is existed"
@@ -85,19 +82,11 @@ const AboutForm = (props) => {
   }
   const handleSubmit = e => {
     if (validate()) {
-
-      console.log("values")
-      console.log(values)
-      console.log("initialFieldValues")
-      console.log(initialFieldValues)
       let tmp = Object.assign({}, values)
       tmp.info = JSON.stringify(tmp.info)
       dispatch(Action.update(tmp))
-      console.log("tmptmp")
-      console.log(tmp)
-
     } else {
-      dispatch(showMessage({ message: 'Update profile fail' }));
+      dispatch(showMessage({ message: 'Update profile fail', variant: "error" }));
     }
   }
   const {

@@ -47,7 +47,7 @@ const SecurityForm = (props) => {
         temp.newpass = fieldValues.newpass ? "" : "Password is required."
       }
     if (fieldValues.newpass !== '') {
-      temp.newpass = (/^[A-Za-z0-9]\w{5,}$/).test(fieldValues.newpass) ? "" : "Passwords must be at least 6 in length and contain no special characters"
+      temp.newpass = (/^[A-Za-z0-9!@#$%^&*]{6,20}$/).test(fieldValues.newpass) ? "" : "Passwords must be at least 6 in length"
     }
 
     if ('passwordconfirm' in fieldValues) {
@@ -63,19 +63,11 @@ const SecurityForm = (props) => {
   }
   const handleSubmit = e => {
     if (validate()) {
-
-      console.log("values")
-      console.log(values)
-      console.log("initialFieldValues")
-      console.log(initialFieldValues)
       let tmp = Object.assign({}, values)
       tmp.info = JSON.stringify(tmp.info)
       dispatch(Action.updatePass(tmp))
-      console.log("tmptmp")
-      console.log(tmp)
-
     } else {
-      dispatch(showMessage({ message: 'Update profile fail' }));
+      dispatch(showMessage({ message: 'Update profile fail', variant: "error" }));
     }
   }
   const {

@@ -52,18 +52,9 @@ const SecurityTab = ({ ...props }) => {
   // let p2 = Object.assign({}, person);
   let tmpAccount = Object.assign({}, account)
   tmpAccount.info = info
-  console.log("tmpAccount")
-  console.log(tmpAccount)
-  // if (!user1) {
-  //     return null
-  // }
-  console.log("account");
-  // console.log(account ? JSON.parse(account.info) : "avc");
   const clickEdit = e => {
     setEdit(!edit)
   }
-  console.log("profile")
-  console.log(profile)
 
   return (
     <div className="md:flex max-w">

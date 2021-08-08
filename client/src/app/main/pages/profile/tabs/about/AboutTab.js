@@ -25,6 +25,7 @@ const AboutTab = ({ ...props }) => {
     const profile = useSelector(state => state.login.findId)
     const list = useSelector(state => state.ProfilePage.about)
     const uploadData = useSelector(state => state.ProfilePage.about.uploadData)
+    let allfriend = useSelector(state => state.ProfilePage.about.listfriend)
     const [account, setAccount] = useState(null);
     const [info, setInfo] = useState(null);
     const [edit, setEdit] = useState(false);
@@ -32,6 +33,7 @@ const AboutTab = ({ ...props }) => {
     const [isChangeAvatar, setIsChangeAvatar] = useState(false);
     const [user1, setUser1] = useState(null)
     const [open, setOpen] = useState(false);
+    const [friends, setFriends] = useState([])
     function closeComposeDialog() {
         setAvatar(info.avatar)
         setOpen(false)
@@ -39,11 +41,8 @@ const AboutTab = ({ ...props }) => {
     const dispatch = useDispatch();
     useEffect(() => {
         setAccount([])
+        dispatch(Action.fetchAllFriend(localStorage.getItem('user_authenticated')))
     }, []);
-    console.log("list")
-    console.log(list)
-    console.log("uploadData")
-    console.log(uploadData)
     useEffect(() => {
         if (profile !== 'undefined') (
             setAccount(profile)
@@ -63,7 +62,11 @@ const AboutTab = ({ ...props }) => {
             setAvatar(info.avatar)
         }
     }, [info]);
-
+    useEffect(() => {
+        if (allfriend !== undefined) (
+            setFriends(allfriend)
+        )
+    }, [allfriend])
     if (!account) {
         return null
     }
@@ -73,16 +76,12 @@ const AboutTab = ({ ...props }) => {
     // let p2 = Object.assign({}, person);
     let tmpAccount = Object.assign({}, account)
     tmpAccount.info = info
-    console.log("tmpAccount")
-    console.log(tmpAccount)
     const clickEdit = e => {
         setEdit(!edit)
     }
     const openUploadImage = e => {
         setOpen(true)
     }
-    console.log("profile")
-    console.log(profile)
     function handleUploadChange(e) {
         const file = e.target.files[0];
         if (!file) {
@@ -100,6 +99,9 @@ const AboutTab = ({ ...props }) => {
         dispatch(Action.uploadAvatar(userUpload))
         setOpen(false)
         setIsChangeAvatar(false)
+    }
+    function onClickFriend() {
+        props.onChangeTab()
     }
     return (
         <div className="md:flex max-w">
@@ -184,15 +186,20 @@ const AboutTab = ({ ...props }) => {
                                 <Typography variant="subtitle1" color="inherit" className="flex-1">
                                     Friends
                                 </Typography>
-                                <Button className="normal-case" color="inherit" size="small">See  more</Button>
+                                <Button className="normal-case" onClick={onClickFriend} color="inherit" size="small">See {friends.length} more</Button>
                             </Toolbar>
                         </AppBar>
                         <CardContent className="p-0">
-                            {/* <List className="p-8">
+                            <List className="p-8">
                                 {friends.map((friend) => (
-                                    <img key={friend.id} className="w-64 m-4" src={friend.avatar} alt={friend.name} />
+                                    <Tooltip title={friend.fullname} placement="bottom">
+                                        {/* <Avatar className="w-64 m-4" src={friend.info || "assets/images/avatars/default-avatar.png"} /> */}
+                                        {/* <img key={friend.id} className="w-64 m-4" src={friend.info} alt={friend.fullname} /> */}
+                                        <img key={friend.id} className="w-64 m-4" src={friend.info} alt={friend.fullname} style={{ width: "64px", height: "64px" }} />
+
+                                    </Tooltip>
                                 ))}
-                            </List> */}
+                            </List>
                         </CardContent>
                     </Card>
 

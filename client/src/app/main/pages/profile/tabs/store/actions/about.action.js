@@ -8,6 +8,7 @@ export const ACTION_TYPES = {
   PROFILEUPLOADAVATAR: "PROFILEUPLOADAVATAR",
   PROFILEUPDATE: "PROFILEUPDATE",
   PROFILEUPLOADFILE: "PROFILEUPLOADFILE",
+  PROFILE_FETCH_ALL_FRIEND: "PROFILE_FETCH_ALL_FRIEND",
 };
 
 export const update = (data) => (dispatch) => {
@@ -20,9 +21,9 @@ export const update = (data) => (dispatch) => {
       });
       if (res.status == 200) {
         dispatch(loginaction.fetchById(res.data.id));
-        dispatch(showMessage({ message: "Update profile Successful" }));
+        dispatch(showMessage({ message: "Update profile Successful", variant: "success" }));
       } else {
-        dispatch(showMessage({ message: "Update profile Fail" }));
+        dispatch(showMessage({ message: "Update profile Fail", variant: "error" }));
       }
     })
     .catch((err) => console.log(err));
@@ -38,12 +39,6 @@ export const uploadFile = (file, account) => (dispatch) => {
         type: ACTION_TYPES.PROFILEUPLOADFILE,
         payload: res.data,
       });
-      // if (res.status == 200) {
-      //   account.info = JSON.parse(account.info)
-      //   account.info.avatar = res.data.fileUrl
-      //   account.info = JSON.stringify(account.info)
-      //   dispatch(update(account))
-      // }
     })
     .catch((err) => console.log(err));
 };
@@ -57,9 +52,9 @@ export const uploadAvatar = (data) => (dispatch) => {
       });
       if (res.status == 200) {
         dispatch(loginaction.fetchById(res.data.id));
-        dispatch(showMessage({ message: "Update avatar Successful" }));
+        dispatch(showMessage({ message: "Update avatar Successful", variant: "success" }));
       } else {
-        dispatch(showMessage({ message: "Update avatar Fail" }));
+        dispatch(showMessage({ message: "Update avatar Fail", variant: "error" }));
       }
     })
     .catch((err) => {
@@ -69,3 +64,14 @@ export const uploadAvatar = (data) => (dispatch) => {
       console.log(err);
     });
 };
+
+export const fetchAllFriend = (id) => dispatch => {
+  axios.get(endPointApi.users.getAllFriend + id)
+    .then(response => {
+      dispatch({
+        type: ACTION_TYPES.PROFILE_FETCH_ALL_FRIEND,
+        payload: response.data
+      })
+    })
+    .catch(err => console.log(err))
+}

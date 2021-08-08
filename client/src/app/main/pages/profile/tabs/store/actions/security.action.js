@@ -12,8 +12,6 @@ export const ACTION_TYPES = {
 }
 
 export const updatePass = (data) => dispatch => {
-  console.log("data.id")
-  console.log(typeof data.id)
   var formData = new FormData()
   formData.append('id', data.id);
   formData.append('oldpass', data.oldpass);
@@ -26,17 +24,17 @@ export const updatePass = (data) => dispatch => {
       })
       if (res.status == 200 && res.data == "successful") {
         // dispatch(loginaction.fetchById(res.data.id))
-        dispatch(showMessage({ message: 'Update password Successful.Please login again' }));
+        dispatch(showMessage({ message: 'Update password Successful.Please login again', variant: "success" }));
         dispatch(loginaction.userlogout())
         history.push({
           pathname: "/login",
         });
       } else {
-        dispatch(showMessage({ message: 'Old Password incorrect.Please try again' }));
+        dispatch(showMessage({ message: 'Old Password incorrect.Please try again', variant: "error" }));
       }
     })
     .catch(err => {
-      dispatch(showMessage({ message: 'Old Password incorrect.Please try again' }));
+      dispatch(showMessage({ message: 'Change Password.Please try again', variant: "error" }));
       console.log(err)
     })
 }
