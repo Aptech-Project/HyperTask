@@ -2,6 +2,7 @@ import { deserializeObject } from 'app/main/common/CommonFunctions';
 import { endPointApi } from 'app/services/endPointAPI';
 import { showMessage } from 'app/store/actions';
 import axios from 'axios';
+import { getBoardsStatistic } from '../../functions/DashboardFunctions';
 
 export const GET_ALL_BOARDS = '[PROJECT DASHBOARD APP] GET_ALL_BOARDS';
 export const GET_DASHBOARD_DATA = '[PROJECT DASHBOARD APP] GET_DASHBOARD_DATA';
@@ -23,6 +24,9 @@ export const getDashBoardData = (userId) => async (dispatch, getState) => {
     const allBoard = await getUserBoards(userId);
     console.log(allBoard);
 
+    const boardsData = getBoardsStatistic(allBoard);
+    console.log(boardsData);
+
 
 
 
@@ -38,9 +42,9 @@ export const getDashBoardData = (userId) => async (dispatch, getState) => {
 
 
     
-    if (!allBoard) {
-        dispatch(showMessage({message: "Get dashboard data failed", variant: "error"}))
-    } else {
-        dispatch(showMessage({message: "Get dashboard data success", variant: "success"}))
-    }
+    // if (!allBoard) {
+    //     dispatch(showMessage({message: "Get dashboard data failed", variant: "error"}))
+    // } else {
+    //     dispatch(showMessage({message: "Get dashboard data success", variant: "success"}))
+    // }
 }
