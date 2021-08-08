@@ -22,7 +22,7 @@ const Auth0LoginTab = ({ classes, ...props }) => {
     });
     if (localStorage.getItem('user_authenticated') !== 'undefined') {
         history.push({
-            pathname: "/apps/dashboards/project",
+            pathname: "/dashboard",
         });
     }
     useEffect(() => {

@@ -1,7 +1,7 @@
 export const allBoards = [
     {
         id: 1,
-        name: "Project Exile",
+        name: "Beyond Pixels",
         members: [{ userId: "2", name: "Ngoc Hai", role: "admin", avatar: "" }],
         lists: [
             {
@@ -63,7 +63,7 @@ export const allBoards = [
     },
     {
         id: 2,
-        name: "HyperTask ",
+        name: "HyperTask",
         members: [{ userId: "2", name: "Ngoc Hai", role: "admin", avatar: "" }],
         lists: [
             {

@@ -28,7 +28,7 @@ function Error500Page()
                     </Typography>
                 </FuseAnimate>
 
-                <Link className="font-medium" to="/apps/dashboards/project">Report this problem</Link>
+                <Link className="font-medium" to="/dashboard">Report this problem</Link>
             </div>
         </div>
     );

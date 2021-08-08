@@ -7,7 +7,7 @@ const navigationConfig = [
         title: "Dashboards",
         type: "item",
         icon: "dashboard",
-        url: "/apps/dashboards/project",
+        url: "/dashboard",
     },
     {
         id: "boards",
@@ -59,7 +59,7 @@ const navigationConfig = [
                                 id: "project-dashboard",
                                 title: "Project",
                                 type: "item",
-                                url: "/apps/dashboards/project",
+                                url: "/dashboard",
                             },
                         ],
                     },

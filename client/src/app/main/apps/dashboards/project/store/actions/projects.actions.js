@@ -6,6 +6,7 @@ import { getBoardsStatistic } from '../../functions/DashboardFunctions';
 
 export const GET_ALL_BOARDS = '[PROJECT DASHBOARD APP] GET_ALL_BOARDS';
 export const GET_DASHBOARD_DATA = '[PROJECT DASHBOARD APP] GET_DASHBOARD_DATA';
+export const CLEAR_DASHBOARD_DATA = '[PROJECT DASHBOARD APP] CLEAR_DASHBOARD_DATA';
 
 export const getUserBoards = async (userId) => {
     let allBoards = null;
@@ -20,31 +21,19 @@ export const getUserBoards = async (userId) => {
     return allBoards;
 };
 
-export const getDashBoardData = (userId) => async (dispatch, getState) => {
-    const allBoard = await getUserBoards(userId);
-    console.log(allBoard);
+export const getDashBoardData = (userId) => async (dispatch) => {
+    const allBoards = await getUserBoards(userId);
+    console.log(allBoards);
+    const boardsStatistic = getBoardsStatistic(allBoards);
+    dispatch({
+        type: GET_DASHBOARD_DATA,
+        boardsStatistic,
+        allBoards
+    })
+}
 
-    const boardsData = getBoardsStatistic(allBoard);
-    console.log(boardsData);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-    // if (!allBoard) {
-    //     dispatch(showMessage({message: "Get dashboard data failed", variant: "error"}))
-    // } else {
-    //     dispatch(showMessage({message: "Get dashboard data success", variant: "success"}))
-    // }
+export const clearDashBoardState = () => async (dispatch) => {
+    dispatch({
+        type: CLEAR_DASHBOARD_DATA,
+    })
 }

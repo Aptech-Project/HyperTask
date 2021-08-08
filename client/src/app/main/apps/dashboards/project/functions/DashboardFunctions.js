@@ -1,5 +1,5 @@
 import {allBoards} from './AllBoardsMockData';
-export const getBoardsStatistic = () => {
+export const getBoardsStatistic = (allBoards) => {
     const boardsStatistic = {};
     const allBoardsClone = [...allBoards];
 	// List of project

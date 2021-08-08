@@ -104,7 +104,7 @@ function FuseNavigationDoc(props)
                                                 'id'   : 'project',
                                                 'title': 'Project',
                                                 'type' : 'item',
-                                                'url'  : '/apps/dashboards/project'
+                                                'url'  : '/dashboard'
                                             }
                                         ]
                                       }
@@ -120,7 +120,7 @@ function FuseNavigationDoc(props)
                                     'id'   : 'project',
                                     'title': 'Project',
                                     'type' : 'item',
-                                    'url'  : '/apps/dashboards/project'
+                                    'url'  : '/dashboard'
                                 }
                                 `
                         }
@@ -138,7 +138,7 @@ function FuseNavigationDoc(props)
                                     'id'   : 'project',
                                     'title': 'Project',
                                     'type' : 'item',
-                                    'url'  : '/apps/dashboards/project',
+                                    'url'  : '/dashboard',
                                     'exact': true
                                 }
                                 `
@@ -167,7 +167,7 @@ function FuseNavigationDoc(props)
                                     'id'   : 'project',
                                     'title': 'Project',
                                     'type' : 'item',
-                                    'url'  : '/apps/dashboards/project'
+                                    'url'  : '/dashboard'
                                 }
                                 {
                                     'type': 'divider
@@ -176,7 +176,7 @@ function FuseNavigationDoc(props)
                                     'id'   : 'project',
                                     'title': 'Project',
                                     'type' : 'item',
-                                    'url'  : '/apps/dashboards/project'
+                                    'url'  : '/dashboard'
                                 }
                                 `
                         }

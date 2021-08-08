@@ -1,7 +1,9 @@
 import * as Actions from '../actions/projects.actions';
 
 const initialState = {
-    userBoards: null
+    userBoards: null,
+    boardsStatistic: null,
+    loading: true,
 };
 
 const projectsReducer = function (state = initialState, action) {
@@ -10,7 +12,13 @@ const projectsReducer = function (state = initialState, action) {
         case Actions.GET_DASHBOARD_DATA:
             return {
                 ...state,
-                userBoards: action.payload
+                userBoards: action.allBoards,
+                boardsStatistic: action.boardsStatistic,
+                loading: false,
+            };
+        case Actions.CLEAR_DASHBOARD_DATA:
+            return {
+                ...initialState
             };
         default:
             return state;
