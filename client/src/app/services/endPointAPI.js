@@ -16,13 +16,14 @@ export const endPointApi = {
     acceptFriend: baseApi + "user/accept-friend/",
     removeFriend: baseApi + "user/remove-friend/",
     removeFriendSend: baseApi + "user/remove-friend-send/",
-    removeFriendReceive: baseApi + "user/remove-friend-receive/"
+    removeFriendReceive: baseApi + "user/remove-friend-receive/",
   },
   boards: {
     getUserBoards: baseApi + "board/get-user-boards/",
     createBoard: baseApi + "board/create-board",
     getBoard: baseApi + "board/get-board/",
     updateBoard: baseApi + "board/update-board",
+    deleteBoard: baseApi + "board/delete-board/",
   },
   file: {
     uploadFile: baseApi + "file/upload-file",
@@ -30,10 +31,10 @@ export const endPointApi = {
   chat: {
     createChat: baseApi + "chat/create-chat",
     getChat: baseApi + "chat/get-chat/",
-    updateChat: baseApi + "chat/update-chat/"
+    updateChat: baseApi + "chat/update-chat/",
   },
   common: {
     getOnlineUser: baseApi + "common/get-common/ONLINE_USER",
     updateCommonData: baseApi + "common/update-common",
-  }
+  },
 };

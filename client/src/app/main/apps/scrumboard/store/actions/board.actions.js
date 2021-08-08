@@ -23,6 +23,7 @@ export const ADD_LIST = "[SCRUMBOARD APP] ADD LIST";
 export const ADD_LABEL = "[SCRUMBOARD APP] ADD LABEL";
 export const RENAME_LIST = "[SCRUMBOARD APP] RENAME LIST";
 export const REMOVE_LIST = "[SCRUMBOARD APP] REMOVE LIST";
+export const UPDATE_MEMBER = "[SCRUMBOARD APP] UPDATE MEMBER";
 
 export function getBoard(params) {
   const request = axios.get(`${endPointApi.boards.getBoard}${params}`);
@@ -279,9 +280,7 @@ export function deleteBoard(boardId) {
 
 export function copyBoard(board) {
   const newBoard = _.merge(board, {
-    id: FuseUtils.generateGUID(),
     name: board.name + " (Copied)",
-    uri: board.uri + "-copied",
   });
   return (dispatch) => {
     dispatch(Actions.newBoard(newBoard));
@@ -303,6 +302,28 @@ export function renameBoard(board, boardTitle) {
       dispatch({
         type: RENAME_BOARD,
         boardTitle,
+      })
+    );
+}
+
+export function updateMember(board, members) {
+  const memberListToUpdate = JSON.parse(board.members);
+  members.map((mem) => {
+    memberListToUpdate.push(mem);
+  });
+  const boardRenamed = { ...board, members: memberListToUpdate };
+  //console.log("boardRenamed: ", boardRenamed);
+  const boardConverted = convertBoardProperty(boardRenamed);
+  const request = axios.put(
+    `${endPointApi.boards.updateBoard}`,
+    boardConverted
+  );
+
+  return (dispatch) =>
+    request.then((response) =>
+      dispatch({
+        type: UPDATE_MEMBER,
+        payload: response.data,
       })
     );
 }

@@ -123,9 +123,33 @@ function Boards(props) {
 
   useEffect(() => {
     if (searchValue === "") {
-      setSearchResult([...boards]);
+      const userId = localStorage.getItem("user_authenticated");
+      const boardsUserStay = [];
+      boards.map((board) => {
+        if (board) {
+          JSON.parse(board.members).map((member) => {
+            if (member.userId === userId && member.status === "Stay") {
+              console.log("board: ", board);
+              boardsUserStay.push(board);
+            }
+          });
+        }
+      });
+      setSearchResult([...boardsUserStay]);
     } else {
-      const results = boards.filter((board) =>
+      const userId = localStorage.getItem("user_authenticated");
+      const boardsUserStay = [];
+      boards.map((board) => {
+        if (board) {
+          JSON.parse(board.members).map((member) => {
+            if (member.userId === userId && member.status === "Stay") {
+              console.log("board: ", board);
+              boardsUserStay.push(board);
+            }
+          });
+        }
+      });
+      const results = boardsUserStay.filter((board) =>
         board.name.toLowerCase().includes(searchValue.toLowerCase())
       );
       setSearchResult(results);
@@ -136,6 +160,7 @@ function Boards(props) {
 
   useEffect(() => {
     dispatch(Actions.getBoards());
+    dispatch(Actions.getAllUserBoard());
     // return () => {
     //   dispatch(Actions.resetBoards());
     // };
@@ -145,26 +170,44 @@ function Boards(props) {
     setAddNewBoardLog({ ...addNewBoardLog, open: true });
   };
   const handleAddNewBoardConfirm = () => {
-    const user = profile.fullname;
+    //console.log("profile: ", profile);
     dispatch(
-      Actions.newBoard(
-        {
-          name: addNewBoardLog.value,
-          members: addNewBoardLog.members,
-        },
-        user
-      )
+      Actions.newBoard({
+        name: addNewBoardLog.value,
+        members: addNewBoardLog.members,
+      })
     );
   };
   const deleteBoard = () => {
-    dispatch(Actions.deleteBoard(settingMenu.boardId));
-    //dispatch(Actions.getBoards());
-    const allBoards = boards.filter(
-      (board) => board.id !== settingMenu.boardId
-    );
-    setSearchResult(allBoards);
+    const userId = localStorage.getItem("user_authenticated");
+    let boardToDelete;
+    boards.map((board) => {
+      if (board.id === settingMenu.boardId) {
+        boardToDelete = board;
+      }
+      return null;
+    });
+    let userisAdmin;
+    JSON.parse(boardToDelete.members).map((member) => {
+      if (member.userId === userId && member.role === "admin") {
+        userisAdmin = true;
+      }
+    });
+    if (userisAdmin) {
+      dispatch(Actions.adminDeleteBoard(settingMenu.boardId, userId));
+    } else {
+      dispatch(Actions.memberDeleteBoard(boardToDelete, userId));
+    }
     setSettingMenu({ ...settingMenu, anchorEl: null });
     setMessBox({ ...messBox, delete: false });
+    //console.log("boardToDelete: ", boardToDelete);
+    // //dispatch(Actions.getBoards());
+    // const allBoards = boards.filter(
+    //   (board) => board.id !== settingMenu.boardId
+    // );
+    // setSearchResult(allBoards);
+    // setSettingMenu({ ...settingMenu, anchorEl: null });
+    // setMessBox({ ...messBox, delete: false });
   };
 
   return (
@@ -230,7 +273,9 @@ function Boards(props) {
                         </Icon>
                       </div>
                       <Link
-                        to={"/apps/scrumboard/boards/" + board.id}
+                        to={{
+                          pathname: `/apps/scrumboard/boards/${board.id}`,
+                        }}
                         className={
                           "flex items-center justify-center" //w-full h-full
                         }
@@ -287,7 +332,11 @@ function Boards(props) {
         open={addNewBoardLog.open}
         onYes={handleAddNewBoardConfirm}
         onNo={() => {
-          setAddNewBoardLog({ ...addNewBoardLog, open: false });
+          setAddNewBoardLog({
+            open: false,
+            value: "",
+            members: [],
+          });
         }}
         addNewBoardLog={addNewBoardLog}
         setAddNewBoardLogValue={setAddNewBoardLog}

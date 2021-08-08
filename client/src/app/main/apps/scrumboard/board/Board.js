@@ -25,17 +25,36 @@ import BoardMember from "./BoardMembers";
 function Board(props) {
   const dispatch = useDispatch();
   const board = useSelector(({ scrumboardApp }) => scrumboardApp.board);
-
+  const allUser = useSelector(
+    ({ scrumboardApp }) => scrumboardApp.userBoard.allUser
+  );
+  //const profile = useSelector((state) => state.login.findId);
   const containerRef = useRef(null);
   const [settingsDrawerOpen, setSettingsDrawerOpen] = useState(false);
-
+  const [changeBackground, setChangeBackground] = useState();
+  console.log("board: ", board);
   useEffect(() => {
     //console.log("props: ", props);
     dispatch(Actions.getBoard(props.match.params.boardId));
+    dispatch(Actions.getAllUserBoard());
     // return () => {
     //   dispatch(Actions.resetBoard());
     // };
   }, [dispatch, props.match.params]);
+  useEffect(() => {
+    if (board) {
+      const allMember = [];
+      JSON.parse(board.members).map((member) => {
+        allUser.map((user) => {
+          if (member.userId === JSON.stringify(user.id)) {
+            const newUser = { ...user, status: member.status };
+            allMember.push(newUser);
+          }
+        });
+      });
+      dispatch(Actions.allUserBoardCollect(allMember));
+    }
+  }, [allUser, board]);
 
   function onDragEnd(result) {
     const { source, destination } = result;
@@ -115,7 +134,10 @@ function Board(props) {
         </Toolbar>
       </AppBar>
 
-      <div className={clsx("flex flex-1 overflow-x-auto")}>
+      <div
+        className={clsx("flex flex-1 overflow-x-auto")}
+        style={{ backgroundImage: `url(${changeBackground})` }}
+      >
         <DragDropContext onDragEnd={onDragEnd}>
           <Droppable droppableId="list" type="list" direction="horizontal">
             {(provided) => (
@@ -154,7 +176,7 @@ function Board(props) {
         open={settingsDrawerOpen}
         onClose={() => toggleSettingsDrawer(false)}
       >
-        <BoardSettingsSidebar />
+        <BoardSettingsSidebar setChangeBackground={setChangeBackground} />
       </Drawer>
 
       <BoardCardDialog />
