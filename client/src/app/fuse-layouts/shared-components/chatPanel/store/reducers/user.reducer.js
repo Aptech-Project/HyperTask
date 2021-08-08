@@ -8,6 +8,10 @@ const userReducer = function (state = {}, action) {
         {
             return {...action.payload};
         }
+        case Actions.CLEAR_USER_STATE:
+        {
+            return null;
+        }
         case Actions.GET_CHAT:
         {
             return getUpdatedUser(state, action);

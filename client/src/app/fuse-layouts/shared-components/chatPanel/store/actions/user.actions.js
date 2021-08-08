@@ -3,6 +3,7 @@ import { endPointApi } from "app/services/endPointAPI";
 import axios from "axios";
 
 export const GET_USER_DATA = "[CHAT PANEL] GET USER DATA";
+export const CLEAR_USER_STATE = "[CHAT PANEL] CLEAR_USER_STATE";
 
 export const getUserData = (id) => dispatch => {
     axios.get(endPointApi.users.fetchById + id)
@@ -14,4 +15,10 @@ export const getUserData = (id) => dispatch => {
             })
         })
         .catch(err => console.log(err))
+}
+
+export const clearUserState = () => dispatch => {
+    dispatch({
+        type: GET_USER_DATA,
+    })
 }
