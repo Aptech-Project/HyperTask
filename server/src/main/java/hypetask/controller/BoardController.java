@@ -60,4 +60,5 @@ public class BoardController {
 		return boardService.deleteBoard(userId, boardId);
 	}
 
+
 }

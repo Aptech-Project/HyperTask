@@ -23,6 +23,7 @@ import {
 import clsx from "clsx";
 import { makeStyles, useTheme } from "@material-ui/styles";
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -66,33 +67,53 @@ const useStyles = makeStyles((theme) => ({
 function AddNewBoard(props) {
   const classes = useStyles(props);
   const { open, onYes, onNo, addNewBoardLog, setAddNewBoardLogValue } = props;
-
-  const names = [
-    "Oliver Hansen",
-    "Van Henry",
-    "April Tucker",
-    "Ralph Hubbard",
-    "Omar Alexander",
-    "Carlos Abbott",
-    "Miriam Wagner",
-    "Bradley Wilkerson",
-    "Virginia Andrews",
-    "Kelly Snyder",
-  ];
+  const allUser = useSelector(
+    ({ scrumboardApp }) => scrumboardApp.userBoard.allUser
+  );
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [searchFriend, setSearchFriend] = useState("");
   const [friendList, setFriendList] = useState([]);
+  const [friendListBackup, setFriendListBackup] = useState([]);
+  const [memberAdded, setMemberAdded] = useState([]);
+
+  const getDataForFiendList = () => {
+    const userId = localStorage.getItem("user_authenticated");
+    const userList = allUser.filter(
+      (user) => JSON.stringify(user.id) !== userId
+    );
+    setFriendList([...userList]);
+  };
+  useEffect(() => {
+    getDataForFiendList();
+  }, [allUser]);
 
   useEffect(() => {
-    if (searchFriend === "") {
-      setFriendList([...names]);
-    } else {
-      const results = names.filter((name) =>
-        name.toLowerCase().includes(searchFriend.toLowerCase())
-      );
-      setFriendList(results);
+    if (allUser.length > 0) {
+      // if (searchFriend === "") {
+      //   const userId = localStorage.getItem("user_authenticated");
+      //   const userList = friendList.filter(
+      //     (user) => JSON.stringify(user.id) !== userId
+      //   );
+      //   setFriendList([...userList]);
+      // } else {
+      // const userId = localStorage.getItem("user_authenticated");
+      // const userList = friendList.filter(
+      //   (user) => JSON.stringify(user.id) !== userId
+      // );
+      if (searchFriend === "") {
+        if (friendListBackup.length > 0) {
+          setFriendList(friendListBackup);
+        }
+      } else {
+        setFriendListBackup([...friendList]);
+        const results = friendList.filter((user) =>
+          user.fullname.toLowerCase().includes(searchFriend.toLowerCase())
+        );
+        setFriendList(results);
+      }
     }
+    //}
   }, [searchFriend]);
 
   const handleClick = (event) => {
@@ -107,15 +128,32 @@ function AddNewBoard(props) {
     const memberFilter = addNewBoardLog.members.filter(
       (member) => member !== memberToDelete
     );
+    const memberRemain = memberAdded.filter(
+      (member) => member.id !== memberToDelete.id
+    );
+    const addFriendbackToList = [...friendList];
+    addFriendbackToList.push(memberToDelete);
+    setFriendList(addFriendbackToList);
+    setMemberAdded([...memberRemain]);
     setAddNewBoardLogValue({
       ...addNewBoardLog,
       members: [...memberFilter],
     });
   };
-  const addMember = (e) => {
+  const addMember = (member) => {
+    const memberAdd = {
+      userId: `${member.id}`,
+      role: "member",
+      status: "Stay",
+    };
+    const friendListUpdate = friendList.filter(
+      (friend) => friend.id !== member.id
+    );
+    setFriendList(friendListUpdate);
+    setMemberAdded([...memberAdded, member]);
     setAddNewBoardLogValue({
       ...addNewBoardLog,
-      members: [...addNewBoardLog.members, e.target.value],
+      members: [...addNewBoardLog.members, memberAdd],
     });
   };
   const searchMember = () => {};
@@ -159,13 +197,18 @@ function AddNewBoard(props) {
             style={{ color: "#172b4d", marginTop: "20px" }}
             onClick={handleClick}
           />
-          {addNewBoardLog.members.map((data, index) => {
+          {memberAdded.map((member, index) => {
             return (
               <Chip
-                label={data}
+                label={member.fullname}
                 key={index}
-                avatar={<Avatar className={classes.iconAddMember}>M</Avatar>} //{<Avatar alt="Natacha" src="/static/images/avatar/1.jpg" />}
-                onDelete={handleDelete(data)}
+                avatar={
+                  <Avatar
+                    className={classes.iconAddMember}
+                    src={JSON.parse(member.info).avatar}
+                  />
+                }
+                onDelete={handleDelete(member)}
                 style={{ color: "#172b4d", marginTop: "20px" }}
                 className={classes.chip}
               />
@@ -185,6 +228,8 @@ function AddNewBoard(props) {
         </Button>
         <Button
           onClick={() => {
+            getDataForFiendList();
+            setMemberAdded([]);
             onNo();
           }}
           style={{ color: "red" }}
@@ -220,15 +265,15 @@ function AddNewBoard(props) {
             aria-describedby="standard-weight-helper-text"
           />
         </FormControl>
-        {friendList.map((name) => {
+        {friendList.map((member) => {
           return (
             <option
               className={classes.optionMembers}
-              onClick={(e) => {
-                addMember(e);
+              onClick={() => {
+                addMember(member);
               }}
             >
-              {name}
+              {member.fullname}
             </option>
           );
         })}

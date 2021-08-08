@@ -80,6 +80,16 @@ const boardReducer = function (state = initialState, action) {
         name: action.boardTitle,
       };
     }
+    case Actions.MEMBER_DELETE_BOARD: {
+      return {
+        ...action.payload,
+      };
+    }
+    case Actions.UPDATE_MEMBER: {
+      return {
+        ...action.payload,
+      };
+    }
     default:
       return state;
   }

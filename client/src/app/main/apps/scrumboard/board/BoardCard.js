@@ -19,7 +19,9 @@ const useStyles = makeStyles((theme) => ({
 function BoardCard(props) {
   const dispatch = useDispatch();
   const board = useSelector(({ scrumboardApp }) => scrumboardApp.board);
-
+  const allUserCollect = useSelector(
+    ({ scrumboardApp }) => scrumboardApp.userBoard.allUserCollect
+  );
   const classes = useStyles(props);
   const { card, index } = props;
   //const card = _.find(board.cards, { id: cardId });
@@ -129,33 +131,18 @@ function BoardCard(props) {
                 </div>
               )}
 
-              {card.members.length > 0 && (
+              {card.members.length > 0 && allUserCollect.length > 0 && (
                 <div className="flex flex-wrap mb-12">
                   {card.members.map((id) => {
-                    const member = _.find(JSON.parse(board.members), {
-                      userId: id,
+                    const member = _.find(allUserCollect, {
+                      id,
                     });
-                    const memberName = member.name.split(" ");
-                    const member1stChar = memberName[0].charAt(0).toUpperCase();
-                    let member2ndChar = "";
-                    if (memberName.length > 1) {
-                      member2ndChar = memberName[1].charAt(0).toUpperCase();
-                    }
                     return (
-                      <Tooltip title={member.name} key={id}>
-                        {member.avatar ? (
-                          <Avatar
-                            className="mr-8 w-32 h-32"
-                            src={member.avatar}
-                          />
-                        ) : (
-                          <Avatar className="mr-8 w-32 h-32">
-                            <Typography>
-                              {member1stChar}
-                              {member2ndChar}
-                            </Typography>
-                          </Avatar>
-                        )}
+                      <Tooltip title={member.fullname} key={id}>
+                        <Avatar
+                          className="mr-8 w-32 h-32"
+                          src={JSON.parse(member.info).avatar}
+                        />
                       </Tooltip>
                     );
                   })}

@@ -36,6 +36,9 @@ function BoardCardForm(props) {
   const dispatch = useDispatch();
   const card = useSelector(({ scrumboardApp }) => scrumboardApp.card.data);
   const board = useSelector(({ scrumboardApp }) => scrumboardApp.board);
+  const allUserCollect = useSelector(
+    ({ scrumboardApp }) => scrumboardApp.userBoard.allUserCollect
+  );
 
   const { form: cardForm, handleChange, setForm, setInForm } = useForm(card);
   const updateCard = useDebounce((board, newCard) => {
@@ -325,33 +328,30 @@ function BoardCardForm(props) {
               <FuseChipSelect
                 className={cardForm.labels.length > 0 && "sm:ml-8"}
                 value={cardForm.members.map((memberId) => {
-                  const member = _.find(JSON.parse(board.members), {
-                    userId: memberId,
+                  const member = _.find(allUserCollect, {
+                    id: memberId,
                   });
-                  const memberName = member.name.split(" ");
-                  const member1stChar = memberName[0].charAt(0).toUpperCase();
-                  let member2ndChar = "";
-                  if (memberName.length > 1) {
-                    member2ndChar = memberName[1].charAt(0).toUpperCase();
-                  }
+                  // const memberName = member.name.split(" ");
+                  // const member1stChar = memberName[0].charAt(0).toUpperCase();
+                  // let member2ndChar = "";
+                  // if (memberName.length > 1) {
+                  //   member2ndChar = memberName[1].charAt(0).toUpperCase();
+                  // }
                   return (
                     member && {
                       value: member.id,
                       label: (
-                        <Tooltip title={member.name}>
-                          {member.avatar ? (
-                            <Avatar
-                              className="-ml-12 w-32 h-32"
-                              src={member.avatar}
-                            />
-                          ) : (
-                            <Avatar className="-ml-12 w-32 h-32">
-                              <Typography>
-                                {member1stChar}
-                                {member2ndChar}
-                              </Typography>
-                            </Avatar>
-                          )}
+                        <Tooltip title={member.fullname}>
+                          {
+                            <>
+                              <Avatar
+                                className="-ml-12 w-32 h-32"
+                                src={JSON.parse(member.info).avatar}
+                              />
+                              &nbsp;
+                              <Typography>{member.fullname}</Typography>
+                            </>
+                          }
                         </Tooltip>
                       ),
                     }
@@ -363,15 +363,15 @@ function BoardCardForm(props) {
                 textFieldProps={{
                   variant: "outlined",
                 }}
-                options={JSON.parse(board.members).map((member) => ({
-                  value: member.id,
-                  label: (
-                    <span className="flex items-center">
-                      <Avatar className="w-32 h-32 mr-8" src={member.avatar} />
-                      {member.name}
-                    </span>
-                  ),
-                }))}
+                // options={JSON.parse(board.members).map((member) => ({
+                //   value: member.id,
+                //   label: (
+                //     <span className="flex items-center">
+                //       <Avatar className="w-32 h-32 mr-8" src={member.avatar} />
+                //       {member.name}
+                //     </span>
+                //   ),
+                // }))}
                 variant="fixed"
               />
             </div>

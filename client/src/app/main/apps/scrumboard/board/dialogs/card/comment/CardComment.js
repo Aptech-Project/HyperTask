@@ -3,14 +3,18 @@ import { TextField, Button, Avatar, Typography } from "@material-ui/core";
 import { useForm } from "@fuse/hooks";
 import CommentModel from "app/main/apps/scrumboard/model/CommentModel";
 import _ from "@lodash";
+import { useSelector } from "react-redux";
 
 function CardComment(props) {
+  const allUserCollect = useSelector(
+    ({ scrumboardApp }) => scrumboardApp.userBoard.allUserCollect
+  );
   const userID = localStorage.getItem("user_authenticated");
   const { form, handleChange, resetForm } = useForm({
-    idMember: userID,
+    idMember: parseInt(userID),
     message: "",
   });
-  const user = _.find(props.members, { userId: form.idMember });
+  const user = _.find(allUserCollect, { id: form.idMember });
 
   function isFormInvalid() {
     return form.message === "";
@@ -24,28 +28,32 @@ function CardComment(props) {
     props.onCommentAdd(new CommentModel(form));
     resetForm();
   }
-  const showAvatar = () => {
-    const memberName = user.name.split(" ");
-    const member1stChar = memberName[0].charAt(0).toUpperCase();
-    let member2ndChar = "";
-    if (memberName.length > 1) {
-      member2ndChar = memberName[1].charAt(0).toUpperCase();
-    }
-    return user.avatar ? (
-      <Avatar className="w-32 h-32" alt={user.name} src={user.avatar} />
-    ) : (
-      <Avatar className="w-32 h-32">
-        <Typography>
-          {member1stChar}
-          {member2ndChar}
-        </Typography>
-      </Avatar>
-    );
-  };
+  // const showAvatar = () => {
+  //   const memberName = user.name.split(" ");
+  //   const member1stChar = memberName[0].charAt(0).toUpperCase();
+  //   let member2ndChar = "";
+  //   if (memberName.length > 1) {
+  //     member2ndChar = memberName[1].charAt(0).toUpperCase();
+  //   }
+  //   return user.avatar ? (
+  //     <Avatar className="w-32 h-32" alt={user.name} src={user.avatar} />
+  //   ) : (
+  //     <Avatar className="w-32 h-32">
+  //       <Typography>
+  //         {member1stChar}
+  //         {member2ndChar}
+  //       </Typography>
+  //     </Avatar>
+  //   );
+  // };
 
   return (
     <form onSubmit={handleSubmit} className="flex">
-      {showAvatar()}
+      <Avatar
+        className="w-32 h-32"
+        alt={user.fullname}
+        src={JSON.parse(user.info).avatar}
+      />
       <div className="flex flex-col items-start flex-1 pr-0 pl-16">
         <TextField
           className="flex flex-1"

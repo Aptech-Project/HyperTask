@@ -6,7 +6,7 @@ const initialState = [];
 const boardsReducer = function (state = initialState, action) {
   switch (action.type) {
     case Actions.GET_BOARDS: {
-      console.log("getBoard: ", action.payload);
+      //console.log("getBoard: ", action.payload);
       return [...action.payload];
       //return dataBoard().board;
     }
@@ -15,6 +15,10 @@ const boardsReducer = function (state = initialState, action) {
     }
     case Actions.RESET_BOARDS: {
       return [];
+    }
+    case Actions.ADMIN_DELETE_BOARD: {
+      //console.log(action.payload);
+      return [...action.payload];
     }
     default:
       return state;
