@@ -44,5 +44,9 @@ VI. Run & Debug java app in VSCode app
 
     
 VII. Dashboard design:
-    4 widget: ongoing task, overdue task, completed task, check lists
+    Activity: activity by day
+    4 total widget: cards, attachments, checklist, comments
+    Task distribution: ongoing task, overdue task, complete after due, complete before
+    Inprocessing cards: upcoming task
+    Task by labels: pie chat
     

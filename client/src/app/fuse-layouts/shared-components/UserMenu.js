@@ -7,7 +7,7 @@ import history from "@history";
 import * as actions from "app/auth/store/actions/login.actions";
 import { showMessage } from 'app/store/actions/fuse';
 import { connect } from "react-redux";
-import { setUserStatus } from './chatPanel/store/actions';
+import { clearUserState, setUserStatus } from './chatPanel/store/actions';
 function UserMenu(props) {
 
     const user = useSelector(state => state.login.userAuth);
@@ -55,7 +55,7 @@ function UserMenu(props) {
         <React.Fragment>
 
             <Button className="h-64" onClick={userMenuClick}>
-                <Avatar className="w-30 h-30" src={avatar || "assets/images/avatars/default-avatar.png"}/>
+                <Avatar className="w-30 h-30" src={avatar || "assets/images/avatars/default-avatar.png"} />
                 <div className="hidden md:flex flex-col ml-12 items-start">
                     <Typography component="span" className="normal-case font-600 flex">
                         {account.fullname}
@@ -113,8 +113,9 @@ function UserMenu(props) {
                         <MenuItem
                             onClick={() => {
                                 props.setUserOffline(user, false)
+                                props.clearUserState()
                                 logoutDispatch(userlogout());
-                                dispatch(showMessage({ message: 'Log out !!!' }));
+                                dispatch(showMessage({ message: 'Log out !!!', variant: "success" }));
                                 history.push({
                                     pathname: "/login",
                                 });
@@ -134,5 +135,6 @@ function UserMenu(props) {
 const mapActionToProps = {
     findid: actions.fetchById,
     setUserOffline: setUserStatus,
+    clearUserState: clearUserState,
 }
 export default connect(null, mapActionToProps)(UserMenu);

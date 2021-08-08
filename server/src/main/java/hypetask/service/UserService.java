@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import hypetask.model.User;
 import hypetask.repository.UserRepository;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Service
 public class UserService {
@@ -20,8 +21,11 @@ public class UserService {
 		return userRepository.findAll();
 	}
 
-	public void createUser(User User) {
-		userRepository.save(User);
+	public void createUser(User user) {
+		BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+		String pass=bCryptPasswordEncoder.encode(user.getPassword());
+		user.setPassword(pass);
+		userRepository.save(user);
 	}
 	public void updateUser(User User) {
 		userRepository.save(User);
@@ -30,7 +34,17 @@ public class UserService {
 		return userRepository.findById(id).get();
 	}
 	public User login(String username, String password){
-		return userRepository.getLogin(username,password);
+		if(userRepository.getLogin(username)==null){
+			return null;
+		}else{
+			User u= userRepository.getLogin(username);
+			BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+			if(bCryptPasswordEncoder.matches(password,u.getPassword())==true){
+				return userRepository.getLogin(username);
+			}
+			else
+				return null;
+		}
 	}
 	public List<User> getUsernameEmail(){
 		return userRepository.getUserNameEmail();

@@ -20,6 +20,11 @@ const Auth0LoginTab = ({ classes, ...props }) => {
     const { handleSubmit } = useForm({
         //mode: 'onChange',
     });
+    if (localStorage.getItem('user_authenticated') !== 'undefined') {
+        history.push({
+            pathname: "/apps/dashboards/project",
+        });
+    }
     useEffect(() => {
         props.login(email, pass)
     }, [email, pass])
@@ -29,11 +34,8 @@ const Auth0LoginTab = ({ classes, ...props }) => {
         }
         if (props.user !== '') {
             setIsAccount(false);
-            dispatch(showMessage({ message: 'Welcome !   ' + props.user.fullname }));
+            dispatch(showMessage({ message: 'Welcome !   ' + props.user.fullname, variant: "success" }));
             loginDispatch(isAuthenticated(props.user.id));
-            history.push({
-                pathname: "/",
-            });
         }
     };
     return (
@@ -101,6 +103,5 @@ const mapStateToProps = state => ({
 
 const mapActionToProps = {
     login: actions.login,
-
 }
 export default connect(mapStateToProps, mapActionToProps)(Auth0LoginTab);
