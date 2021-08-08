@@ -29,7 +29,7 @@ export const update = (data) => (dispatch) => {
     .catch((err) => console.log(err));
 };
 
-export const uploadFile = (file, account) => (dispatch) => {
+export const uploadFile = (file, account, setIsChangeAvatar) => (dispatch) => {
   var formData = new FormData();
   formData.append("File", file);
   axios
@@ -39,6 +39,7 @@ export const uploadFile = (file, account) => (dispatch) => {
         type: ACTION_TYPES.PROFILEUPLOADFILE,
         payload: res.data,
       });
+      setIsChangeAvatar(true)
     })
     .catch((err) => console.log(err));
 };

@@ -80,6 +80,7 @@ const AboutTab = ({ ...props }) => {
         setEdit(!edit)
     }
     const openUploadImage = e => {
+        setIsChangeAvatar(false)
         setOpen(true)
     }
     function handleUploadChange(e) {
@@ -87,8 +88,7 @@ const AboutTab = ({ ...props }) => {
         if (!file) {
             return;
         }
-        setIsChangeAvatar(true)
-        dispatch(Action.uploadFile(file, account))
+        dispatch(Action.uploadFile(file, account, setIsChangeAvatar))
     }
     function handleSubmit(event) {
         event.preventDefault();
