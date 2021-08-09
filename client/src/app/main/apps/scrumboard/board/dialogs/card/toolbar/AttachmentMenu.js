@@ -79,6 +79,7 @@ function AttachmentMenu(props) {
     //console.log("dataArray: ", dataArray);
     dispatch(Actions.updateFileCard(uploadFile));
     //props.onAddAttachment(new AttachmentModel(form));
+    setUploadFile();
     handleMenuClose();
   }
 

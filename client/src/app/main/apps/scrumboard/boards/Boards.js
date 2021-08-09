@@ -13,6 +13,7 @@ import SearchIcon from "@material-ui/icons/Search";
 import InputBase from "@material-ui/core/InputBase";
 import AddNewBoard from "../model/AddNewBoard";
 import BoardMessBox from "../model/BoardMessBox";
+import { boardTemplate } from "./boardTemplate";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -104,6 +105,8 @@ const useStyles = makeStyles((theme) => ({
 function Boards(props) {
   const dispatch = useDispatch();
   const boards = useSelector(({ scrumboardApp }) => scrumboardApp.boards);
+  const boardTemplates = boardTemplate;
+  console.log("boardTemplates: ", boardTemplates);
   const profile = useSelector((state) => state.login.findId);
   const [searchValue, setSearchValue] = useState("");
   const [searchResult, setSearchResult] = useState([]);
@@ -229,6 +232,69 @@ function Boards(props) {
               Your Boards
             </Typography>
             {/* </FuseAnimate> */}
+            <Typography
+              className="font-300" /* sm:mt-88 sm:py-24 */
+              style={{ color: "#5e6c84", fontSize: "25px", marginTop: "20px" }}
+            >
+              Board Templates
+            </Typography>
+            <div>
+              <FuseAnimateGroup
+                className="flex flex-wrap w-full"
+                enter={{
+                  animation: "transition.slideUpBigIn",
+                  duration: 300,
+                }}
+                style={{ paddingBottom: "3.2rem" }}
+              >
+                {boardTemplates.map((board) => (
+                  <div key={board.id} className={classes.boardContain}>
+                    <div className={clsx(classes.board, "rounded")}>
+                      {/* <div className={classes.settingBoardContain}>
+                        <Icon
+                          className="text-26"
+                          aria-controls="setting-menu"
+                          onClick={(e) => {
+                            setSettingMenu({
+                              ...settingMenu,
+                              anchorEl: e.currentTarget,
+                              boardId: board.id,
+                              boardName: board.name,
+                            });
+                          }}
+                        >
+                          more_vert
+                        </Icon>
+                      </div> */}
+                      <Link
+                        // to={{
+                        //   pathname: `/apps/scrumboard/boards/${board.id}`,
+                        // }}
+                        className={
+                          "flex items-center justify-center" //w-full h-full
+                        }
+                        style={{ paddingBottom: "30px", paddingTop: "25px" }}
+                        role="button"
+                      >
+                        <Typography
+                          className="text-16 font-300 text-center px-32"
+                          style={{ color: "#172b4d" }}
+                        >
+                          {board.name}
+                        </Typography>
+                      </Link>
+                    </div>
+                  </div>
+                ))}
+              </FuseAnimateGroup>
+            </div>
+
+            <Typography
+              className="font-300" /* sm:mt-88 sm:py-24 */
+              style={{ color: "#5e6c84", fontSize: "25px" }}
+            >
+              All Boards
+            </Typography>
             <div className={classes.search}>
               <div className={classes.searchIcon}>
                 <SearchIcon />
