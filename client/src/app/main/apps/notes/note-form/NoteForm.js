@@ -33,7 +33,7 @@ function NoteForm(props) {
         console.log("noteForm")
         console.log(noteForm)
         if (noteForm && onChange) {
-            onChange(noteForm);
+            onChange(noteForm, profile);
         }
     }, [noteForm, onChange]);
 

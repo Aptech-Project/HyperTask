@@ -71,8 +71,6 @@ export const createNote = (note, profile) => (dispatch) => {
         id: notes.length + 1
     };
     let newNotes = [newNote, ...notes]
-    console.log("newNotes111")
-    console.log(newNotes)
     profile.notes = profile.notes = JSON.stringify(Object.values(newNotes))
     axios
         .post(endPointApi.users.update, profile)
@@ -93,7 +91,7 @@ export const updateNote = (updateNote, profile) => (dispatch) => {
         }
         return note
     });
-    profile.notes = profile.notes = JSON.stringify(Object.values(newNotes))
+    profile.notes = JSON.stringify(Object.values(newNotes))
     axios
         .post(endPointApi.users.update, profile)
         .then((res) => {

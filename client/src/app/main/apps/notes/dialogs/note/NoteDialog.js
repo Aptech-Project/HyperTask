@@ -13,10 +13,9 @@ function NoteDialog(props) {
     const dispatch = useDispatch();
     const notes = useSelector(({ notesApp }) => notesApp.notes);
     const profile = useSelector(state => state.login.findId)
-    const handleOnChange = useDebounce((note) => {
+    const handleOnChange = useDebounce((note, profile) => {
         dispatch(Actions.updateNote(note, profile));
     }, 600);
-
     function handleOnRemove() {
         dispatch(Actions.removeNote(notes.noteDialogId));
     }
