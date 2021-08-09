@@ -23,7 +23,7 @@ import { Link } from "react-router-dom";
 import * as Actions from "./store/actions/projects.actions";
 import reducer from "./store/reducers/projects.reducer";
 import Widget10 from "./widgets/Widget10";
-import Widget11 from "./widgets/Widget11";
+import WidgetMembers from "./widgets/WidgetMembers";
 import Widget5 from "./widgets/Widget5";
 import WidgetTaskDistribution from "./widgets/WidgetTaskDistribution";
 import WidgetInprocessing from "./widgets/WidgetInprocessing";
@@ -331,7 +331,7 @@ function ProjectDashboardApp(props) {
                                     </div>
                                 </FuseAnimateGroup>
                             )} */}
-                            {tabValue === 2 && (
+                            {tabValue === 1 && (
                                 <FuseAnimateGroup
                                     className="flex flex-wrap"
                                     enter={{
@@ -339,7 +339,7 @@ function ProjectDashboardApp(props) {
                                     }}
                                 >
                                     <div className="widget flex w-full p-12">
-                                        <Widget11 widget={widgets.widget11} />
+                                        <WidgetMembers widget={widgets.widget11} />
                                     </div>
                                 </FuseAnimateGroup>
                             )}

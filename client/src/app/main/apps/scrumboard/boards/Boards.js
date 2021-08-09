@@ -200,6 +200,7 @@ function Boards(props) {
       dispatch(Actions.adminDeleteBoard(settingMenu.boardId, userId));
     } else {
       dispatch(Actions.memberDeleteBoard(boardToDelete, userId));
+      window.location.reload();
     }
     setSettingMenu({ ...settingMenu, anchorEl: null });
     setMessBox({ ...messBox, delete: false });
