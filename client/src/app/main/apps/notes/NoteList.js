@@ -1,49 +1,43 @@
-import React, {useEffect, useState} from 'react';
-import {Typography} from '@material-ui/core';
-import {FuseUtils} from '@fuse';
-import {useSelector} from 'react-redux';
-import {withRouter} from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Typography } from '@material-ui/core';
+import { FuseUtils } from '@fuse';
+import { useSelector } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import Masonry from 'react-masonry-css';
 import NoteListItem from './NoteListItem';
 
-function NoteList(props)
-{
-    const notes = useSelector(({notesApp}) => notesApp.notes.entities);
-    const variateDescSize = useSelector(({notesApp}) => notesApp.notes.variateDescSize);
-    const searchText = useSelector(({notesApp}) => notesApp.notes.searchText);
+function NoteList(props) {
+    const notes = useSelector(({ notesApp }) => notesApp.notes.entities);
+    const profile = useSelector(state => state.login.findId)
+    const variateDescSize = useSelector(({ notesApp }) => notesApp.notes.variateDescSize);
+    const searchText = useSelector(({ notesApp }) => notesApp.notes.searchText);
 
     const [filteredData, setFilteredData] = useState(null);
 
     useEffect(() => {
-        function filterData()
-        {
-            const {params} = props.match;
-            const {id, labelId} = params;
+        function filterData() {
+            const { params } = props.match;
+            const { id, labelId } = params;
 
             let data = Object.keys(notes).map((id) => notes[id]);
 
-            if ( labelId )
-            {
-                data = data.filter((note) => note.labels.includes(labelId) && !note.archive);
+            if (labelId) {
+                data = data.filter((note) => note.labels.includes(parseInt(labelId)) && !note.archive);
             }
 
-            if ( !id )
-            {
+            if (!id) {
                 data = data.filter((note) => !note.archive);
             }
 
-            if ( id === "archive" )
-            {
+            if (id === "archive") {
                 data = data.filter((note) => note.archive);
             }
 
-            if ( id === "reminders" )
-            {
+            if (id === "reminders") {
                 data = data.filter((note) => Boolean(note.reminder) && !note.archive);
             }
 
-            if ( searchText.length === 0 )
-            {
+            if (searchText.length === 0) {
                 return data;
             }
 
@@ -52,12 +46,11 @@ function NoteList(props)
             return data;
         }
 
-        if ( notes )
-        {
+        if (notes) {
             setFilteredData(filterData())
         }
 
-    }, [notes, searchText, props.match]);
+    }, [profile, notes, searchText, props.match]);
 
     return (
         (!filteredData || filteredData.length === 0) ?
@@ -73,13 +66,13 @@ function NoteList(props)
                     <Masonry
                         breakpointCols={{
                             default: 6,
-                            1920   : 5,
-                            1600   : 4,
-                            1366   : 3,
-                            1280   : 4,
-                            960    : 3,
-                            600    : 2,
-                            480    : 1
+                            1920: 5,
+                            1600: 4,
+                            1366: 3,
+                            1280: 4,
+                            960: 3,
+                            600: 2,
+                            480: 1
                         }}
                         className="my-masonry-grid flex w-full"
                         columnClassName="my-masonry-grid_column flex flex-col p-8">
