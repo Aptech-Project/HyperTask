@@ -81,6 +81,7 @@ function BoardMember(props) {
   const [searchFriend, setSearchFriend] = useState("");
   const [friendList, setFriendList] = useState([]);
   const [friendListBackup, setFriendListBackup] = useState([]);
+  const [memberAdded, setMemberAdded] = useState(false);
 
   const getDataForFiendList = () => {
     const userId = localStorage.getItem("user_authenticated");
@@ -122,6 +123,13 @@ function BoardMember(props) {
       }
     }
   }, [searchFriend]);
+  useEffect(() => {
+    if (friendList.filter((friend) => friend.add == true).length > 0) {
+      setMemberAdded(true);
+    } else {
+      setMemberAdded(false);
+    }
+  }, [friendList]);
 
   const clickAddMember = (userId) => {
     const newAddList = [];
@@ -134,6 +142,7 @@ function BoardMember(props) {
       }
     });
     //console.log("newAddList: ", newAddList);
+
     setAddList(newAddList);
   };
 
@@ -216,34 +225,37 @@ function BoardMember(props) {
       >
         <DialogTitle>Add More Member To This Board</DialogTitle>
         <DialogContent dividers>
-          <Paper component="ul" className={classes.memberAdd}>
+          <Paper className={classes.memberAdd}>
             {friendList.map((member, index) => {
-              return member.add ? (
-                <Chip
-                  label={member.fullname}
-                  key={index}
-                  avatar={
-                    <Avatar
-                      className={classes.iconAddMember}
-                      src={JSON.parse(member.info).avatar}
-                    />
-                  }
-                  //onDelete={handleDelete(member)}
-                  style={{ color: "#172b4d" }}
-                  className={classes.chip}
-                />
-              ) : (
-                <Typography
-                  style={{
-                    marginTop: "5px",
-                    marginLeft: "5px",
-                    opacity: "0.4",
-                  }}
-                >
-                  None Member Selected
-                </Typography>
+              return (
+                member.add && (
+                  <Chip
+                    label={member.fullname}
+                    key={index}
+                    avatar={
+                      <Avatar
+                        className={classes.iconAddMember}
+                        src={JSON.parse(member.info).avatar}
+                      />
+                    }
+                    //onDelete={handleDelete(member)}
+                    style={{ color: "#172b4d" }}
+                    className={classes.chip}
+                  />
+                )
               );
             })}
+            {!memberAdded && (
+              <Typography
+                style={{
+                  marginTop: "5px",
+                  marginLeft: "5px",
+                  opacity: "0.4",
+                }}
+              >
+                None Member Selected
+              </Typography>
+            )}
           </Paper>
           <FormControl className={classes.optionMembers}>
             <Input
