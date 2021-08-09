@@ -1,7 +1,7 @@
 import React from 'react';
-import {Slide, Dialog} from '@material-ui/core';
-import {useDebounce} from '@fuse/hooks';
-import {useDispatch, useSelector} from 'react-redux';
+import { Slide, Dialog } from '@material-ui/core';
+import { useDebounce } from '@fuse/hooks';
+import { useDispatch, useSelector } from 'react-redux';
 import * as Actions from 'app/main/apps/notes/store/actions';
 import NoteForm from 'app/main/apps/notes/note-form/NoteForm';
 
@@ -9,22 +9,19 @@ const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-function NoteDialog(props)
-{
+function NoteDialog(props) {
     const dispatch = useDispatch();
-    const notes = useSelector(({notesApp}) => notesApp.notes);
-
+    const notes = useSelector(({ notesApp }) => notesApp.notes);
+    const profile = useSelector(state => state.login.findId)
     const handleOnChange = useDebounce((note) => {
-        dispatch(Actions.updateNote(note));
+        dispatch(Actions.updateNote(note, profile));
     }, 600);
 
-    function handleOnRemove()
-    {
+    function handleOnRemove() {
         dispatch(Actions.removeNote(notes.noteDialogId));
     }
 
-    if ( !notes.entities )
-    {
+    if (!notes.entities) {
         return null;
     }
 

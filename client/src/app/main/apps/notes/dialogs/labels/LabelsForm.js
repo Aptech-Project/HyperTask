@@ -1,19 +1,19 @@
-import React, {useEffect, useMemo, useState} from 'react';
-import {Typography, ListItem, Input, IconButton, Icon, List} from '@material-ui/core';
-import {useDebounce, useForm} from '@fuse/hooks';
-import {useDispatch, useSelector} from 'react-redux';
+import React, { useEffect, useMemo, useState } from 'react';
+import { Typography, ListItem, Input, IconButton, Icon, List } from '@material-ui/core';
+import { useDebounce, useForm } from '@fuse/hooks';
+import { useDispatch, useSelector } from 'react-redux';
 import clsx from 'clsx';
 import _ from '@lodash';
 import * as Actions from 'app/main/apps/notes/store/actions';
 import LabelModel from 'app/main/apps/notes/model/LabelModel';
+import LabelModelCustom from './LabelModelCustom';
 
-function LabelsForm(props)
-{
+function LabelsForm(props) {
     const dispatch = useDispatch();
-    const labels = useSelector(({notesApp}) => notesApp.labels.entities);
-
+    const labels = useSelector(({ notesApp }) => notesApp.labels.entities);
+    const profile = useSelector(state => state.login.findId)
     const [labelsForm, setLabels] = useState(labels);
-    const {form: newLabelForm, handleChange, resetForm} = useForm(
+    const { form: newLabelForm, handleChange, resetForm } = useForm(
         {
             name: ""
         }
@@ -24,29 +24,29 @@ function LabelsForm(props)
     }, [labels]);
 
     const handleOnChange = useDebounce((labels) => {
-        dispatch(Actions.updateLabels(labels));
+        dispatch(Actions.updateLabels(labels, profile));
     }, 600);
 
     useEffect(() => {
-        if ( labelsForm && !_.isEqual(labelsForm, labels) )
-        {
+        if (labelsForm && !_.isEqual(labelsForm, labels)) {
+            console.log("labelsForm")
+            console.log(labelsForm)
             handleOnChange(labelsForm);
         }
     }, [handleOnChange, labels, labelsForm]);
 
-    function isFormInValid()
-    {
+    function isFormInValid() {
         return newLabelForm.name === '';
     }
 
-    function handleSubmit(ev)
-    {
+    function handleSubmit(ev) {
         ev.preventDefault();
-        if ( isFormInValid() )
-        {
+        if (isFormInValid()) {
             return;
         }
-        const newLabel = new LabelModel(newLabelForm);
+        const newLabel = new LabelModelCustom(newLabelForm, profile);
+        console.log("newLabel")
+        console.log(newLabel)
         setLabels(_.setIn(labelsForm, newLabel.id, newLabel));
         resetForm();
     }
@@ -79,14 +79,12 @@ function LabelsForm(props)
                     </ListItem>
                 </form>
                 {useMemo(() => {
-                    function handleOnDelete(label)
-                    {
+                    function handleOnDelete(label) {
                         setLabels(_.omit(labelsForm, [label.id]));
                     }
 
-                    function handleLabelChange(event, label)
-                    {
-                        const updatedLabel = new LabelModel(_.setIn(label, event.target.name, event.target.value));
+                    function handleLabelChange(event, label) {
+                        const updatedLabel = new LabelModelCustom(_.setIn(label, event.target.name, event.target.value), profile);
                         setLabels(_.setIn(labelsForm, updatedLabel.id, updatedLabel));
                     }
 

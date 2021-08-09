@@ -1,10 +1,10 @@
-import React, {Fragment, useState} from 'react';
-import {Tooltip, Button, Icon, Input, Typography, IconButton, Fab} from '@material-ui/core';
-import {FuseScrollbars} from '@fuse';
-import {useForm, useUpdateEffect} from '@fuse/hooks';
+import React, { Fragment, useState } from 'react';
+import { Tooltip, Button, Icon, Input, Typography, IconButton, Fab } from '@material-ui/core';
+import { FuseScrollbars } from '@fuse';
+import { useForm, useUpdateEffect } from '@fuse/hooks';
 import moment from 'moment';
 import _ from '@lodash';
-import {withRouter} from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import NoteReminderLabel from 'app/main/apps/notes/NoteReminderLabel';
 import NoteLabel from 'app/main/apps/notes/NoteLabel';
 import NoteModel from 'app/main/apps/notes/model/NoteModel';
@@ -12,80 +12,78 @@ import NoteFormList from './checklist/NoteFormList';
 import NoteFormReminder from './NoteFormReminder';
 import NoteFormUploadImage from './NoteFormUploadImage';
 import NoteFormLabelMenu from './NoteFormLabelMenu';
+import NoteModelCustom from "./NoteModelCustom";
+import { useDispatch, useSelector } from 'react-redux';
 
-function NoteForm(props)
-{
+function NoteForm(props) {
     const [showList, setShowList] = useState(false);
-    const {form: noteForm, handleChange, setForm} = useForm(
+    const profile = useSelector(state => state.login.findId)
+
+    const { form: noteForm, handleChange, setForm } = useForm(
         _.merge(
             {},
-            new NoteModel(),
+            new NoteModelCustom(null, profile),
             props.note,
-            props.match.params.labelId ? {labels: [props.match.params.labelId]} : null,
-            props.match.params.id === "archive" ? {archive: true} : null
+            props.match.params.labelId ? { labels: [props.match.params.labelId] } : null,
+            props.match.params.id === "archive" ? { archive: true } : null
         ));
-    const {onChange} = props;
+    const { onChange } = props;
 
     useUpdateEffect(() => {
-        if ( noteForm && onChange )
-        {
+        console.log("noteForm")
+        console.log(noteForm)
+        if (noteForm && onChange) {
             onChange(noteForm);
         }
     }, [noteForm, onChange]);
 
-    function handleOnCreate(event)
-    {
-        if ( !props.onCreate )
-        {
+    function handleOnCreate(event) {
+        if (!props.onCreate) {
             return;
         }
+        console.log("noteForm123")
+        console.log(noteForm)
         props.onCreate(noteForm);
     }
 
-    function handleToggleList()
-    {
+    function handleToggleList() {
         setShowList(!showList);
     }
 
-    function handleDateChange(date)
-    {
+    function handleDateChange(date) {
         setForm(_.setIn(noteForm, "reminder", date));
     }
 
-    function handleChecklistChange(checklist)
-    {
+    function handleChecklistChange(checklist) {
         setForm(_.setIn(noteForm, `checklist`, checklist));
     }
 
-    function handleRemoveLabel(id)
-    {
+    function handleRemoveLabel(id) {
         setForm(_.setIn(noteForm, `labels`, noteForm.labels.filter(_id => _id !== id)));
     }
 
-    function handleLabelsChange(labels)
-    {
+    function handleLabelsChange(labels) {
         setForm(_.setIn(noteForm, `labels`, labels));
+        console.log("noteForm")
+        console.log(noteForm)
     }
 
-    function handleRemoveImage()
-    {
+    function handleRemoveImage() {
         setForm(_.setIn(noteForm, `image`, ""));
     }
 
-    function handleArchiveToggle()
-    {
+    function handleArchiveToggle() {
+        console.log("noteFormarchive")
+        console.log(noteForm.archive)
         setForm(_.setIn(noteForm, `archive`, !noteForm.archive));
-        if ( props.variant === "new" )
-        {
+        if (props.variant === "new") {
             setTimeout(() => handleOnCreate());
         }
     }
 
-    function handleUploadChange(e)
-    {
+    function handleUploadChange(e) {
         const file = e.target.files[0];
-        if ( !file )
-        {
+        if (!file) {
             return;
         }
         const reader = new FileReader();
@@ -101,13 +99,11 @@ function NoteForm(props)
         };
     }
 
-    function newFormButtonDisabled()
-    {
+    function newFormButtonDisabled() {
         return noteForm.title === "" && noteForm.image === "" && noteForm.description === "" && noteForm.checklist.length === 0;
     }
 
-    if ( !noteForm )
-    {
+    if (!noteForm) {
         return null;
     }
 
@@ -115,9 +111,9 @@ function NoteForm(props)
         <div className="flex flex-col w-full">
             <FuseScrollbars className="flex flex-auto w-full max-h-640">
                 <div className="w-full">
-                    {noteForm.image && noteForm.image !== "" && (
+                    {/* {noteForm.image && noteForm.image !== "" && (
                         <div className="relative">
-                            <img src={noteForm.image} className="w-full block" alt="note"/>
+                            <img src={noteForm.image} className="w-full block" alt="note" />
                             <Fab
                                 className="absolute right-0 bottom-0 m-8"
                                 variant="extended"
@@ -129,7 +125,7 @@ function NoteForm(props)
                                 <Icon fontSize="small">delete</Icon>
                             </Fab>
                         </div>
-                    )}
+                    )} */}
                     <div className="p-16 pb-12">
                         <Input
                             className="font-bold"
@@ -158,17 +154,17 @@ function NoteForm(props)
 
                     {(noteForm.checklist.length > 0 || showList) && (
                         <div className="px-16">
-                            <NoteFormList checklist={noteForm.checklist} onCheckListChange={handleChecklistChange}/>
+                            <NoteFormList checklist={noteForm.checklist} onCheckListChange={handleChecklistChange} />
                         </div>
                     )}
 
                     {(noteForm.labels || noteForm.reminder || noteForm.time) && (
                         <div className="flex flex-wrap w-full p-16 pb-12">
                             {noteForm.reminder && (
-                                <NoteReminderLabel className="mt-4 mr-4" date={noteForm.reminder}/>
+                                <NoteReminderLabel className="mt-4 mr-4" date={noteForm.reminder} />
                             )}
                             {noteForm.labels && noteForm.labels.map(id => (
-                                <NoteLabel id={id} key={id} className="mt-4 mr-4" onDelete={() => handleRemoveLabel(id)}/>
+                                <NoteLabel id={id} key={id} className="mt-4 mr-4" onDelete={() => handleRemoveLabel(id)} />
                             ))}
                             {noteForm.time && (
                                 <Typography color="textSecondary" className="text-12 ml-auto mt-8 mr-4">
@@ -185,15 +181,15 @@ function NoteForm(props)
 
                     <Tooltip title="Remind me" placement="bottom">
                         <div>
-                            <NoteFormReminder reminder={noteForm.reminder} onChange={handleDateChange}/>
+                            <NoteFormReminder reminder={noteForm.reminder} onChange={handleDateChange} />
                         </div>
                     </Tooltip>
 
-                    <Tooltip title="Add image" placement="bottom">
+                    {/* <Tooltip title="Add image" placement="bottom">
                         <div>
                             <NoteFormUploadImage onChange={handleUploadChange}/>
                         </div>
-                    </Tooltip>
+                    </Tooltip> */}
 
                     <Tooltip title="Add checklist" placement="bottom">
                         <IconButton className="w-32 h-32 mx-4 p-0" onClick={handleToggleList}>
@@ -203,19 +199,21 @@ function NoteForm(props)
 
                     <Tooltip title="Change labels" placement="bottom">
                         <div>
-                            <NoteFormLabelMenu note={noteForm} onChange={handleLabelsChange}/>
+                            <NoteFormLabelMenu note={noteForm} onChange={handleLabelsChange} />
                         </div>
                     </Tooltip>
+                    {
+                        props.variant !== "new" && <Tooltip title={noteForm.archive ? "Unarchive" : "Archive"} placement="bottom">
+                            <div>
+                                <IconButton className="w-32 h-32 mx-4 p-0" onClick={handleArchiveToggle} disabled={newFormButtonDisabled()}>
+                                    <Icon fontSize="small">
+                                        {noteForm.archive ? "unarchive" : "archive"}
+                                    </Icon>
+                                </IconButton>
+                            </div>
+                        </Tooltip>
+                    }
 
-                    <Tooltip title={noteForm.archive ? "Unarchive" : "Archive"} placement="bottom">
-                        <div>
-                            <IconButton className="w-32 h-32 mx-4 p-0" onClick={handleArchiveToggle} disabled={newFormButtonDisabled()}>
-                                <Icon fontSize="small">
-                                    {noteForm.archive ? "unarchive" : "archive"}
-                                </Icon>
-                            </IconButton>
-                        </div>
-                    </Tooltip>
                 </div>
                 <div className="flex items-center px-4">
                     {props.variant === "new" ? (
@@ -254,7 +252,7 @@ function NoteForm(props)
 NoteForm.propTypes = {};
 NoteForm.defaultProps = {
     variant: "edit",
-    note   : null
+    note: null
 };
 
 export default withRouter(NoteForm);

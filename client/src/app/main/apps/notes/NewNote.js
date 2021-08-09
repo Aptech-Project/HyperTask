@@ -1,10 +1,10 @@
-import React, {useState} from 'react';
-import {ClickAwayListener, Paper, Typography} from '@material-ui/core';
+import React, { useState } from 'react';
+import { ClickAwayListener, Paper, Typography } from '@material-ui/core';
 import clsx from 'clsx';
 import * as Actions from 'app/main/apps/notes/store/actions';
-import {useDispatch} from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import NoteForm from './note-form/NoteForm';
-import {makeStyles} from '@material-ui/styles';
+import { makeStyles } from '@material-ui/styles';
 
 const useStyles = makeStyles({
     button: {
@@ -12,49 +12,40 @@ const useStyles = makeStyles({
     }
 });
 
-function NewNote(props)
-{
+function NewNote(props) {
     const dispatch = useDispatch();
-
+    const profile = useSelector(state => state.login.findId)
     const classes = useStyles(props);
     const [formOpen, setFormOpen] = useState(false);
 
-    function handleFormOpen()
-    {
+    function handleFormOpen() {
         setFormOpen(true);
         document.addEventListener("keydown", escFunction, false);
     }
 
-    function handleFormClose()
-    {
-        if ( !formOpen )
-        {
+    function handleFormClose() {
+        if (!formOpen) {
             return;
         }
         setFormOpen(false);
         document.removeEventListener("keydown", escFunction, false);
     }
 
-    function handleCreate(note)
-    {
-        dispatch(Actions.createNote(note));
+    function handleCreate(note) {
+        dispatch(Actions.createNote(note, profile));
         handleFormClose();
     }
 
-    function escFunction(event)
-    {
-        if ( event.keyCode === 27 )
-        {
+    function escFunction(event) {
+        if (event.keyCode === 27) {
             handleFormClose();
         }
     }
 
-    function handleClickAway(ev)
-    {
+    function handleClickAway(ev) {
         const preventCloseElements = document.querySelector(".prevent-add-close");
         const preventClose = preventCloseElements ? preventCloseElements.contains(ev.target) : false;
-        if ( preventClose )
-        {
+        if (preventClose) {
             return;
         }
         handleFormClose();
@@ -67,7 +58,7 @@ function NewNote(props)
                 elevation={1}
             >
                 {formOpen ? (
-                    <NoteForm onCreate={handleCreate} variant="new"/>
+                    <NoteForm onCreate={handleCreate} variant="new" />
                 ) : (
                     <Typography
                         className="w-full px-16 py-12 font-500 text-16 w-full"
