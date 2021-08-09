@@ -19,6 +19,8 @@ class CardModel {
     this.activities = card.activities || [];
     this.due = card.due || "";
     this.createAt = card.createAt || new Date();
+    this.isDone = false;
+    this.doneAt = "";
   }
 }
 

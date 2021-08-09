@@ -17,7 +17,8 @@ function CardActivity(props) {
   const allUserCollect = useSelector(
     ({ scrumboardApp }) => scrumboardApp.userBoard.allUserCollect
   );
-  const user = _.find(allUserCollect, { id: props.item.idMember });
+  console.log("allUserCollect: ", allUserCollect);
+  const user = _.find(allUserCollect, { id: parseInt(props.item.idMember) });
   // const showAvatar = () => {
   //   const memberName = user.name.split(" ");
   //   const member1stChar = memberName[0].charAt(0).toUpperCase();
