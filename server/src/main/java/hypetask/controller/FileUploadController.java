@@ -50,7 +50,7 @@ public class FileUploadController {
 			fileObject.put("fileName", file.getOriginalFilename());
 			fileObject.put("fileExtension", this.getFileExtension(file));
 			fileObject.put("status", "Upload successfully");
-			TimeUnit.SECONDS.sleep(1);
+			TimeUnit.SECONDS.sleep(2);
 			return new ResponseEntity<Object>(fileObject, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<Object>("Upload failed: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);

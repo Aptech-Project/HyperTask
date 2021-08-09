@@ -57,7 +57,7 @@ function WidgetTaskDistribution(props) {
             newDataSet.mainChart.labels = Object.keys(data);
             const dataLabelsArray = Object.keys(data).map(labels => data[labels].length);
             newDataSet.mainChart.datasets[0].data = dataLabelsArray;
-            newDataSet.footerRight.count = dataLabelsArray.reduce((acc, crr) => acc + crr, 0)
+            newDataSet.footerRight.count = allCards.filter(card => card.labels.length).length;
             newDataSet.footerLeft.count = allCards.length;
             console.log(newDataSet);
             setDataSet(newDataSet);

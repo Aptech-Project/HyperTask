@@ -24,12 +24,9 @@ import * as Actions from "./store/actions/projects.actions";
 import reducer from "./store/reducers/projects.reducer";
 import Widget10 from "./widgets/Widget10";
 import Widget11 from "./widgets/Widget11";
-import Widget2 from "./widgets/Widget2";
-import Widget3 from "./widgets/Widget3";
-import Widget4 from "./widgets/Widget4";
 import Widget5 from "./widgets/Widget5";
 import WidgetTaskDistribution from "./widgets/WidgetTaskDistribution";
-import Widget7 from "./widgets/Widget7";
+import WidgetInprocessing from "./widgets/WidgetInprocessing";
 import Widget8 from "./widgets/Widget8";
 import Widget9 from "./widgets/Widget9";
 import WidgetTotal from "./widgets/WidgetTotal";
@@ -224,10 +221,11 @@ function ProjectDashboardApp(props) {
                             className="text-14 font-600 normal-case"
                             label="Home"
                         />
-                        <Tab
+                        {/* haiduongtodo: implement detail tab*/}
+                        {/* <Tab
                             className="text-14 font-600 normal-case"
                             label="Budget Summary"
-                        />
+                        /> */}
                         <Tab
                             className="text-14 font-600 normal-case"
                             label="Team Members"
@@ -302,18 +300,20 @@ function ProjectDashboardApp(props) {
                                             color="orange"
                                         />
                                     </div>
-                                    <div className="widget flex w-full p-12">
+                                    {/* haiduongtodo: implement multi chart*/}
+                                    {/* <div className="widget flex w-full p-12">
                                         <Widget5 widget={widgets.widget5} />
+                                    </div> */}
+                                    <div className="widget flex w-full sm:w-1/2 p-12">
+                                        <WidgetTaskDistribution allCards={boardsStatistic[selectedProject.name].allCards} data={boardsStatistic[selectedProject.name].tasksByLabels}/>
                                     </div>
                                     <div className="widget flex w-full sm:w-1/2 p-12">
-                                        <WidgetTaskDistribution allCards={boardsStatistic[selectedProject.name].allCards} data={boardsStatistic[selectedProject.name].tasksByLabels} widget={widgets.widget6} />
-                                    </div>
-                                    <div className="widget flex w-full sm:w-1/2 p-12">
-                                        <Widget7 widget={widgets.widget7} />
+                                        <WidgetInprocessing data={boardsStatistic[selectedProject.name].doingCards} widget={widgets.widget7} />
                                     </div>
                                 </FuseAnimateGroup>
                             )}
-                            {tabValue === 1 && (
+                            {/* haiduongtodo: implement detail tab*/}
+                            {/* {tabValue === 1 && (
                                 <FuseAnimateGroup
                                     className="flex flex-wrap"
                                     enter={{
@@ -330,7 +330,7 @@ function ProjectDashboardApp(props) {
                                         <Widget10 widget={widgets.widget10} />
                                     </div>
                                 </FuseAnimateGroup>
-                            )}
+                            )} */}
                             {tabValue === 2 && (
                                 <FuseAnimateGroup
                                     className="flex flex-wrap"
