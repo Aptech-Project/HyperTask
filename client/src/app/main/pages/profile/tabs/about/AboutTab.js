@@ -186,7 +186,7 @@ const AboutTab = ({ ...props }) => {
                                 <Typography variant="subtitle1" color="inherit" className="flex-1">
                                     Friends
                                 </Typography>
-                                <Button className="normal-case" onClick={onClickFriend} color="inherit" size="small">See {friends.length} more</Button>
+                                <Button className="normal-case" onClick={onClickFriend} color="inherit" size="small">See more</Button>
                             </Toolbar>
                         </AppBar>
                         <CardContent className="p-0">

@@ -87,7 +87,7 @@ function ProfilePage() {
                         </FuseAnimate>
 
                         <FuseAnimate duration={400} delay={600}>
-                            <Typography variant="h6" color="inherit" className="font-lignt mt-8 sm:mt-16 text-right min-w-512 mx-auto md:items-start md:flex-shrink-0 md:flex-1 md:text-right">
+                            <Typography variant="h6" color="inherit" className="font-lignt mt-8 sm:mt-16 text-right max-w-md mx-auto md:items-start md:flex-shrink-0 md:flex-1 md:text-right">
                                 <span className="opacity-75">
                                     View and edit your information, friends list, manage your activities, all in one place!
                                 </span>

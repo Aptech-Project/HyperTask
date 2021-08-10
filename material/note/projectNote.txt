@@ -50,3 +50,9 @@ VII. Dashboard design:
     Inprocessing cards: upcoming task
     Task by labels: pie chat
     
+
+VIII. Presentation
+    1. Login/register
+        Show validations
+    2. Profile page
+        Change info, password, 

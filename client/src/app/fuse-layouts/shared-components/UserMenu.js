@@ -105,12 +105,13 @@ function UserMenu(props) {
                             </ListItemIcon>
                             <ListItemText className="pl-0" primary="My Profile" />
                         </MenuItem>
-                        <MenuItem component={Link} to="/apps/mail" onClick={userMenuClose}>
+                        {/* haiduongtodo implement mail app*/}
+                        {/* <MenuItem component={Link} to="/apps/mail" onClick={userMenuClose}>
                             <ListItemIcon className="min-w-40">
                                 <Icon>mail</Icon>
                             </ListItemIcon>
                             <ListItemText className="pl-0" primary="Inbox" />
-                        </MenuItem>
+                        </MenuItem> */}
                         <MenuItem
                             onClick={() => {
                                 props.setUserOffline(user, false);
