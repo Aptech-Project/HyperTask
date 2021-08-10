@@ -3,7 +3,7 @@ import {Typography, Select, Paper} from '@material-ui/core';
 import {Doughnut} from 'react-chartjs-2';
 import _ from 'lodash';
 
-const inititalState = {
+const initialState = {
     title: "Task By Labels",
     mainChart: {
         labels: ["Frontend", "Backend", "API", "Issues"],
@@ -49,11 +49,11 @@ const inititalState = {
 function WidgetTaskDistribution(props) {
     const {data, allCards} = props;
     const widget = _.merge({}, props.widget);
-    const [dataSet, setDataSet] = useState(inititalState);
+    const [dataSet, setDataSet] = useState(initialState);
 
     useEffect(() =>{
         if (data && allCards) {
-            const newDataSet = {...inititalState};
+            const newDataSet = {...initialState};
             newDataSet.mainChart.labels = Object.keys(data);
             const dataLabelsArray = Object.keys(data).map(labels => data[labels].length);
             newDataSet.mainChart.datasets[0].data = dataLabelsArray;

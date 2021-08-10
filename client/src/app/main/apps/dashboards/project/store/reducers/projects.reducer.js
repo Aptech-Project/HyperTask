@@ -4,6 +4,7 @@ const initialState = {
     userBoards: null,
     boardsStatistic: null,
     loading: true,
+    allUsers: null,
 };
 
 const projectsReducer = function (state = initialState, action) {
@@ -15,6 +16,11 @@ const projectsReducer = function (state = initialState, action) {
                 userBoards: action.allBoards,
                 boardsStatistic: action.boardsStatistic,
                 loading: false,
+            };
+        case Actions.GET_ALL_USERS:
+            return {
+                ...state,
+                allUsers: action.allUsers
             };
         case Actions.CLEAR_DASHBOARD_DATA:
             return {

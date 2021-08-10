@@ -7,6 +7,7 @@ import { getBoardsStatistic } from '../../functions/DashboardFunctions';
 export const GET_ALL_BOARDS = '[PROJECT DASHBOARD APP] GET_ALL_BOARDS';
 export const GET_DASHBOARD_DATA = '[PROJECT DASHBOARD APP] GET_DASHBOARD_DATA';
 export const CLEAR_DASHBOARD_DATA = '[PROJECT DASHBOARD APP] CLEAR_DASHBOARD_DATA';
+export const GET_ALL_USERS = '[PROJECT DASHBOARD APP] GET_ALL_USERS';
 
 export const getUserBoards = async (userId) => {
     let allBoards = null;
@@ -37,3 +38,16 @@ export const clearDashBoardState = () => async (dispatch) => {
         type: CLEAR_DASHBOARD_DATA,
     })
 }
+
+export const getAllUserInfo = () => async (dispatch) => {
+    await axios
+        .get(endPointApi.users.getAll)
+        .then((response) => {
+            const allUsers = deserializeObject(response.data);
+            dispatch({
+                type: GET_ALL_USERS,
+                allUsers,
+            })
+        })
+        .catch((err) => console.log(err));
+};

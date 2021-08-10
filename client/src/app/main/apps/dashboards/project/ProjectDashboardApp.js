@@ -30,6 +30,7 @@ import WidgetInprocessing from "./widgets/WidgetInprocessing";
 import Widget8 from "./widgets/Widget8";
 import Widget9 from "./widgets/Widget9";
 import WidgetTotal from "./widgets/WidgetTotal";
+import WidgetActivity from "./widgets/WidgetActivity";
 
 const useStyles = makeStyles((theme) => ({
     content: {
@@ -75,8 +76,10 @@ function ProjectDashboardApp(props) {
         ({ projects }) => projects.boardsStatistic
     );
     const loading = useSelector(({ projects }) => projects.loading);
+    const allUsers = useSelector(({ projects }) => projects.allUsers);
     console.log("boardsStatistic");
     console.log(boardsStatistic);
+    console.log(allUsers);
     const classes = useStyles(props);
     const pageLayout = useRef(null);
     const [tabValue, setTabValue] = useState(0);
@@ -86,6 +89,7 @@ function ProjectDashboardApp(props) {
     useEffect(() => {
         if (userId !== 'undefined') {
             dispatch(Actions.getDashBoardData(userId));
+            dispatch(Actions.getAllUserInfo());
         }
     }, []);
 
@@ -244,6 +248,9 @@ function ProjectDashboardApp(props) {
                                         animation: "transition.slideUpBigIn",
                                     }}
                                 >
+                                    <div className="w-full p-12">
+                                        <WidgetActivity activities={boardsStatistic[selectedProject.name].cardsActivities} className="w-full" data={widgets.widget1}/>
+                                    </div>
                                     <div className="widget flex w-full sm:w-1/2 md:w-1/4 p-12">
                                         <WidgetTotal
                                             title="On going"
@@ -300,10 +307,6 @@ function ProjectDashboardApp(props) {
                                             color="orange"
                                         />
                                     </div>
-                                    {/* haiduongtodo: implement multi chart*/}
-                                    {/* <div className="widget flex w-full p-12">
-                                        <Widget5 widget={widgets.widget5} />
-                                    </div> */}
                                     <div className="widget flex w-full sm:w-1/2 p-12">
                                         <WidgetTaskDistribution allCards={boardsStatistic[selectedProject.name].allCards} data={boardsStatistic[selectedProject.name].tasksByLabels}/>
                                     </div>
@@ -339,7 +342,7 @@ function ProjectDashboardApp(props) {
                                     }}
                                 >
                                     <div className="widget flex w-full p-12">
-                                        <WidgetMembers widget={widgets.widget11} />
+                                        <WidgetMembers allUsers={allUsers} data={boardsStatistic[selectedProject.name].members} widget={widgets.widget11} />
                                     </div>
                                 </FuseAnimateGroup>
                             )}

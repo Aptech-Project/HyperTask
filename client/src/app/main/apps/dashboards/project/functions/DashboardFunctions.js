@@ -23,7 +23,7 @@ export const getBoardsStatistic = (allBoards) => {
             // Completed before duedate
             boardsStatistic[board.name].completeBeforeDueCards = [];
             // Activity
-            boardsStatistic[board.name].cardsActivities = {byDay: [], byWeek: [], byMonth: []};
+            boardsStatistic[board.name].cardsActivities = {Day: [], Week: [], Month: []};
             // Task by labels
             boardsStatistic[board.name].tasksByLabels = {};
             const boardLabels = board.labels.map(item => ({id: item.id, name: item.name}));
@@ -43,11 +43,11 @@ export const getBoardsStatistic = (allBoards) => {
                         let date = new Date(activity.time);
                         const boardsActivities = boardsStatistic[board.name].cardsActivities;
                         Object.keys(boardsActivities).forEach(key => {
-                            if (key === 'byDay') {
+                            if (key === 'Day') {
                                 const dateClone = date.toISOString().split('T')[0];
                                 if (!boardsActivities[key][dateClone]) boardsStatistic[board.name].cardsActivities[key][dateClone] = [];
                                 boardsStatistic[board.name].cardsActivities[key][dateClone] = [...boardsStatistic[board.name].cardsActivities[key][dateClone], activity]
-                            } else if (key === 'byWeek') {
+                            } else if (key === 'Week') {
                                 const weekYear = getWeekNumber(date);
                                 if (!boardsActivities[key][weekYear]) boardsStatistic[board.name].cardsActivities[key][weekYear] = [];
                                 boardsStatistic[board.name].cardsActivities[key][weekYear] = [...boardsStatistic[board.name].cardsActivities[key][weekYear], activity];
