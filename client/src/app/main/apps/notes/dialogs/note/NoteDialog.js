@@ -17,7 +17,7 @@ function NoteDialog(props) {
         dispatch(Actions.updateNote(note, profile));
     }, 600);
     function handleOnRemove() {
-        dispatch(Actions.removeNote(notes.noteDialogId));
+        dispatch(Actions.removeNote(notes.noteDialogId, profile));
     }
 
     if (!notes.entities) {

@@ -30,8 +30,6 @@ function NoteForm(props) {
     const { onChange } = props;
 
     useUpdateEffect(() => {
-        console.log("noteForm")
-        console.log(noteForm)
         if (noteForm && onChange) {
             onChange(noteForm, profile);
         }
@@ -41,8 +39,6 @@ function NoteForm(props) {
         if (!props.onCreate) {
             return;
         }
-        console.log("noteForm123")
-        console.log(noteForm)
         props.onCreate(noteForm);
     }
 
@@ -64,8 +60,6 @@ function NoteForm(props) {
 
     function handleLabelsChange(labels) {
         setForm(_.setIn(noteForm, `labels`, labels));
-        console.log("noteForm")
-        console.log(noteForm)
     }
 
     function handleRemoveImage() {
@@ -73,8 +67,6 @@ function NoteForm(props) {
     }
 
     function handleArchiveToggle() {
-        console.log("noteFormarchive")
-        console.log(noteForm.archive)
         setForm(_.setIn(noteForm, `archive`, !noteForm.archive));
         if (props.variant === "new") {
             setTimeout(() => handleOnCreate());
