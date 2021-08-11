@@ -149,16 +149,6 @@ function ProjectDashboardApp(props) {
                         <Icon className={classes.headerIcon}>
                             insert_chart_outlined
                         </Icon>
-                        <Hidden lgUp>
-                            <IconButton
-                                onClick={(ev) =>
-                                    pageLayout.current.toggleRightSidebar()
-                                }
-                                aria-label="open left sidebar"
-                            >
-                                <Icon>menu</Icon>
-                            </IconButton>
-                        </Hidden>
                     </div>
                     {projects && projects.length ? (
                         <div className="flex items-end">
