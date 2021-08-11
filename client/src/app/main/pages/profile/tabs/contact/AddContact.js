@@ -18,34 +18,6 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 const AddContact = ({ ...props }) => {
-    const [textsearch, setTextSearch] = useState('')
-    const dispatch = useDispatch();
-    const listSearch = useSelector(state => state.friend.listsearchfriend)
-    const friendQR = useSelector(state => state.friend.findId)
-    const [listSearchFriend, setListSearch] = useState([])
-    const userAuth = useSelector(state => state.login.userAuth)
-    const [open, setOpen] = React.useState(false);
-    const [scanResultFile, setScanResultFile] = useState('');
-    const [findFriendQR, setFindFriendQR] = useState(null);
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
-
-    const handleClose = () => {
-        setOpen(false);
-    };
-    const qrRef = useRef(null);
-    useEffect(() => {
-        dispatch(Actions.searchFriend("", userAuth));
-    }, [])
-    const handleErrorFile = (error) => {
-        console.log(error);
-    }
-    useEffect(() => {
-        if (listSearch !== undefined) (
-            setListSearch(listSearch)
-        )
-    }, [listSearch])
     const useStyles = makeStyles((theme) => ({
         root: {
             flexGrow: 1,
@@ -68,14 +40,50 @@ const AddContact = ({ ...props }) => {
         },
     }));
     const classes = useStyles();
+    const [textsearch, setTextSearch] = useState('')
+    const dispatch = useDispatch();
+    const listSearch = useSelector(state => state.friend.listsearchfriend)
+    const friendQR = useSelector(state => state.friend.findId)
+    const [listSearchFriend, setListSearch] = useState([])
+    const userAuth = useSelector(state => state.login.userAuth)
+    const [open, setOpen] = React.useState(false);
+    const [open1, setOpen1] = React.useState(false);
+    const [scanResultFile, setScanResultFile] = useState('');
+    const [findFriendQR, setFindFriendQR] = useState(null);
+    const handleClickOpen = () => {
+        dispatch(Actions.fetchById(0, userAuth))
+        setOpen(true);
+    };
 
+    const handleClose = () => {
+        setOpen(false);
+    };
+    const handleClickOpen1 = () => {
+        setOpen1(true);
+    };
+
+    const handleClose1 = () => {
+        setOpen1(false);
+    };
+    const qrRef = useRef(null);
+    useEffect(() => {
+        dispatch(Actions.searchFriend("", userAuth));
+    }, [])
+    const handleErrorFile = (error) => {
+        console.log(error);
+    }
+    useEffect(() => {
+        if (listSearch !== undefined) (
+            setListSearch(listSearch)
+        )
+    }, [listSearch])
     const onScanFile = () => {
         qrRef.current.openImageDialog();
     }
     const handleScanFile = (result) => {
         if (result) {
             setScanResultFile(result);
-            dispatch(Actions.fetchById(result))
+            dispatch(Actions.fetchById(result, userAuth))
             console.log(result)
         }
     }
@@ -85,6 +93,7 @@ const AddContact = ({ ...props }) => {
         )
     }, [handleScanFile])
     console.log(findFriendQR)
+    //Render List Search Friend
     const renderListSearch = () => {
         if (!listSearchFriend.length) {
             return (
@@ -104,7 +113,6 @@ const AddContact = ({ ...props }) => {
             return (
                 <div>
                     {
-
                         listSearchFriend.map((record, index) => {
                             return (
                                 <div className={classes.root} key={record.id}>
@@ -165,6 +173,106 @@ const AddContact = ({ ...props }) => {
             )
         }
     }
+    const renderRelationShip = () => {
+        if (findFriendQR.labels === 'friend') {
+            return (
+                <p>Friend</p>
+            )
+        }
+        else if (findFriendQR.labels === 'send') {
+            return (
+                <p>Friend request received</p>
+            )
+        }
+        else if (findFriendQR.labels === 'receive') {
+            return (
+                <p>Friend request sent</p>
+            )
+        }
+        else if (findFriendQR.labels === '[]') {
+            return (
+                <p>No request sent yet</p>
+            )
+        }
+    }
+    //Render function of button
+    const renderButton = () => {
+        if (findFriendQR.labels === 'friend') {
+            return (
+                <Button
+                    style={{ fontSize: 10, backgroundColor: 'rgb(180, 0, 0)', color: 'white' }}
+                    onClick={() => {
+                        handleClickOpen1()
+                    }}
+                    color="primary">
+                    Remove
+                </Button>
+            )
+        }
+        else if (findFriendQR.labels === 'send') {
+            return (
+                <Button
+                    style={{ fontSize: 10, backgroundColor: '#3c4454', color: 'white' }}
+                    onClick={() => {
+                        dispatch(
+                            showMessage({
+                                message: "Accepted friend request successfully !",
+                                variant: "success",
+                                autoHideDuration: 2000,
+                                anchorOrigin: {
+                                    vertical: "top",
+                                    horizontal: "right",
+                                },
+                            })
+                        );
+                        handleClose();
+                        dispatch(Actions.acceptFriend(findFriendQR.id, userAuth));
+                    }}
+                    color="primary">
+                    Accept
+                </Button>
+            )
+        }
+        else if (findFriendQR.labels === 'receive') {
+            return (
+                <Button
+                    style={{ fontSize: 10, backgroundColor: 'rgb(180, 0, 0)', color: 'white' }}
+                    onClick={() => {
+                        handleClickOpen1()
+                    }}
+                    color="primary">
+                    Remove
+                </Button>
+            )
+        }
+        else if (findFriendQR.labels === '[]') {
+            return (
+                <Button
+                    variant="contained"
+                    color="primary"
+                    style={{ float: "right", fontSize: "10px", marginTop: '30px' }}
+                    onClick={() => {
+                        dispatch(
+                            showMessage({
+                                message: "Add new friend success !",
+                                variant: "success",
+                                autoHideDuration: 2000,
+                                anchorOrigin: {
+                                    vertical: "top",
+                                    horizontal: "right",
+                                },
+                            })
+                        );
+                        handleClose();
+                        dispatch(Actions.sendFriend(userAuth, findFriendQR.id, textsearch));
+                    }}
+                >
+                    Add Friend
+                </Button>
+            )
+        }
+    }
+    //Render QRCODE
     const renderQR = () => {
         if (findFriendQR) {
             return (
@@ -177,28 +285,32 @@ const AddContact = ({ ...props }) => {
                         justifyContent="center"
                         style={{ paddingTop: 10 }}
                     >
-                        <Avatar style={{ height: 70, width: 70 }} src="assets/images/avatars/Velazquez.jpg"
+                        <Avatar style={{ height: 70, width: 70 }} src={findFriendQR.info}
                         ></Avatar>
                     </Box>
                     <Box display="flex"
                         justifyContent="center"
                         style={{ paddingTop: 10 }}
                     >
-                        <h3>{findFriendQR ? findFriendQR.fullname : 'aaa'}</h3>
+                        <h3>{findFriendQR ? findFriendQR.fullname : 'Not Found'}</h3>
                     </Box>
                     <Box display="flex"
                         justifyContent="center"
                         style={{ paddingTop: 10 }}
                     >
-                        <p>{findFriendQR ? findFriendQR.email : 'aaa'}</p>
+                        <p>{findFriendQR ? findFriendQR.email : 'Not Found'}</p>
                     </Box>
                     <Box display="flex"
                         justifyContent="center"
-                        style={{ paddingTop: 50 }}
+                        style={{ paddingTop: 10 }}
                     >
-                        <Button variant="contained" color="primary">
-                            Add Friend
-                        </Button>
+                        {renderRelationShip()}
+                    </Box>
+                    <Box display="flex"
+                        justifyContent="center"
+                        style={{ paddingTop: 30 }}
+                    >
+                        {renderButton()}
                     </Box>
                 </Paper>
             )
@@ -220,6 +332,7 @@ const AddContact = ({ ...props }) => {
         }
 
     }
+
     return (
         <FuseAnimateGroup
             enter={{
@@ -291,18 +404,52 @@ const AddContact = ({ ...props }) => {
                                 </DialogContent>
                                 <DialogActions>
                                     <Button onClick={handleClose} color="primary">
-                                        Disagree
+                                        Close
                                     </Button>
-                                    <Button onClick={handleClose} color="primary" autoFocus>
-                                        Agree
+                                </DialogActions>
+                            </Dialog>
+                            <Dialog
+                                open={open1}
+                                onClose={handleClose1}
+                                aria-labelledby="alert-dialog-title"
+                                aria-describedby="alert-dialog-description"
+                            >
+                                <DialogTitle>{""}</DialogTitle>
+                                <DialogContent>
+                                    <DialogContentText id="alert-dialog-description">
+                                        Are you sure to delete this person
+                                    </DialogContentText>
+                                </DialogContent>
+                                <DialogActions>
+                                    <Button
+                                        style={{ fontSize: 10, backgroundColor: 'rgb(180, 0, 0)', color: 'white' }}
+                                        onClick={() => {
+                                            dispatch(Actions.removeFriendSend(findFriendQR.id, userAuth));
+                                            handleClose1();
+                                            handleClose()
+                                            dispatch(
+                                                showMessage({
+                                                    message: "Successfully deleted !",
+                                                    variant: "success",
+                                                    autoHideDuration: 2000,
+                                                    anchorOrigin: {
+                                                        vertical: "top",
+                                                        horizontal: "right",
+                                                    },
+                                                })
+                                            );
+                                        }}
+                                        color="primary">
+                                        Remove
+                                    </Button>
+                                    <Button style={{ fontSize: 10, backgroundColor: '#C67732 ', color: 'white' }} onClick={handleClose1} color="primary" autoFocus>
+                                        Cancel
                                     </Button>
                                 </DialogActions>
                             </Dialog>
                         </Grid>
                     </Formsy>
-
                 </CardContent>
-
                 {renderListSearch()}
             </Card>
         </FuseAnimateGroup>

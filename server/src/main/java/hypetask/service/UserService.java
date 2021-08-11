@@ -255,4 +255,28 @@ public class UserService {
         userRepository.save(userSend);
         userRepository.save(userReceive);
     }
+    public User searchQRUser(int idSearch,int idUser){
+		User u= userRepository.findById(idSearch).get();
+		JsonArray jsonArraySend = new JsonParser().parse(u.getContact()).getAsJsonArray();
+		for (JsonElement ls : jsonArraySend) {
+			JsonObject jsonObjectSend = ls.getAsJsonObject();
+			int id1 = Integer.parseInt(jsonObjectSend.get("id").getAsString());
+			String status=jsonObjectSend.get("status").getAsString();
+			if(id1==idUser&&status.equalsIgnoreCase("send")){
+				u.setLabels("send");
+			}
+			else if(id1==idUser&&status.equalsIgnoreCase("receive")){
+				u.setLabels("receive");
+			}
+			else if(id1==idUser&&status.equalsIgnoreCase("friend")){
+				u.setLabels("friend");
+			}else{
+				u.setLabels("none");
+			}
+		}
+		JsonObject jsonObject=new JsonParser().parse(u.getInfo()).getAsJsonObject();
+		String img=jsonObject.get("avatar").getAsString();
+		u.setInfo(img);
+		return u;
+	}
 }

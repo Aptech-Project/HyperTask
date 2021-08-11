@@ -104,8 +104,8 @@ export const removeFriendReceive = (idSend, idRecieve) => dispatch => {
         })
         .catch(err => console.log(err))
 }
-export const fetchById = (id) => dispatch => {
-    axios.get(endPointApi.users.fetchById + id)
+export const fetchById = (id1, id2) => dispatch => {
+    axios.get(endPointApi.users.findFriendByQR + id1 + '&' + id2)
         .then(response => {
             dispatch({
                 type: ACTION_TYPES.CONTACT_FETCH_BY_ID,

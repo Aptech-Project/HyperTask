@@ -134,5 +134,11 @@ public class UserController {
 		} else
 			return userService.searchFriend(textSearch, id);
 	}
-
+	@GetMapping("/search-qr/{id1}&{id2}")
+	public User searchFriendQR(@PathVariable("id1") int id1, @PathVariable("id2") int id2) {
+		if(id1==0||id1==id2){
+			return null;
+		}
+		return userService.searchQRUser(id1,id2);
+	}
 }
