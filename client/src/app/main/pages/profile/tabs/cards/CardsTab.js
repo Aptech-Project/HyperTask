@@ -112,8 +112,17 @@ function CardsTab(props) {
 
     function handleCardClick(ev, card) {
         ev.preventDefault();
+        let boardId = card.boardId
+        for (let index = 0; index < ["boardId", "boardName", "CardIndex"].length; index++) {
+            const element = ["boardId", "boardName", "CardIndex"][index];
+            console.log("element")
+            console.log(element)
+            if (element in card) {
+                delete card[element]
+            }
+        }
         history.push({
-            pathname: "/apps/scrumboard/boards/" + card.boardId,
+            pathname: "/apps/scrumboard/boards/" + boardId,
         });
         dispatch(actionsCard.openCardDialog(card))
     }
