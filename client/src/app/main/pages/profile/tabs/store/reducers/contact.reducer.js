@@ -4,7 +4,8 @@ const initialState = {
   listfriend: [],
   listsend: [],
   listreceive: [],
-  listsearchfriend: []
+  listsearchfriend: [],
+  findId: null
 }
 
 
@@ -55,6 +56,11 @@ const friend = (state = initialState, action) => {
       return {
         ...state,
         listsend: [...action.payload]
+      }
+    case ACTION_TYPES.CONTACT_FETCH_BY_ID:
+      return {
+        ...state,
+        findId: action.payload
       }
     default:
       return state

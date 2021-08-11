@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { Avatar, AppBar, TextField, Button, Card, CardContent, Icon, Toolbar, Typography } from '@material-ui/core';
+import React, { useEffect, useState, useRef } from 'react';
+import { Avatar, AppBar, TextField, Button, Card, CardContent, Icon, Toolbar, Typography, Box } from '@material-ui/core';
 import { FuseAnimateGroup } from '@fuse';
 import Paper from '@material-ui/core/Paper';
 import { useSelector, useDispatch } from 'react-redux';
@@ -10,17 +10,37 @@ import { makeStyles } from '@material-ui/core/styles';
 import { showMessage } from 'app/store/actions/fuse';
 import * as Actions from '../store/actions/contact.action'
 import { getContacts } from 'app/fuse-layouts/shared-components/chatPanel/store/actions';
-
+import { IconButton } from '@material-ui/core';
+import QrReader from 'react-qr-reader';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 const AddContact = ({ ...props }) => {
     const [textsearch, setTextSearch] = useState('')
     const dispatch = useDispatch();
     const listSearch = useSelector(state => state.friend.listsearchfriend)
+    const friendQR = useSelector(state => state.friend.findId)
     const [listSearchFriend, setListSearch] = useState([])
     const userAuth = useSelector(state => state.login.userAuth)
+    const [open, setOpen] = React.useState(false);
+    const [scanResultFile, setScanResultFile] = useState('');
+    const [findFriendQR, setFindFriendQR] = useState(null);
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+    const qrRef = useRef(null);
     useEffect(() => {
         dispatch(Actions.searchFriend("", userAuth));
     }, [])
-
+    const handleErrorFile = (error) => {
+        console.log(error);
+    }
     useEffect(() => {
         if (listSearch !== undefined) (
             setListSearch(listSearch)
@@ -47,10 +67,25 @@ const AddContact = ({ ...props }) => {
             maxHeight: '100%',
         },
     }));
-    console.log(listSearchFriend);
     const classes = useStyles();
+
+    const onScanFile = () => {
+        qrRef.current.openImageDialog();
+    }
+    const handleScanFile = (result) => {
+        if (result) {
+            setScanResultFile(result);
+            dispatch(Actions.fetchById(result))
+            console.log(result)
+        }
+    }
+    useEffect(() => {
+        if (friendQR !== undefined) (
+            setFindFriendQR(friendQR)
+        )
+    }, [handleScanFile])
+    console.log(findFriendQR)
     const renderListSearch = () => {
-        console.log(textsearch)
         if (!listSearchFriend.length) {
             return (
                 <div>
@@ -116,6 +151,7 @@ const AddContact = ({ ...props }) => {
                                                     >
                                                         Add Friend
                                                     </Button>
+
                                                 </Grid>
                                             </Grid>
                                         </Grid>
@@ -126,6 +162,60 @@ const AddContact = ({ ...props }) => {
                         })
                     }
                 </div >
+            )
+        }
+    }
+    const renderQR = () => {
+        if (findFriendQR) {
+            return (
+                <Paper
+                    style={{
+                        height: '100%',
+                        width: '100%',
+                    }}>
+                    <Box display="flex"
+                        justifyContent="center"
+                        style={{ paddingTop: 10 }}
+                    >
+                        <Avatar style={{ height: 70, width: 70 }} src="assets/images/avatars/Velazquez.jpg"
+                        ></Avatar>
+                    </Box>
+                    <Box display="flex"
+                        justifyContent="center"
+                        style={{ paddingTop: 10 }}
+                    >
+                        <h3>{findFriendQR ? findFriendQR.fullname : 'aaa'}</h3>
+                    </Box>
+                    <Box display="flex"
+                        justifyContent="center"
+                        style={{ paddingTop: 10 }}
+                    >
+                        <p>{findFriendQR ? findFriendQR.email : 'aaa'}</p>
+                    </Box>
+                    <Box display="flex"
+                        justifyContent="center"
+                        style={{ paddingTop: 50 }}
+                    >
+                        <Button variant="contained" color="primary">
+                            Add Friend
+                        </Button>
+                    </Box>
+                </Paper>
+            )
+        } else {
+            return (
+                <Paper
+                    style={{
+                        height: '100%',
+                        width: '100%',
+                    }}>
+                    <Box display="flex"
+                        justifyContent="center"
+                        style={{ paddingTop: 10 }}
+                    >
+                        No friend found
+                    </Box>
+                </Paper>
             )
         }
 
@@ -148,23 +238,72 @@ const AddContact = ({ ...props }) => {
                     <Formsy
                         className="flex flex-col justify-center w-full"
                     >
-                        <TextField
-                            className="mb-16"
-                            type="text"
-                            name="search"
-                            label="Search"
-                            variant="outlined"
-                            autoComplete='off'
-                            onChange={(event) => {
-                                dispatch(Actions.searchFriend(event.target.value, userAuth));
-                                setTextSearch(event.target.value);
-                            }}
-                        />
-
+                        <Grid container spacing={1}>
+                            <Grid item xs={11}>
+                                <TextField
+                                    className="mb-16"
+                                    type="text"
+                                    name="search"
+                                    label="Search"
+                                    variant="outlined"
+                                    fullWidth
+                                    autoComplete='off'
+                                    onChange={(event) => {
+                                        dispatch(Actions.searchFriend(event.target.value, userAuth));
+                                        setTextSearch(event.target.value);
+                                    }}
+                                />
+                            </Grid>
+                            <Grid item xs={1}>
+                                <IconButton style={{ marginTop: -10 }} onClick={() => { handleClickOpen(); }}><img src="assets/images/etc/qr.jpg" /></IconButton>
+                            </Grid>
+                            <Dialog
+                                open={open}
+                                onClose={handleClose}
+                                aria-labelledby="alert-dialog-title"
+                                aria-describedby="alert-dialog-description"
+                            >
+                                <DialogTitle id="alert-dialog-title">{"Addfriend by QR Code"}</DialogTitle>
+                                <DialogContent style={{ width: 600 }}>
+                                    <Button
+                                        style={{ fontSize: 10, backgroundColor: 'rgb(180, 0, 0)', color: 'white', marginBottom: 5 }}
+                                        onClick={onScanFile}
+                                    >
+                                        Scan QR Code
+                                    </Button>
+                                    <div>
+                                        <Grid container component="span" spacing={1}>
+                                            <Grid item xs={6}>
+                                                <QrReader
+                                                    ref={qrRef}
+                                                    delay={300}
+                                                    style={{ width: '100%' }}
+                                                    onError={handleErrorFile}
+                                                    onScan={handleScanFile}
+                                                    legacyMode
+                                                />
+                                            </Grid>
+                                            <Grid item xs={6} >
+                                                {renderQR()}
+                                            </Grid>
+                                        </Grid>
+                                    </div>
+                                </DialogContent>
+                                <DialogActions>
+                                    <Button onClick={handleClose} color="primary">
+                                        Disagree
+                                    </Button>
+                                    <Button onClick={handleClose} color="primary" autoFocus>
+                                        Agree
+                                    </Button>
+                                </DialogActions>
+                            </Dialog>
+                        </Grid>
                     </Formsy>
-                </CardContent>
-                {renderListSearch()}
 
+                </CardContent>
+
+                {renderListSearch()}
             </Card>
         </FuseAnimateGroup>
     );

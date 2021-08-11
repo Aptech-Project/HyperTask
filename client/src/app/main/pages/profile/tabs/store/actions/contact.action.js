@@ -10,6 +10,7 @@ export const ACTION_TYPES = {
     REMOVE_FRIEND: 'REMOVE_FRIEND',
     REMOVE_FRIEND_SEND: 'REMOVE_FRIEND_SEND',
     REMOVE_FRIEND_RECEIVE: 'REMOVE_FRIEND_RECEIVE',
+    CONTACT_FETCH_BY_ID: 'CONTACT_FETCH_BY_ID'
 }
 
 
@@ -103,5 +104,16 @@ export const removeFriendReceive = (idSend, idRecieve) => dispatch => {
         })
         .catch(err => console.log(err))
 }
+export const fetchById = (id) => dispatch => {
+    axios.get(endPointApi.users.fetchById + id)
+        .then(response => {
+            dispatch({
+                type: ACTION_TYPES.CONTACT_FETCH_BY_ID,
+                payload: response.data
+            })
+        })
+        .catch(err => console.log(err))
+}
+
 
 

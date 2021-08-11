@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
 import Typography from '@material-ui/core/Typography'
@@ -14,60 +15,77 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import withWidth, { isWidthDown, isWidthUp } from '@material-ui/core/withWidth';
 import AddContact from './AddContact';
-class ProfileTabs extends React.PureComponent {
-    state = { activeIndex: 0 }
-
-    handleChange = (_, activeIndex) => this.setState({ activeIndex })
-    render() {
-        const { activeIndex } = this.state;
-        let condTabOrientation;
-        if (isWidthDown("xs", this.props.width)) {
-            condTabOrientation = "block";
-        } else if (isWidthDown("sm", this.props.width)) {
-            condTabOrientation = "block";
-        } else if (isWidthDown("md", this.props.width)) {
-            condTabOrientation = "block";
-        }
-        else {
-            condTabOrientation = "flex";
-        }
-        console.log(condTabOrientation)
-        return (
-            <div
-                style={{
-                    display: condTabOrientation
-                }}
-            >
-                <Card style={{ display: 'block', marginBottom: '10px', height: '100%' }}>
-                    <CardMedia
-                        component="img"
-                        alt="Contemplative Reptile"
-                        height="140"
-                        image="/static/images/cards/contemplative-reptile.jpg"
-                        title="Contemplative Reptile"
-                    />
-                    <CardContent>
-                        <VerticalTabs
-                            value={activeIndex}
-                            onChange={this.handleChange}
-                        >
-                            <MyTab label='All Friend' />
-                            <MyTab label='Add Friend' />
-                            <MyTab label='Invitation Sent' />
-                            <MyTab label='Invitation Received' />
-                        </VerticalTabs>
-
-                    </CardContent>
-                </Card>
-
-                {activeIndex === 0 && <TabContainer><Contact /></TabContainer>}
-                {activeIndex === 1 && <TabContainer><AddContact /></TabContainer>}
-                {activeIndex === 2 && <TabContainer><ContactRequest /></TabContainer>}
-                {activeIndex === 3 && <TabContainer><ContactSend /></TabContainer>}
-
-            </div>
-        )
+import QRCode from 'qrcode';
+function ProfileTabs(props) {
+    const [activeIndex, setActiveIndex] = useState(0);
+    const handleChange = (activeIndex) => {
+        setActiveIndex(activeIndex)
     }
+    const user = useSelector(state => state.login.userAuth);
+    let condTabOrientation;
+    if (isWidthDown("xs", props.width)) {
+        condTabOrientation = "block";
+    } else if (isWidthDown("sm", props.width)) {
+        condTabOrientation = "block";
+    } else if (isWidthDown("md", props.width)) {
+        condTabOrientation = "block";
+    }
+    else {
+        condTabOrientation = "flex";
+    }
+    const [text, setText] = useState('');
+    const [imageUrl, setImageUrl] = useState('');
+    const generateQrCode = async () => {
+        try {
+            const response = await QRCode.toDataURL(user);
+            setImageUrl(response);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    useEffect(() => {
+        generateQrCode()
+    }, [generateQrCode])
+    console.log(imageUrl)
+    return (
+        <div
+            style={{
+                display: condTabOrientation
+            }}
+        >
+            <Card style={{ display: 'block', marginBottom: '10px', height: '100%', width: "250px" }}>
+                {imageUrl ? (
+                    <a href={imageUrl} download>
+                        <CardMedia
+                            component="img"
+                            alt="Contemplative Reptile"
+                            height="140"
+                            image={imageUrl}
+                            title="Contemplative Reptile"
+                            style={{ marginTop: 10 }}
+                        />
+                    </a>) : null}
+                <CardContent>
+                    <VerticalTabs
+                        value={activeIndex}
+                        onChange={() => handleChange(activeIndex)}
+                    >
+                        <MyTab label='All Friend' onClick={() => { setActiveIndex(0) }} />
+                        <MyTab label='Add Friend' onClick={() => setActiveIndex(1)} />
+                        <MyTab label='Invitation Sent' onClick={() => setActiveIndex(2)} />
+                        <MyTab label='Invitation Received' onClick={() => setActiveIndex(3)} />
+                    </VerticalTabs>
+
+                </CardContent>
+            </Card>
+
+            {activeIndex === 0 && <TabContainer><Contact /></TabContainer>}
+            {activeIndex === 1 && <TabContainer><AddContact /></TabContainer>}
+            {activeIndex === 2 && <TabContainer><ContactRequest /></TabContainer>}
+            {activeIndex === 3 && <TabContainer><ContactSend /></TabContainer>}
+
+        </div>
+    )
 }
 
 const VerticalTabs = withStyles(theme => ({

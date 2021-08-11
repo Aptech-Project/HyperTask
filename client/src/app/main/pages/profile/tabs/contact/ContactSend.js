@@ -51,17 +51,7 @@ function ContactSend(props) {
             setFriend(allsend)
         )
     }, [allsend])
-    console.log(allsend)
     useEffect(() => {
-        // function getFilteredArray(entities, searchText) {
-        //     const arr = Object.keys(entities).map((id) => entities[id]);
-        //     if (searchText.length === 0) {
-        //         return arr;
-        //     }
-        //     return FuseUtils.filterArrayByString(arr, searchText);
-        // }
-
-        // if (contacts) {
         setFilteredData(friend);
 
     }, [friend]);
@@ -70,16 +60,6 @@ function ContactSend(props) {
     if (!filteredData) {
         return null;
     }
-    // if (filteredData.length === 0) {
-    //     return (
-    //         <div className="flex flex-1 items-center justify-center h-full">
-    //             <Typography color="textSecondary" variant="h5">
-    //                 There are no contacts!
-    //             </Typography>
-    //         </div>
-    //     );
-    // }
-
     return (
         <FuseAnimate animation="transition.slideUpIn" delay={300}>
             <ReactTable

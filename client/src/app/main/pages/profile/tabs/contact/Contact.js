@@ -12,6 +12,7 @@ import * as action from 'app/auth/store/actions/login.actions'
 import * as Actions from 'app/main/pages/profile/tabs/store/actions/contact.action'
 import Button from '@material-ui/core/Button';
 import { showMessage } from 'app/store/actions/fuse';
+
 function ContactsList(props) {
     const dispatch = useDispatch();
     const [account, setAccount] = useState([]);
@@ -19,6 +20,8 @@ function ContactsList(props) {
     const [open, setOpen] = React.useState(false);
     const userAuth = useSelector(state => state.login.userAuth)
     const [id, setId] = React.useState();
+
+
     const handleClickOpen = (idF) => {
         setOpen(true);
         setId(idF);
@@ -34,7 +37,6 @@ function ContactsList(props) {
     let allfriend = useSelector(state => state.friend.listfriend)
     const [friend, setFriend] = useState([])
     const [filteredData, setFilteredData] = useState(null);
-    console.log(allfriend)
 
     useEffect(() => {
         dispatch(action.check())
