@@ -72,6 +72,9 @@ function ProjectDashboardApp(props) {
     const widgets = projectData.widgets;
     const userId = localStorage.getItem('user_authenticated');
     const user = useSelector((state)=>state.login.findId);
+    const state = useSelector((state)=>state);
+    console.log('state')
+    console.log(state)
     const boardsStatistic = useSelector(
         ({ projects }) => projects.boardsStatistic
     );
@@ -223,13 +226,12 @@ function ProjectDashboardApp(props) {
                     >
                         <Tab
                             className="text-14 font-600 normal-case"
-                            label="Home"
+                            label="Overview"
                         />
-                        {/* haiduongtodo: implement detail tab*/}
-                        {/* <Tab
+                        <Tab
                             className="text-14 font-600 normal-case"
-                            label="Budget Summary"
-                        /> */}
+                            label="Board Details"
+                        />
                         <Tab
                             className="text-14 font-600 normal-case"
                             label="Team Members"
@@ -315,8 +317,7 @@ function ProjectDashboardApp(props) {
                                     </div>
                                 </FuseAnimateGroup>
                             )}
-                            {/* haiduongtodo: implement detail tab*/}
-                            {/* {tabValue === 1 && (
+                            {tabValue === 1 && (
                                 <FuseAnimateGroup
                                     className="flex flex-wrap"
                                     enter={{
@@ -333,8 +334,8 @@ function ProjectDashboardApp(props) {
                                         <Widget10 widget={widgets.widget10} />
                                     </div>
                                 </FuseAnimateGroup>
-                            )} */}
-                            {tabValue === 1 && (
+                            )}
+                            {tabValue === 2 && (
                                 <FuseAnimateGroup
                                     className="flex flex-wrap"
                                     enter={{

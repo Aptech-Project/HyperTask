@@ -124,6 +124,8 @@ export const cardsData = [
 export const cards = [
     {
         id: "1",
+        cardId:"",
+        listId:"",
         boardId: "1",
         name: "Update generators",
         content: "Current generator doesn't support Node.js 6 and above.",

@@ -44,11 +44,15 @@ VI. Run & Debug java app in VSCode app
 
     
 VII. Dashboard design:
+1. Home
     Activity: activity by day
     4 total widget: cards, attachments, checklist, comments
     Task distribution: ongoing task, overdue task, complete after due, complete before
     Inprocessing cards: upcoming task
     Task by labels: pie chat
+
+2. Board details
+    
     
 
 VIII. Presentation
