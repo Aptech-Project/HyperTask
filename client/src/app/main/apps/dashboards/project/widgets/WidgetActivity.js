@@ -160,13 +160,12 @@ function WidgetActivity(props) {
                         {Object.keys(allDataset.datasets).map((key) => (
                             <Button
                                 key={key}
-                                className="py-8 px-12"
+                                className={`py-8 px-12 ${key === dataset ? "text-blue" : null}`}
                                 size="small"
                                 onClick={() => {
                                     setDataset(key);
                                     setTickOption(key);
                                 }}
-                                disabled={key === dataset}
                             >
                                 {key}
                             </Button>
