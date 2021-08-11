@@ -193,8 +193,6 @@ function CalendarApp(props) {
 
     useEffect(() => {
         if (searchResult && searchResult != []) {
-            console.log("searchResult")
-            console.log(searchResult)
             let arryList = []
             searchResult.forEach(element => {
                 arryList.push(JSON.parse(element.lists))
@@ -211,7 +209,9 @@ function CalendarApp(props) {
             lists.forEach(element => {
                 element.forEach(element1 => {
                     element1.cards.forEach(element2 => {
-                        arryCards.push(element2)
+                        if (element2.members.includes(parseInt(userID))) {
+                            arryCards.push(element2)
+                        }
                     });
                 });
             });
@@ -221,8 +221,6 @@ function CalendarApp(props) {
 
     useEffect(() => {
         if (cards && cards != []) {
-            console.log("lists")
-            console.log(lists)
             let arryEvent = []
             cards.forEach(element => {
                 arryEvent.push({

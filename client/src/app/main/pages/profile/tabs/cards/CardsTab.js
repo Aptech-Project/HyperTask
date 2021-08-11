@@ -17,6 +17,8 @@ import {
     Avatar,
     Tooltip,
 } from "@material-ui/core";
+import history from "@history";
+
 import { makeStyles, useTheme } from "@material-ui/styles";
 import { FuseAnimate, FuseAnimateGroup } from "@fuse";
 import { useDispatch, useSelector } from "react-redux";
@@ -24,9 +26,9 @@ import withReducer from "app/store/withReducer";
 import clsx from "clsx";
 import _ from "@lodash";
 import { Link } from "react-router-dom";
-import { cards } from "./CardsData";
 import moment from 'moment';
-
+import * as Actions from "../store/actions";
+import * as actionsCard from "app/main/apps/scrumboard/store/actions";
 const useStyles = makeStyles((theme) => ({
     header: {
         background:
@@ -48,8 +50,8 @@ const useStyles = makeStyles((theme) => ({
         pointerEvents: "none",
     },
     card: {
-        transitionProperty      : 'box-shadow',
-        transitionDuration      : theme.transitions.duration.short,
+        transitionProperty: 'box-shadow',
+        transitionDuration: theme.transitions.duration.short,
         transitionTimingFunction: theme.transitions.easing.easeInOut
     },
 }));
@@ -61,119 +63,60 @@ function CardsTab(props) {
     const theme = useTheme();
     const [searchText, setSearchText] = useState("");
     const [selectedBoard, setSelectedBoard] = useState("all");
-    console.log(cards);
+    const boardsInfo = useSelector(state => state.ProfilePage.card.boards)
+    const [lists, setLists] = useState(null);
+    const [cards, setCards] = useState(null);
+    console.log(boardsInfo);
     const [filteredData, setFilteredData] = useState(cards);
-    const boardsInfo = [
-        {
-            id: "1",
-            name: "board 1",
-            labels: [
-                {
-                  id: "1",
-                  name: "High Priority",
-                  class: "bg-red text-white",
-                },
-                {
-                  id: "2",
-                  name: "Design",
-                  class: "bg-orange text-white",
-                },
-                {
-                  id: "3",
-                  name: "App",
-                  class: "bg-blue text-white",
-                },
-                {
-                  id: "4",
-                  name: "Feature",
-                  class: "bg-green text-white",
-                },
-              ],
-            members: [
-                {
-                id: "1",
-                name: "Alice Freeman",
-                avatar: "assets/images/avatars/alice.jpg",
-                },
-                {
-                id: "2",
-                name: "Danielle Obrien",
-                avatar: "assets/images/avatars/danielle.jpg",
-                },
-                {
-                id: "3",
-                name: "James Lewis",
-                avatar: "assets/images/avatars/james.jpg",
-                },
-                {
-                id: "4",
-                name: "John Doe",
-                avatar: "assets/images/avatars/Velazquez.jpg",
-                },
-            ],
-        },
-        {
-            id: "2",
-            name: "board 2",
-            labels: [
-                {
-                  id: "1",
-                  name: "High Priority",
-                  class: "bg-red text-white",
-                },
-                {
-                  id: "2",
-                  name: "Design",
-                  class: "bg-orange text-white",
-                },
-                {
-                  id: "3",
-                  name: "App",
-                  class: "bg-blue text-white",
-                },
-                {
-                  id: "4",
-                  name: "Feature",
-                  class: "bg-green text-white",
-                },
-              ],
-              members: [
-                  {
-                  id: "1",
-                  name: "Alice Freeman",
-                  avatar: "assets/images/avatars/alice.jpg",
-                  },
-                  {
-                  id: "2",
-                  name: "Danielle Obrien",
-                  avatar: "assets/images/avatars/danielle.jpg",
-                  },
-                  {
-                  id: "3",
-                  name: "James Lewis",
-                  avatar: "assets/images/avatars/james.jpg",
-                  },
-                  {
-                  id: "4",
-                  name: "John Doe",
-                  avatar: "assets/images/avatars/Velazquez.jpg",
-                  },
-              ],
-        },
-    ];
+    const userID = localStorage.getItem("user_authenticated");
     useEffect(() => {
-        if (cards.length) {
+        dispatch(Actions.getBoards());
+    }, [dispatch]);
+    useEffect(() => {
+        if (boardsInfo != []) {
+            let arryList = []
+            boardsInfo.forEach(element => {
+                let tmpObject = JSON.parse(element.lists)
+                tmpObject.boardId = element.id
+                tmpObject.boardName = element.name
+                arryList.push(tmpObject)
+            });
+            setLists(arryList)
+        }
+    }, [boardsInfo]);
+    useEffect(() => {
+        if (lists && lists != []) {
+            let arryCards = []
+            lists.forEach(element => {
+                element.forEach(element1 => {
+                    element1.cards.forEach(element2 => {
+                        if (element2.members.includes(parseInt(userID))) {
+                            let obj = element2
+                            obj.boardId = element.boardId
+                            obj.boardName = element.boardName
+                            obj.CardIndex = arryCards.length + 1
+                            arryCards.push(obj)
+                        }
+                    });
+                });
+            });
+            setCards(arryCards)
+        }
+    }, [lists]);
+    useEffect(() => {
+        if (cards && cards != []) {
             const filteredCards = cards.filter(card => card.name.includes(searchText));
             setFilteredData(filteredCards);
         }
-    }, [searchText]);
+    }, [searchText, cards]);
 
-    function handleCardClick(ev, card)
-    {
+    function handleCardClick(ev, card) {
         ev.preventDefault();
-        console.log('card clicked')
+        history.push({
+            pathname: "/apps/scrumboard/boards/" + card.boardId,
+        });
+        dispatch(actionsCard.openCardDialog(card))
     }
-
     return (
         <div className="flex flex-col flex-1 w-full">
             <div className="flex flex-col flex-1 max-w-2xl w-full mx-auto px-8 sm:px-16 py-24">
@@ -236,25 +179,26 @@ function CardsTab(props) {
                                     return (
                                         <div
                                             className="w-full pb-24 sm:w-1/2 lg:w-1/3 sm:p-16"
-                                            key={card.id}
+                                            key={card.CardIndex}
                                         >
                                             <Card
                                                 className={clsx(classes.card, "w-full mb-16 rounded-4 cursor-pointer border-1")}
-                                                onClick={(ev) => handleCardClick(ev, card)}
+                                                onDoubleClick={(ev) => handleCardClick(ev, card)}
                                             >
                                                 {/* <img className="block" src={card.info.backgroundImage} alt="card cover"/> */}
-                                                <img className="block" src="http://localhost:4000/storage/jpg/test.jpg" alt="card cover"/>
+                                                <img className="block" src="http://localhost:4000/storage/jpg/test.jpg" alt="card cover" />
 
                                                 <div className="p-16 pb-0">
 
                                                     {card.labels.length > 0 && (
                                                         <div className="flex flex-wrap mb-8">
                                                             {card.labels.map(id => {
-                                                                const board = boardsInfo.find( board => board.id === card.boardId);
-                                                                const label = _.find(board.labels, {id});
+                                                                const board = boardsInfo.find(board => board.id === card.boardId);
+                                                                const labels = JSON.parse(board.labels)
+                                                                const label = _.find(labels, { id });
                                                                 return (
-                                                                    <Tooltip title={label.name} key={id}>
-                                                                        <div className={clsx(label.class, "w-32  h-6 rounded-6 mr-6 mb-6")}/>
+                                                                    label && < Tooltip title={label.name} key={id} >
+                                                                        <div className={clsx(label.class, "w-32  h-6 rounded-6 mr-6 mb-6")} />
                                                                     </Tooltip>
                                                                 );
                                                             })}
@@ -263,43 +207,16 @@ function CardsTab(props) {
 
                                                     <Typography className="font-600 mb-12">{card.name}</Typography>
 
-                                                    {(card.dueDate || card.checklist > 0) && (
+                                                    {(card.due) && (
                                                         <div className="flex items-center mb-12">
-                                                            {card.dueDate && (
+                                                            {card.due && (
                                                                 <div
-                                                                    className={clsx("flex items-center px-8 py-4 mr-8 rounded-sm", moment() > moment(card.dueDate) ? "bg-red text-white" : "bg-green text-white")}>
+                                                                    className={clsx("flex items-center px-8 py-4 mr-8 rounded-sm", moment() > moment(card.due) ? "bg-red text-white" : "bg-gretn text-white")}>
                                                                     <Icon className="text-16 mr-4">access_time</Icon>
-                                                                    <span>{moment(card.dueDate).format("MMM Do YY")}</span>
+                                                                    <span>{moment(card.due).format("MMM Do YY")}</span>
                                                                 </div>
                                                             )}
 
-                                                            {card.checklist > 0 && (
-                                                                <div
-                                                                    className={clsx("flex items-center px-8 py-4 mr-8 rounded-sm", card.checklist.find(item => item.checked).length === card.checklist.length ? "bg-green text-white" : "bg-grey-dark text-white")}
-                                                                >
-                                                                    <Icon className="text-16 mr-4">check_circle</Icon>
-                                                                    <span>{card.checklist.find(item => item.checked).length}</span>
-                                                                    <span>/</span>
-                                                                    <span>{card.checklist.length}</span>
-                                                                </div>
-                                                            )}
-
-                                                        </div>
-                                                    )}
-
-                                                    {card.members.length > 0 && (
-                                                        <div className="flex flex-wrap mb-12">
-                                                            {card.members.map(id => {
-                                                                const board = boardsInfo.find( board => board.id === card.boardId);
-                                                                const member = _.find(board.members, {id});
-                                                                return (
-                                                                    <Tooltip title={member.name} key={id}>
-                                                                        <Avatar className="mr-8 w-32 h-32" src={member.avatar}/>
-                                                                    </Tooltip>
-                                                                )
-                                                            })}
-                                                            <div className="">
-                                                            </div>
                                                         </div>
                                                     )}
 
@@ -307,27 +224,27 @@ function CardsTab(props) {
 
                                                 <div className="flex justify-between h-48 px-16 border-t-1">
                                                     <div className="flex items-center">
-                                                        {card.subscribed && (
+                                                        {/* {card.subscribed && (
                                                             <Icon className="text-18 mr-12" color="action">remove_red_eye</Icon>
                                                         )}
 
                                                         {card.description !== '' && (
                                                             <Icon className="text-18 mr-12" color="action">description</Icon>
-                                                        )}
+                                                        )} */}
                                                     </div>
 
                                                     <div className="flex items-center justify-end">
                                                         {card.attachments && (
                                                             <span className="flex items-center ml-12">
-                                                                    <Icon className="text-18 mr-8" color="action">attachment</Icon>
-                                                                    <Typography color="textSecondary">{card.attachments.length}</Typography>
-                                                                </span>
+                                                                <Icon className="text-18 mr-8" color="action">attachment</Icon>
+                                                                <Typography color="textSecondary">{card.attachments.length}</Typography>
+                                                            </span>
                                                         )}
-                                                        {(
+                                                        {card.activities && (
                                                             <span className="flex items-center ml-12">
-                                                                    <Icon className="text-18 mr-8" color="action">comment</Icon>
-                                                                    <Typography color="textSecondary">{card.comment.length}</Typography>
-                                                                </span>
+                                                                <Icon className="text-18 mr-8" color="action">comment</Icon>
+                                                                <Typography color="textSecondary">{card.activities.length}</Typography>
+                                                            </span>
                                                         )}
                                                     </div>
                                                 </div>
