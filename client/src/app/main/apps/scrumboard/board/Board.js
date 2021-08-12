@@ -21,6 +21,8 @@ import BoardCardDialog from "./dialogs/card/BoardCardDialog";
 import BoardSettingsSidebar from "./sidebars/settings/BoardSettingsSidebar";
 import { useDispatch, useSelector } from "react-redux";
 import BoardMember from "./BoardMembers";
+import { userIsAdmin } from "../store/allBoardFunction";
+import BoardActivitiesSidebar from "./sidebars/activities/BoardActivitiesSidebar";
 
 function Board(props) {
   const dispatch = useDispatch();
@@ -28,10 +30,14 @@ function Board(props) {
   const allUser = useSelector(
     ({ scrumboardApp }) => scrumboardApp.userBoard.allUser
   );
+
   //const profile = useSelector((state) => state.login.findId);
   const containerRef = useRef(null);
+  const [userisAdmin, setUserisAdmin] = useState();
+  const [allowMemberEdit, setAllowMemberEdit] = useState();
   const [settingsDrawerOpen, setSettingsDrawerOpen] = useState(false);
-  const [changeBackground, setChangeBackground] = useState();
+  const [activityOpen, setActivityOpen] = useState(false);
+  const [changeBackground, setChangeBackground] = useState("");
   console.log("board: ", board);
   useEffect(() => {
     //console.log("props: ", props);
@@ -43,6 +49,12 @@ function Board(props) {
   }, [dispatch, props.match.params]);
   useEffect(() => {
     if (board) {
+      const isAdmin = userIsAdmin(board);
+      const boardBackground = JSON.parse(board.info).backgroundImage;
+      const allowEdit = JSON.parse(board.info).allowMemberEdit;
+      setUserisAdmin(isAdmin);
+      setAllowMemberEdit(allowEdit);
+      setChangeBackground(boardBackground);
       const allMember = [];
       JSON.parse(board.members).map((member) => {
         allUser.map((user) => {
@@ -86,6 +98,9 @@ function Board(props) {
   function toggleSettingsDrawer(state) {
     setSettingsDrawerOpen(state === undefined ? !settingsDrawerOpen : state);
   }
+  function toggleActivityDrawer(state) {
+    setActivityOpen(state === undefined ? !activityOpen : state);
+  }
 
   if (!board) {
     return null;
@@ -124,19 +139,28 @@ function Board(props) {
           </div>
 
           <BoardMember members={board.members} />
-
           <IconButton
             color="inherit"
-            onClick={() => toggleSettingsDrawer(true)}
+            onClick={() => toggleActivityDrawer(true)}
           >
-            <Icon>settings</Icon>
+            <Icon>speaker_notes</Icon>
           </IconButton>
+          {userisAdmin == false && allowMemberEdit === "false" ? null : (
+            <IconButton
+              color="inherit"
+              onClick={() => toggleSettingsDrawer(true)}
+            >
+              <Icon>settings</Icon>
+            </IconButton>
+          )}
         </Toolbar>
       </AppBar>
-
       <div
         className={clsx("flex flex-1 overflow-x-auto")}
-        style={{ backgroundImage: `url(${changeBackground})` }}
+        style={{
+          backgroundImage: changeBackground,
+          backgroundSize: "cover",
+        }} // ../board/backgroundImages/background1.jpg
       >
         <DragDropContext onDragEnd={onDragEnd}>
           <Droppable droppableId="list" type="list" direction="horizontal">
@@ -177,6 +201,27 @@ function Board(props) {
         onClose={() => toggleSettingsDrawer(false)}
       >
         <BoardSettingsSidebar setChangeBackground={setChangeBackground} />
+      </Drawer>
+      <Drawer
+        anchor="right"
+        style={{ top: "120px", right: "55px" }}
+        className="absolute overflow-hidden"
+        classes={{
+          paper: "absolute w-320",
+        }}
+        BackdropProps={{
+          classes: {
+            root: "absolute",
+          },
+        }}
+        container={containerRef.current}
+        ModalProps={{
+          keepMounted: true,
+        }}
+        open={activityOpen}
+        onClose={() => toggleActivityDrawer(false)}
+      >
+        <BoardActivitiesSidebar />
       </Drawer>
 
       <BoardCardDialog />

@@ -10,10 +10,13 @@ import {
 import * as Actions from "../store/actions";
 import { useForm } from "@fuse/hooks";
 import { useDispatch, useSelector } from "react-redux";
+import { userIsAdmin } from "../store/allBoardFunction";
 
 function BoardAddCard(props) {
   const dispatch = useDispatch();
   const board = useSelector(({ scrumboardApp }) => scrumboardApp.board);
+  const userisAdmin = userIsAdmin(board);
+  const allowMemberEdit = JSON.parse(board.info).allowMemberEdit;
 
   const [formOpen, setFormOpen] = useState(false);
   const { form, handleChange, resetForm } = useForm({
@@ -84,7 +87,7 @@ function BoardAddCard(props) {
             </div>
           </form>
         </ClickAwayListener>
-      ) : (
+      ) : userisAdmin == false && allowMemberEdit === "false" ? null : (
         <Button
           onClick={handleOpenForm}
           classes={{

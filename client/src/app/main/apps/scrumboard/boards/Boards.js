@@ -100,6 +100,41 @@ const useStyles = makeStyles((theme) => ({
       width: "20ch",
     },
   },
+  content: {
+    flex: "1 1 100%",
+    display: "flex",
+    minHeight: 0,
+    borderRadius: "8px 8px 0 0",
+    flexDirection: "column",
+    backgroundColor: "#fff",
+  },
+  contentWrapper: {
+    flex: "1 1 100%",
+    display: "flex",
+    padding: "0 3.2rem",
+    zIndex: 2,
+    maxWidth: "100%",
+    minWidth: 0,
+    minHeight: 0,
+    flexDirection: "column",
+  },
+  contentHeader: {
+    color: "#fff",
+    height: "136px",
+    display: "flex",
+    maxHeight: "136px",
+    minHeight: "136px",
+  },
+  topBg: {
+    top: 0,
+    left: 0,
+    right: 0,
+    height: "200px",
+    position: "absolute",
+    background: "linear-gradient(to right, #2D323E 0%, #3C4252 100%)",
+    pointerEvents: "none",
+    backgroundSize: "cover",
+  },
 }));
 
 function Boards(props) {
@@ -215,43 +250,56 @@ function Boards(props) {
   };
 
   return (
-    <div
-      className={clsx(
-        classes.root,
-        "flex flex-grow flex-shrink-0 flex-col items-center"
-      )}
-    >
-      <Grid container>
-        <Grid item xs></Grid>
-        <Grid item xs={10}>
-          <div className="flex flex-grow flex-shrink-0 flex-col container px-16 md:px-24">
-            {/* <FuseAnimate> */}
-            <Typography
-              className=" text-32 sm:text-40 font-300" /* sm:mt-88 sm:py-24 */
-              style={{ color: "#5e6c84" }}
-            >
-              Your Boards
-            </Typography>
-            {/* </FuseAnimate> */}
-            <Typography
-              className="font-300" /* sm:mt-88 sm:py-24 */
-              style={{ color: "#5e6c84", fontSize: "25px", marginTop: "20px" }}
-            >
-              Board Templates
-            </Typography>
-            <div>
-              <FuseAnimateGroup
-                className="flex flex-wrap w-full"
-                enter={{
-                  animation: "transition.slideUpBigIn",
-                  duration: 300,
-                }}
-                style={{ paddingBottom: "3.2rem" }}
-              >
-                {boardTemplates.map((board) => (
-                  <div key={board.id} className={classes.boardContain}>
-                    <div className={clsx(classes.board, "rounded")}>
-                      {/* <div className={classes.settingBoardContain}>
+    <>
+      <div className={classes.topBg}></div>
+      <div className={classes.contentWrapper}>
+        <div className={classes.contentHeader}>
+          <Typography
+            className=" text-32 sm:text-40 font-300" /* sm:mt-88 sm:py-24 */
+            style={{ color: "antiquewhite" }}
+          >
+            Your Boards
+          </Typography>
+        </div>
+        <div className={classes.content}>
+          <div
+            className={clsx(
+              classes.root,
+              "flex flex-grow flex-shrink-0 flex-col items-center"
+            )}
+          >
+            <Grid container>
+              {/* <Grid item xs={1}></Grid> */}
+              <Grid item xs={12}>
+                <div
+                  className="flex flex-grow flex-shrink-0 flex-col container px-16 md:px-24"
+                  style={{ paddingLeft: "5rem", paddingRight: "5rem" }}
+                >
+                  {/* <FuseAnimate> */}
+                  {/* </FuseAnimate> */}
+                  <Typography
+                    className="font-300" /* sm:mt-88 sm:py-24 */
+                    style={{
+                      color: "#5e6c84",
+                      fontSize: "25px",
+                      marginTop: "20px",
+                    }}
+                  >
+                    Board Templates
+                  </Typography>
+                  <div>
+                    <FuseAnimateGroup
+                      className="flex flex-wrap w-full"
+                      enter={{
+                        animation: "transition.slideUpBigIn",
+                        duration: 300,
+                      }}
+                      style={{ paddingBottom: "3.2rem" }}
+                    >
+                      {boardTemplates.map((board) => (
+                        <div key={board.id} className={classes.boardContain}>
+                          <div className={clsx(classes.board, "rounded")}>
+                            {/* <div className={classes.settingBoardContain}>
                         <Icon
                           className="text-26"
                           aria-controls="setting-menu"
@@ -267,121 +315,163 @@ function Boards(props) {
                           more_vert
                         </Icon>
                       </div> */}
-                      <Link
-                        // to={{
-                        //   pathname: `/apps/scrumboard/boards/${board.id}`,
-                        // }}
-                        className={
-                          "flex items-center justify-center" //w-full h-full
-                        }
-                        style={{ paddingBottom: "30px", paddingTop: "25px" }}
-                        role="button"
-                      >
-                        <Typography
-                          className="text-16 font-300 text-center px-32"
-                          style={{ color: "#172b4d" }}
-                        >
-                          {board.name}
-                        </Typography>
-                      </Link>
-                    </div>
+                            <Link
+                              // to={{
+                              //   pathname: `/apps/scrumboard/boards/${board.id}`,
+                              // }}
+                              className={
+                                "flex items-center justify-center" //w-full h-full
+                              }
+                              style={{
+                                paddingBottom: "30px",
+                                paddingTop: "25px",
+                              }}
+                              role="button"
+                            >
+                              <Typography
+                                className="text-16 font-300 text-center px-32"
+                                style={{ color: "#172b4d" }}
+                              >
+                                {board.name}
+                              </Typography>
+                            </Link>
+                          </div>
+                        </div>
+                      ))}
+                    </FuseAnimateGroup>
                   </div>
-                ))}
-              </FuseAnimateGroup>
-            </div>
 
-            <Typography
-              className="font-300" /* sm:mt-88 sm:py-24 */
-              style={{ color: "#5e6c84", fontSize: "25px" }}
-            >
-              All Boards
-            </Typography>
-            <div className={classes.search}>
-              <div className={classes.searchIcon}>
-                <SearchIcon />
-              </div>
-              <InputBase
-                placeholder="Search boards…"
-                classes={{
-                  root: classes.inputRoot,
-                  input: classes.inputInput,
-                }}
-                inputProps={{ "aria-label": "search" }}
-                onChange={(e) => {
-                  setSearchValue(e.target.value);
-                }}
-              />
-            </div>
-            <div>
-              <FuseAnimateGroup
-                className="flex flex-wrap w-full py-32"
-                enter={{
-                  animation: "transition.slideUpBigIn",
-                  duration: 300,
-                }}
-              >
-                {searchResult.map((board) => (
-                  <div key={board.id} className={classes.boardContain}>
-                    <div className={clsx(classes.board, "rounded")}>
-                      <div className={classes.settingBoardContain}>
-                        <Icon
-                          className="text-26"
-                          aria-controls="setting-menu"
-                          onClick={(e) => {
-                            setSettingMenu({
-                              ...settingMenu,
-                              anchorEl: e.currentTarget,
-                              boardId: board.id,
-                              boardName: board.name,
-                            });
-                          }}
-                        >
-                          more_vert
-                        </Icon>
-                      </div>
-                      <Link
-                        to={{
-                          pathname: `/apps/scrumboard/boards/${board.id}`,
-                        }}
-                        className={
-                          "flex items-center justify-center" //w-full h-full
-                        }
-                        style={{ paddingBottom: "2.4rem" }}
-                        role="button"
-                      >
-                        <Typography
-                          className="text-16 font-300 text-center px-32"
-                          style={{ color: "#172b4d" }}
-                        >
-                          {board.name}
-                        </Typography>
-                      </Link>
-                    </div>
-                  </div>
-                ))}
-                <div className={classes.boardContain}>
-                  <div
-                    className={clsx(
-                      classes.board,
-                      classes.newBoard,
-                      "flex items-center justify-center rounded p-24"
-                    )}
-                    onClick={() => handleAddNewBoard()}
+                  <Typography
+                    className="font-300" /* sm:mt-88 sm:py-24 */
+                    style={{ color: "#5e6c84", fontSize: "25px" }}
                   >
-                    <Icon className="text-26">add_circle</Icon>
-                    <Typography
-                      className="text-16 font-300 text-center px-32"
-                      color="inherit"
+                    All Boards
+                  </Typography>
+                  <div className={classes.search}>
+                    <div className={classes.searchIcon}>
+                      <SearchIcon />
+                    </div>
+                    <InputBase
+                      placeholder="Search boards…"
+                      classes={{
+                        root: classes.inputRoot,
+                        input: classes.inputInput,
+                      }}
+                      inputProps={{ "aria-label": "search" }}
+                      onChange={(e) => {
+                        setSearchValue(e.target.value);
+                      }}
+                    />
+                  </div>
+                  <div>
+                    <FuseAnimateGroup
+                      className="flex flex-wrap w-full py-32"
+                      enter={{
+                        animation: "transition.slideUpBigIn",
+                        duration: 300,
+                      }}
                     >
-                      Add new board
-                    </Typography>
+                      {searchResult.map((board) => (
+                        <div key={board.id} className={classes.boardContain}>
+                          <div
+                            className={clsx(classes.board, "rounded")}
+                            style={{
+                              backgroundImage: JSON.parse(board.info)
+                                .backgroundImage, //`url(${require("../board/backgroundImages/background1.jpg")})`
+                              backgroundSize: "cover",
+                            }}
+                          >
+                            <div className={classes.settingBoardContain}>
+                              {JSON.parse(board.info).backgroundImage ? (
+                                <Icon
+                                  className="text-26"
+                                  style={{ color: "black" }}
+                                  aria-controls="setting-menu"
+                                  onClick={(e) => {
+                                    setSettingMenu({
+                                      ...settingMenu,
+                                      anchorEl: e.currentTarget,
+                                      boardId: board.id,
+                                      boardName: board.name,
+                                    });
+                                  }}
+                                >
+                                  more_vert
+                                </Icon>
+                              ) : (
+                                <Icon
+                                  className="text-26"
+                                  aria-controls="setting-menu"
+                                  onClick={(e) => {
+                                    setSettingMenu({
+                                      ...settingMenu,
+                                      anchorEl: e.currentTarget,
+                                      boardId: board.id,
+                                      boardName: board.name,
+                                    });
+                                  }}
+                                >
+                                  more_vert
+                                </Icon>
+                              )}
+                            </div>
+                            <Link
+                              to={{
+                                pathname: `/apps/scrumboard/boards/${board.id}`,
+                              }}
+                              className={
+                                "flex items-center justify-center" //w-full h-full
+                              }
+                              style={{
+                                paddingBottom: "2.4rem",
+                              }}
+                              role="button"
+                            >
+                              {JSON.parse(board.info).backgroundImage ? (
+                                <Typography
+                                  className="text-20 font-300 text-center px-32"
+                                  style={{
+                                    color: "antiquewhite",
+                                    fontWeight: 700,
+                                  }}
+                                >
+                                  {board.name}
+                                </Typography>
+                              ) : (
+                                <Typography
+                                  className="text-20 font-300 text-center px-32"
+                                  style={{ color: "#172b4d", fontWeight: 700 }}
+                                >
+                                  {board.name}
+                                </Typography>
+                              )}
+                            </Link>
+                          </div>
+                        </div>
+                      ))}
+                      <div className={classes.boardContain}>
+                        <div
+                          className={clsx(
+                            classes.board,
+                            classes.newBoard,
+                            "flex items-center justify-center rounded p-24"
+                          )}
+                          onClick={() => handleAddNewBoard()}
+                        >
+                          <Icon className="text-26">add_circle</Icon>
+                          <Typography
+                            className="text-16 font-300 text-center px-32"
+                            color="inherit"
+                          >
+                            Add new board
+                          </Typography>
+                        </div>
+                      </div>
+                    </FuseAnimateGroup>
                   </div>
                 </div>
-              </FuseAnimateGroup>
-            </div>
-          </div>
-        </Grid>
-        {/* <Grid item xs>
+              </Grid>
+              {/* <Grid item xs>
           <div
             className={clsx(
               classes.boardSetting,
@@ -394,59 +484,63 @@ function Boards(props) {
           </div>
         </Grid>
        */}
-      </Grid>
-      <AddNewBoard
-        open={addNewBoardLog.open}
-        onYes={handleAddNewBoardConfirm}
-        onNo={() => {
-          setAddNewBoardLog({
-            open: false,
-            value: "",
-            members: [],
-          });
-        }}
-        addNewBoardLog={addNewBoardLog}
-        setAddNewBoardLogValue={setAddNewBoardLog}
-      />
-      <Menu
-        id="setting-menu"
-        open={Boolean(settingMenu.anchorEl)}
-        anchorEl={settingMenu.anchorEl}
-        keepMounted
-        onClose={() => {
-          setSettingMenu({ ...settingMenu, anchorEl: null });
-        }}
-      >
-        {/* <MenuItem>
+              {/* <Grid item xs={1}></Grid> */}
+            </Grid>
+            <AddNewBoard
+              open={addNewBoardLog.open}
+              onYes={handleAddNewBoardConfirm}
+              onNo={() => {
+                setAddNewBoardLog({
+                  open: false,
+                  value: "",
+                  members: [],
+                });
+              }}
+              addNewBoardLog={addNewBoardLog}
+              setAddNewBoardLogValue={setAddNewBoardLog}
+            />
+            <Menu
+              id="setting-menu"
+              open={Boolean(settingMenu.anchorEl)}
+              anchorEl={settingMenu.anchorEl}
+              keepMounted
+              onClose={() => {
+                setSettingMenu({ ...settingMenu, anchorEl: null });
+              }}
+            >
+              {/* <MenuItem>
           <Icon className="text-26">edit</Icon>{" "}
           <Typography className="text-center px-12" color="inherit">
             Rename
           </Typography>
         </MenuItem> */}
-        <MenuItem
-          onClick={() => {
-            setMessBox({ ...messBox, delete: true });
-          }}
-        >
-          <Icon className="text-26">delete_forever</Icon>{" "}
-          <Typography className="text-center px-12" color="inherit">
-            Delete
-          </Typography>
-        </MenuItem>
-      </Menu>
-      <BoardMessBox
-        open={messBox.delete}
-        title="Are You Sure ? "
-        content={`Delete "${settingMenu.boardName}" Board?`}
-        onYes={deleteBoard}
-        onNo={() => {
-          setSettingMenu({ ...settingMenu, anchorEl: null });
-          setMessBox({ ...messBox, delete: false });
-        }}
-        yes="Yes"
-        no="No"
-      />
-    </div>
+              <MenuItem
+                onClick={() => {
+                  setMessBox({ ...messBox, delete: true });
+                }}
+              >
+                <Icon className="text-26">delete_forever</Icon>{" "}
+                <Typography className="text-center px-12" color="inherit">
+                  Delete
+                </Typography>
+              </MenuItem>
+            </Menu>
+            <BoardMessBox
+              open={messBox.delete}
+              title="Are You Sure ? "
+              content={`Delete "${settingMenu.boardName}" Board?`}
+              onYes={deleteBoard}
+              onNo={() => {
+                setSettingMenu({ ...settingMenu, anchorEl: null });
+                setMessBox({ ...messBox, delete: false });
+              }}
+              yes="Yes"
+              no="No"
+            />
+          </div>
+        </div>
+      </div>
+    </>
   );
 }
 

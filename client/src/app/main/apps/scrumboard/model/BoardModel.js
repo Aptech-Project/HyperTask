@@ -58,6 +58,7 @@ class BoardModel {
       backgroundImage: "",
       author: "1",
       type: "personalBoard",
+      allowMemberEdit: "true",
     };
     this.activities = board.activities || [];
     this.labels = board.labels || sampleLabels;

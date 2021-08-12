@@ -29,6 +29,7 @@ import ToolbarMenu from "./dialogs/card/toolbar/ToolbarMenu";
 import * as Actions from "../store/actions";
 import { useDispatch, useSelector } from "react-redux";
 import { makeStyles } from "@material-ui/styles";
+import { userIsAdmin } from "../store/allBoardFunction";
 //import ToolbarMenu from "./ToolbarMenu";
 
 const useStyles = makeStyles((theme) => ({
@@ -73,7 +74,8 @@ function BoardMember(props) {
     ({ scrumboardApp }) => scrumboardApp.userBoard.allUser
   );
   const board = useSelector(({ scrumboardApp }) => scrumboardApp.board);
-
+  const userisAdmin = userIsAdmin(board);
+  const allowMemberEdit = JSON.parse(board.info).allowMemberEdit;
   //const profile = useSelector((state) => state.login.findId);
   const [anchorEl, setAnchorEl] = useState(null);
   const [addMemberOpen, setAddMemberOpen] = useState(false);
@@ -99,8 +101,12 @@ function BoardMember(props) {
     // console.log("allUserCollect: ", allUserCollect);
     // console.log("allUser: ", allUser);
     const userNotMember = allUser.filter(
-      (user) => !allUserCollect.find(({ id }) => user.id === id)
+      (user) =>
+        !allUserCollect.find(
+          ({ id, status }) => user.id === id && status === "Stay"
+        )
     );
+    console.log("allUserCollect: ", allUserCollect);
     console.log("userNotMember: ", userNotMember);
     userNotMember.map((user) => {
       userToAdd.push({ ...user, add: false });
@@ -207,14 +213,16 @@ function BoardMember(props) {
               )
             );
           })}
-          <MenuItem
-            onClick={() => {
-              setAddMemberOpen(true);
-            }}
-          >
-            {" "}
-            <Icon>group_add</Icon> &nbsp;&nbsp;Add Member
-          </MenuItem>
+          {userisAdmin == false && allowMemberEdit === "false" ? null : (
+            <MenuItem
+              onClick={() => {
+                setAddMemberOpen(true);
+              }}
+            >
+              {" "}
+              <Icon>group_add</Icon> &nbsp;&nbsp;Add Member
+            </MenuItem>
+          )}
         </div>
       </ToolbarMenu>
       <Dialog

@@ -67,8 +67,7 @@ const boardReducer = function (state = initialState, action) {
     }
     case Actions.CHANGE_BOARD_SETTINGS: {
       return {
-        ...state,
-        settings: action.payload,
+        ...action.payload,
       };
     }
     case Actions.DELETE_BOARD: {
@@ -88,6 +87,11 @@ const boardReducer = function (state = initialState, action) {
     case Actions.UPDATE_MEMBER: {
       return {
         ...action.payload,
+      };
+    }
+    case Actions.NOT_UPDATE: {
+      return {
+        ...state,
       };
     }
     default:
