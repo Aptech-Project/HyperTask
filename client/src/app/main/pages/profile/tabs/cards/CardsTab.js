@@ -66,7 +66,6 @@ function CardsTab(props) {
     const boardsInfo = useSelector(state => state.ProfilePage.card.boards)
     const [lists, setLists] = useState(null);
     const [cards, setCards] = useState(null);
-    console.log(boardsInfo);
     const [filteredData, setFilteredData] = useState(cards);
     const userID = localStorage.getItem("user_authenticated");
     useEffect(() => {
@@ -105,18 +104,19 @@ function CardsTab(props) {
     }, [lists]);
     useEffect(() => {
         if (cards && cards != []) {
-            const filteredCards = cards.filter(card => card.name.includes(searchText));
+            let filteredCards = cards.filter(card => card.name.includes(searchText));
+            if (selectedBoard != "all") {
+                filteredCards = filteredCards.filter(card => card.boardId == selectedBoard);
+            }
             setFilteredData(filteredCards);
         }
-    }, [searchText, cards]);
+    }, [searchText, cards, selectedBoard]);
 
     function handleCardClick(ev, card) {
         ev.preventDefault();
         let boardId = card.boardId
         for (let index = 0; index < ["boardId", "boardName", "CardIndex"].length; index++) {
             const element = ["boardId", "boardName", "CardIndex"][index];
-            console.log("element")
-            console.log(element)
             if (element in card) {
                 delete card[element]
             }
@@ -124,7 +124,23 @@ function CardsTab(props) {
         history.push({
             pathname: "/apps/scrumboard/boards/" + boardId,
         });
-        dispatch(actionsCard.openCardDialog(card))
+        setTimeout(function () {
+            dispatch(actionsCard.openCardDialog(card))
+        }, 1500);
+
+    }
+    function getCheckItemsChecked(card) {
+        return _.sum(
+            card.checklist.map((list) =>
+                _.sum(list.checkItems.map((x) => (x.checked ? 1 : 0)))
+            )
+        );
+    }
+    function getCheckItems(card) {
+        return _.sum(card.checklist.map((x) => x.checkItems.length));
+    }
+    function getCommentsCount(card) {
+        return _.sum(card.activities.map((x) => (x.type === "comment" ? 1 : 0)));
     }
     return (
         <div className="flex flex-col flex-1 w-full">
@@ -153,7 +169,7 @@ function CardsTab(props) {
                         </InputLabel>
                         <Select
                             value={selectedBoard}
-                            onChange={(e) => console.log("Board changed")}
+                            onChange={(e) => setSelectedBoard(e.target.value)}
                             input={
                                 <OutlinedInput
                                     labelWidth={80}
@@ -194,9 +210,18 @@ function CardsTab(props) {
                                                 className={clsx(classes.card, "w-full mb-16 rounded-4 cursor-pointer border-1")}
                                                 onDoubleClick={(ev) => handleCardClick(ev, card)}
                                             >
-                                                {/* <img className="block" src={card.info.backgroundImage} alt="card cover"/> */}
-                                                <img className="block" src="http://localhost:4000/storage/jpg/test.jpg" alt="card cover" />
-
+                                                {card.idAttachmentCover && card.idAttachmentCover !== "" && (
+                                                    <img
+                                                        className="block"
+                                                        src={
+                                                            _.find(card.attachments, { id: card.idAttachmentCover }).src
+                                                        }
+                                                        alt="card cover"
+                                                    />
+                                                )}
+                                                {(!card.idAttachmentCover || card.idAttachmentCover == "") && (
+                                                    <img className="block" src="http://localhost:4000/storage/jpg/test.jpg" alt="card cover" />
+                                                )}
                                                 <div className="p-16 pb-0">
 
                                                     {card.labels.length > 0 && (
@@ -215,14 +240,24 @@ function CardsTab(props) {
                                                     )}
 
                                                     <Typography className="font-600 mb-12">{card.name}</Typography>
-
-                                                    {(card.due) && (
+                                                    {(card.due || (card.checklist && card.checklist.length > 0)) && (
                                                         <div className="flex items-center mb-12">
                                                             {card.due && (
                                                                 <div
-                                                                    className={clsx("flex items-center px-8 py-4 mr-8 rounded-sm", moment() > moment(card.due) ? "bg-red text-white" : "bg-gretn text-white")}>
+                                                                    className={clsx("flex items-center px-8 py-4 mr-8 rounded-sm", moment() > moment(card.due) ? "bg-red text-white" : "bg-green text-white")}>
                                                                     <Icon className="text-16 mr-4">access_time</Icon>
                                                                     <span>{moment(card.due).format("MMM Do YY")}</span>
+                                                                </div>
+                                                            )}
+
+                                                            {card.checklist && card.checklist.length > 0 && (
+                                                                <div
+                                                                    className={clsx("flex items-center px-8 py-4 mr-8 rounded-sm", getCheckItemsChecked(card) === getCheckItems(card) ? "bg-green text-white" : "bg-grey-dark text-white")}
+                                                                >
+                                                                    <Icon className="text-16 mr-4">check_circle</Icon>
+                                                                    <span>{getCheckItemsChecked(card)}</span>
+                                                                    <span>/</span>
+                                                                    <span>{getCheckItems(card)}</span>
                                                                 </div>
                                                             )}
 
@@ -235,11 +270,11 @@ function CardsTab(props) {
                                                     <div className="flex items-center">
                                                         {/* {card.subscribed && (
                                                             <Icon className="text-18 mr-12" color="action">remove_red_eye</Icon>
-                                                        )}
+                                                        )} */}
 
                                                         {card.description !== '' && (
                                                             <Icon className="text-18 mr-12" color="action">description</Icon>
-                                                        )} */}
+                                                        )}
                                                     </div>
 
                                                     <div className="flex items-center justify-end">
@@ -249,10 +284,14 @@ function CardsTab(props) {
                                                                 <Typography color="textSecondary">{card.attachments.length}</Typography>
                                                             </span>
                                                         )}
-                                                        {card.activities && (
+                                                        {getCommentsCount(card) > 0 && (
                                                             <span className="flex items-center ml-12">
-                                                                <Icon className="text-18 mr-8" color="action">comment</Icon>
-                                                                <Typography color="textSecondary">{card.activities.length}</Typography>
+                                                                <Icon className="text-18 mr-8" color="action">
+                                                                    comment
+                                                                </Icon>
+                                                                <Typography color="textSecondary">
+                                                                    {getCommentsCount(card)}
+                                                                </Typography>
                                                             </span>
                                                         )}
                                                     </div>
