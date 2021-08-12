@@ -12,6 +12,7 @@ import {
   InputAdornment,
   Tooltip,
   List,
+  Switch,
 } from "@material-ui/core";
 import { FuseChipSelect } from "@fuse";
 import { useForm, useDebounce, useUpdateEffect } from "@fuse/hooks";
@@ -31,11 +32,14 @@ import CardActivity from "./activity/CardActivity";
 import CardComment from "./comment/CardComment";
 import AttachmentMenu from "./toolbar/AttachmentMenu";
 import CommentModel from "../../../model/CommentModel";
+import { userIsAdmin } from "../../../store/allBoardFunction";
 
 function BoardCardForm(props) {
   const dispatch = useDispatch();
   const card = useSelector(({ scrumboardApp }) => scrumboardApp.card.data);
   const board = useSelector(({ scrumboardApp }) => scrumboardApp.board);
+  const userisAdmin = userIsAdmin(board);
+  const allowMemberEdit = JSON.parse(board.info).allowMemberEdit;
   const allUserCollect = useSelector(
     ({ scrumboardApp }) => scrumboardApp.userBoard.allUserCollect
   );
@@ -68,6 +72,11 @@ function BoardCardForm(props) {
 
   function removeDue() {
     setInForm("due", null);
+  }
+
+  function toggleCardDone(status) {
+    setInForm("isDone", status);
+    setInForm("doneAt", JSON.stringify(new Date()));
   }
 
   function toggleLabel(labelId) {
@@ -148,64 +157,54 @@ function BoardCardForm(props) {
     <>
       <DialogTitle component="div" className="p-0">
         <AppBar position="static" elevation={1}>
-          <Toolbar className="flex w-full overflow-x-auto px-8 sm:px-16">
-            <div className="flex flex-1">
-              <DueMenu
-                onDueChange={handleChange}
-                onRemoveDue={removeDue}
-                due={dueDate}
-              />
+          {userisAdmin == false && allowMemberEdit === "false" ? (
+            <Toolbar className="flex w-full overflow-x-auto px-8 sm:px-16">
+              {cardForm.name}
+            </Toolbar>
+          ) : (
+            <Toolbar className="flex w-full overflow-x-auto px-8 sm:px-16">
+              <div className="flex flex-1">
+                <DueMenu
+                  onDueChange={handleChange}
+                  onRemoveDue={removeDue}
+                  due={dueDate}
+                />
 
-              <LabelsMenu
-                onToggleLabel={toggleLabel}
-                labels={JSON.parse(board.labels)}
-                idLabels={cardForm.labels}
-              />
+                <LabelsMenu
+                  onToggleLabel={toggleLabel}
+                  labels={JSON.parse(board.labels)}
+                  idLabels={cardForm.labels}
+                />
 
-              <MembersMenu
-                onToggleMember={toggleMember}
-                members={JSON.parse(board.members)}
-                idMembers={cardForm.members}
-              />
+                <MembersMenu
+                  onToggleMember={toggleMember}
+                  members={JSON.parse(board.members)}
+                  idMembers={cardForm.members}
+                />
 
-              <AttachmentMenu onAddAttachment={toggleAttachment} />
+                <AttachmentMenu onAddAttachment={toggleAttachment} />
 
-              <CheckListMenu onAddCheckList={addCheckList} />
+                <CheckListMenu onAddCheckList={addCheckList} />
 
-              <OptionsMenu
-                onRemoveCard={() =>
-                  dispatch(Actions.removeCard(board, cardForm.id))
-                }
-              />
-            </div>
-            <IconButton
-              color="inherit"
-              onClick={(ev) => dispatch(Actions.closeCardDialog())}
-            >
-              <Icon>close</Icon>
-            </IconButton>
-          </Toolbar>
+                <OptionsMenu
+                  onRemoveCard={() =>
+                    dispatch(Actions.removeCard(board, cardForm.id))
+                  }
+                />
+              </div>
+              <IconButton
+                color="inherit"
+                onClick={(ev) => dispatch(Actions.closeCardDialog())}
+              >
+                <Icon>close</Icon>
+              </IconButton>
+            </Toolbar>
+          )}
         </AppBar>
       </DialogTitle>
 
       <DialogContent className="p-16 sm:p-24">
         <div className="flex flex-col sm:flex-row sm:justify-between justify-center items-center mb-24">
-          <div className="mb-16 sm:mb-0 flex items-center">
-            <Typography>{board.name}</Typography>
-            <Icon className="text-20" color="inherit">
-              chevron_right
-            </Icon>
-            {React.useMemo(() => {
-              const list = card
-                ? _.find(JSON.parse(board.lists), (_list) =>
-                    _list.cards.includes(card.id)
-                  )
-                : null;
-
-              return <Typography>{list && list.name}</Typography>;
-            }, [board, card])}
-          </div>
-
           {cardForm.due && (
             <TextField
               label="Due date"
@@ -228,6 +227,25 @@ function BoardCardForm(props) {
               }}
             />
           )}
+          {!cardForm.due && <div className="w-full sm:w-auto"></div>}
+          <div className="mb-16 sm:mb-0 flex items-center">
+            <Typography>Done: </Typography>
+            <Switch
+              onChange={() => {
+                toggleCardDone(!cardForm.isDone);
+              }}
+              checked={cardForm.isDone}
+            />
+            {/* {React.useMemo(() => {
+              const list = card
+                ? _.find(JSON.parse(board.lists), (_list) =>
+                    _list.cards.includes(card.id)
+                  )
+                : null;
+
+              return <Typography>{list && list.name}</Typography>;
+            }, [board, card])} */}
+          </div>
         </div>
 
         <div className="flex items-center mb-24">
@@ -302,16 +320,17 @@ function BoardCardForm(props) {
                   class: label.class,
                 }))}
                 onCreateOption={(name) => {
-                  // Create New Label
-                  const newLabel = new LabelModel({ name });
-
-                  // Ad new Label to board(redux store and server)
-                  dispatch(Actions.addLabel(newLabel));
-
-                  // Trigger handle chip change
-                  addNewChip("labels", newLabel.id);
-
-                  return newLabel.id;
+                  if (userisAdmin == false && allowMemberEdit === "false") {
+                    return null;
+                  } else {
+                    // Create New Label
+                    const newLabel = new LabelModel({ name });
+                    // Ad new Label to board(redux store and server)
+                    dispatch(Actions.addLabel(newLabel));
+                    // Trigger handle chip change
+                    addNewChip("labels", newLabel.id);
+                    return newLabel.id;
+                  }
                 }}
               />
             </div>

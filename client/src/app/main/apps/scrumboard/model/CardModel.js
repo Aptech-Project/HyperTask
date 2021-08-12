@@ -21,6 +21,7 @@ class CardModel {
     this.createAt = card.createAt || new Date();
     this.isDone = false;
     this.doneAt = "";
+    this.author = card.author;
   }
 }
 

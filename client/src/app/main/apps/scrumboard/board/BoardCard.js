@@ -1,5 +1,12 @@
 import React from "react";
-import { Card, Typography, Avatar, Icon, Tooltip } from "@material-ui/core";
+import {
+  Card,
+  Typography,
+  Avatar,
+  Icon,
+  Tooltip,
+  Grid,
+} from "@material-ui/core";
 import { Draggable } from "react-beautiful-dnd";
 import clsx from "clsx";
 import moment from "moment";
@@ -7,6 +14,7 @@ import _ from "@lodash";
 import * as Actions from "../store/actions";
 import { makeStyles } from "@material-ui/styles";
 import { useDispatch, useSelector } from "react-redux";
+import CheckCircleSharpIcon from "@material-ui/icons/CheckCircleSharp";
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -77,6 +85,20 @@ function BoardCard(props) {
             )}
 
             <div className="p-16 pb-0">
+              <Grid container>
+                <Grid item xs={10}>
+                  <Typography className="font-600 mb-12">
+                    {card.name}
+                  </Typography>
+                </Grid>
+                <Grid
+                  item
+                  xs={2}
+                  style={{ textAlign: "right", color: "green" }}
+                >
+                  {card.isDone && <CheckCircleSharpIcon />}
+                </Grid>
+              </Grid>
               {card.labels.length > 0 && (
                 <div className="flex flex-wrap mb-8">
                   {card.labels.map((id) => {
@@ -94,8 +116,6 @@ function BoardCard(props) {
                   })}
                 </div>
               )}
-
-              <Typography className="font-600 mb-12">{card.name}</Typography>
 
               {(card.dueDate || checkItems > 0) && (
                 <div className="flex items-center mb-12">

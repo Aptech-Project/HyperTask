@@ -14,11 +14,13 @@ import {
 import { useForm } from "@fuse/hooks";
 import * as Actions from "../store/actions";
 import { useDispatch, useSelector } from "react-redux";
+import { userIsAdmin } from "../store/allBoardFunction";
 
 function BoardListHeader(props) {
   const dispatch = useDispatch();
   const board = useSelector(({ scrumboardApp }) => scrumboardApp.board);
-
+  const userisAdmin = userIsAdmin(board);
+  const allowMemberEdit = JSON.parse(board.info).allowMemberEdit;
   const [anchorEl, setAnchorEl] = useState(null);
   const [formOpen, setFormOpen] = useState(false);
   const { form, handleChange, resetForm, setForm } = useForm({
@@ -49,7 +51,11 @@ function BoardListHeader(props) {
   }
 
   function handleOpenForm() {
-    setFormOpen(true);
+    if (userisAdmin == false && allowMemberEdit === "false") {
+      return null;
+    } else {
+      setFormOpen(true);
+    }
   }
 
   function handleCloseForm() {
@@ -104,40 +110,42 @@ function BoardListHeader(props) {
             </Typography>
           )}
         </div>
-        <div className="">
-          <IconButton
-            aria-owns={anchorEl ? "actions-menu" : null}
-            aria-haspopup="true"
-            onClick={handleMenuClick}
-            variant="outlined"
-            size="small"
-          >
-            <Icon className="text-20">more_vert</Icon>
-          </IconButton>
-          <Menu
-            id="actions-menu"
-            anchorEl={anchorEl}
-            open={Boolean(anchorEl)}
-            onClose={handleMenuClose}
-          >
-            <MenuItem
-              onClick={() => {
-                dispatch(Actions.removeList(board, props.list.id));
-              }}
+        {userisAdmin == false && allowMemberEdit === "false" ? null : (
+          <div className="">
+            <IconButton
+              aria-owns={anchorEl ? "actions-menu" : null}
+              aria-haspopup="true"
+              onClick={handleMenuClick}
+              variant="outlined"
+              size="small"
             >
-              <ListItemIcon className="min-w-40">
-                <Icon>delete</Icon>
-              </ListItemIcon>
-              <ListItemText primary="Remove List" />
-            </MenuItem>
-            <MenuItem onClick={() => handleOpenForm()}>
-              <ListItemIcon className="min-w-40">
-                <Icon>edit</Icon>
-              </ListItemIcon>
-              <ListItemText primary="Rename List" />
-            </MenuItem>
-          </Menu>
-        </div>
+              <Icon className="text-20">more_vert</Icon>
+            </IconButton>
+            <Menu
+              id="actions-menu"
+              anchorEl={anchorEl}
+              open={Boolean(anchorEl)}
+              onClose={handleMenuClose}
+            >
+              <MenuItem
+                onClick={() => {
+                  dispatch(Actions.removeList(board, props.list.id));
+                }}
+              >
+                <ListItemIcon className="min-w-40">
+                  <Icon>delete</Icon>
+                </ListItemIcon>
+                <ListItemText primary="Remove List" />
+              </MenuItem>
+              <MenuItem onClick={() => handleOpenForm()}>
+                <ListItemIcon className="min-w-40">
+                  <Icon>edit</Icon>
+                </ListItemIcon>
+                <ListItemText primary="Rename List" />
+              </MenuItem>
+            </Menu>
+          </div>
+        )}
       </div>
     </div>
   );

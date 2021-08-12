@@ -6,3 +6,15 @@ export const convertBoardProperty = (board) => {
   });
   return board;
 };
+export const userIsAdmin = (board) => {
+  if (board) {
+    const userId = localStorage.getItem("user_authenticated");
+    let userisAdmin = false;
+    JSON.parse(board.members).map((member) => {
+      if (member.userId === userId && member.role === "admin") {
+        userisAdmin = true;
+      }
+    });
+    return userisAdmin;
+  }
+};

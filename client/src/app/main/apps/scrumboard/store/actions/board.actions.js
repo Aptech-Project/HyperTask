@@ -8,7 +8,7 @@ import * as Actions from "./index";
 import ListModel from "../../model/ListModel";
 import CardModel from "../../model/CardModel";
 import { endPointApi } from "app/services/endPointAPI";
-import { convertBoardProperty } from "../allBoardFunction";
+import { convertBoardProperty, userIsAdmin } from "../allBoardFunction";
 
 export const GET_BOARD = "[SCRUMBOARD APP] GET BOARD";
 export const DELETE_BOARD = "[SCRUMBOARD APP] DELETE BOARD";
@@ -24,6 +24,7 @@ export const ADD_LABEL = "[SCRUMBOARD APP] ADD LABEL";
 export const RENAME_LIST = "[SCRUMBOARD APP] RENAME LIST";
 export const REMOVE_LIST = "[SCRUMBOARD APP] REMOVE LIST";
 export const UPDATE_MEMBER = "[SCRUMBOARD APP] UPDATE MEMBER";
+export const NOT_UPDATE = "[SCRUMBOARD APP] NOT UPDATE";
 
 export function getBoard(params) {
   const request = axios.get(`${endPointApi.boards.getBoard}${params}`);
@@ -63,36 +64,42 @@ export function reorderList(result) {
   return (dispatch, getState) => {
     const { board } = getState().scrumboardApp;
     const lists = JSON.parse(board.lists);
-
-    const ordered = reorder(
-      lists,
-      result.source.index,
-      result.destination.index
-    );
-    const boardUpdate = { ...board, lists: ordered };
-    const boardConverted = convertBoardProperty(boardUpdate);
-    const request = axios.put(
-      `${endPointApi.boards.updateBoard}`,
-      boardConverted
-    );
-
-    request.then((response) => {
-      dispatch(
-        showMessage({
-          message: "List Order Saved",
-          autoHideDuration: 2000,
-          anchorOrigin: {
-            vertical: "top",
-            horizontal: "right",
-          },
-        })
+    const userisAdmin = userIsAdmin(board);
+    const allowMemberEdit = JSON.parse(board.info).allowMemberEdit;
+    //console.log("userisAdmin: ", userisAdmin);
+    if (userisAdmin == false && allowMemberEdit === "false") {
+      alert("Member cannot Edit");
+    } else {
+      const ordered = reorder(
+        lists,
+        result.source.index,
+        result.destination.index
       );
-    });
+      const boardUpdate = { ...board, lists: ordered };
+      const boardConverted = convertBoardProperty(boardUpdate);
+      const request = axios.put(
+        `${endPointApi.boards.updateBoard}`,
+        boardConverted
+      );
 
-    return dispatch({
-      type: ORDER_LIST,
-      payload: ordered,
-    });
+      request.then((response) => {
+        dispatch(
+          showMessage({
+            message: "List Order Saved",
+            autoHideDuration: 2000,
+            anchorOrigin: {
+              vertical: "top",
+              horizontal: "right",
+            },
+          })
+        );
+      });
+
+      return dispatch({
+        type: ORDER_LIST,
+        payload: ordered,
+      });
+    }
   };
 }
 
@@ -100,142 +107,171 @@ export function reorderCard(result) {
   return (dispatch, getState) => {
     const { board } = getState().scrumboardApp;
     const lists = JSON.parse(board.lists);
-    const ordered = reorderQuoteMap(lists, result.source, result.destination);
+    const userisAdmin = userIsAdmin(board);
+    const allowMemberEdit = JSON.parse(board.info).allowMemberEdit;
+    if (userisAdmin == false && allowMemberEdit === "false") {
+      alert("Member cannot Edit");
+    } else {
+      const ordered = reorderQuoteMap(lists, result.source, result.destination);
+      const boardUpdate = { ...board, lists: ordered };
+      const boardConverted = convertBoardProperty(boardUpdate);
+      const request = axios.put(
+        `${endPointApi.boards.updateBoard}`,
+        boardConverted
+      );
+      request.then((response) => {
+        dispatch(
+          showMessage({
+            message: "Card Order Saved",
+            autoHideDuration: 2000,
+            anchorOrigin: {
+              vertical: "top",
+              horizontal: "right",
+            },
+          })
+        );
+      });
+      return dispatch({
+        type: ORDER_CARD,
+        payload: ordered,
+      });
+    }
+  };
+}
 
-    const boardUpdate = { ...board, lists: ordered };
+export function newCard(board, listId, cardTitle) {
+  const user = localStorage.getItem("user_authenticated");
+  const userisAdmin = userIsAdmin(board);
+  const allowMemberEdit = JSON.parse(board.info).allowMemberEdit;
+  if (userisAdmin == false && allowMemberEdit === "false") {
+    alert("Member cannot Edit");
+    window.location.reload();
+  } else {
+    const listAddCardIndex = JSON.parse(board.lists).findIndex(
+      (list) => list.id == listId
+    );
+    const listAddCard = JSON.parse(board.lists)[listAddCardIndex];
+    const cardID = `${listId}C${listAddCard.cards.length + 1}`;
+    const data = new CardModel({ id: cardID, name: cardTitle, author: user });
+    const newCardList = [...listAddCard.cards];
+    newCardList.push({ ...data });
+    const listUpdate = { ...listAddCard, cards: newCardList };
+    const allListUpdated = JSON.parse(board.lists).map((list) => {
+      if (list.id === listId) {
+        list = listUpdate;
+      }
+      return list;
+    });
+    const boardUpdate = { ...board, lists: allListUpdated };
     const boardConverted = convertBoardProperty(boardUpdate);
     const request = axios.put(
       `${endPointApi.boards.updateBoard}`,
       boardConverted
     );
-    request.then((response) => {
-      dispatch(
-        showMessage({
-          message: "Card Order Saved",
-          autoHideDuration: 2000,
-          anchorOrigin: {
-            vertical: "top",
-            horizontal: "right",
-          },
-        })
-      );
-    });
-    return dispatch({
-      type: ORDER_CARD,
-      payload: ordered,
-    });
-  };
-}
-
-export function newCard(board, listId, cardTitle) {
-  const listAddCardIndex = JSON.parse(board.lists).findIndex(
-    (list) => list.id == listId
-  );
-  const listAddCard = JSON.parse(board.lists)[listAddCardIndex];
-  const cardID = `${listId}C${listAddCard.cards.length + 1}`;
-  const data = new CardModel({ id: cardID, name: cardTitle });
-  const newCardList = [...listAddCard.cards];
-  newCardList.push({ ...data });
-  const listUpdate = { ...listAddCard, cards: newCardList };
-
-  const allListUpdated = JSON.parse(board.lists).map((list) => {
-    if (list.id === listId) {
-      list = listUpdate;
-    }
-    return list;
-  });
-
-  const boardUpdate = { ...board, lists: allListUpdated };
-  const boardConverted = convertBoardProperty(boardUpdate);
-  const request = axios.put(
-    `${endPointApi.boards.updateBoard}`,
-    boardConverted
-  );
-  return (dispatch) =>
-    new Promise((resolve, reject) => {
-      request.then((response) => {
-        resolve(response.data);
-        //console.log("response: ", response);
-        return dispatch({
-          type: ADD_CARD,
-          payload: response.data,
+    return (dispatch) =>
+      new Promise((resolve, reject) => {
+        request.then((response) => {
+          resolve(response.data);
+          //console.log("response: ", response);
+          return dispatch({
+            type: ADD_CARD,
+            payload: response.data,
+          });
         });
       });
-    });
+  }
 }
 
 export function newList(board, listTitle) {
-  const listID = `L${JSON.parse(board.lists).length + 1}`;
-  const data = new ListModel({ id: listID, name: listTitle });
-  const newList = [...JSON.parse(board.lists)];
-  newList.push({ ...data });
-  const boardUpdate = { ...board, lists: newList };
-  const boardConverted = convertBoardProperty(boardUpdate);
-  const request = axios.put(
-    `${endPointApi.boards.updateBoard}`,
-    boardConverted
-  );
-  return (dispatch) =>
-    request.then((response) =>
-      dispatch({
-        type: ADD_LIST,
-        payload: response.data,
-      })
+  const userisAdmin = userIsAdmin(board);
+  const allowMemberEdit = JSON.parse(board.info).allowMemberEdit;
+  if (userisAdmin == false && allowMemberEdit === "false") {
+    alert("Member cannot Edit");
+    window.location.reload();
+  } else {
+    const listID = `L${JSON.parse(board.lists).length + 1}`;
+    const data = new ListModel({ id: listID, name: listTitle });
+    const newList = [...JSON.parse(board.lists)];
+    newList.push({ ...data });
+    const boardUpdate = { ...board, lists: newList };
+    const boardConverted = convertBoardProperty(boardUpdate);
+    const request = axios.put(
+      `${endPointApi.boards.updateBoard}`,
+      boardConverted
     );
+    return (dispatch) =>
+      request.then((response) =>
+        dispatch({
+          type: ADD_LIST,
+          payload: response.data,
+        })
+      );
+  }
 }
 
 export function renameList(board, listId, listTitle) {
-  const listToRename = JSON.parse(board.lists).find(
-    (list) => list.id === listId
-  );
-  const listRenamed = { ...listToRename, name: listTitle };
-  const listUpdated = JSON.parse(board.lists).map((list) => {
-    if (list.id === listId) {
-      list = listRenamed;
-    }
-    return list;
-  });
-  //console.log("boardUpdated: ", boardUpdated);
-
-  const boardUpdate = { ...board, lists: listUpdated };
-  const boardConverted = convertBoardProperty(boardUpdate);
-  const request = axios.put(
-    `${endPointApi.boards.updateBoard}`,
-    boardConverted
-  );
-
-  return (dispatch) =>
-    request.then((response) =>
-      dispatch({
-        type: RENAME_LIST,
-        payload: response.data,
-      })
+  const userisAdmin = userIsAdmin(board);
+  const allowMemberEdit = JSON.parse(board.info).allowMemberEdit;
+  if (userisAdmin == false && allowMemberEdit === "false") {
+    alert("Member cannot Edit");
+    window.location.reload();
+  } else {
+    const listToRename = JSON.parse(board.lists).find(
+      (list) => list.id === listId
     );
+    const listRenamed = { ...listToRename, name: listTitle };
+    const listUpdated = JSON.parse(board.lists).map((list) => {
+      if (list.id === listId) {
+        list = listRenamed;
+      }
+      return list;
+    });
+    //console.log("boardUpdated: ", boardUpdated);
+    const boardUpdate = { ...board, lists: listUpdated };
+    const boardConverted = convertBoardProperty(boardUpdate);
+    const request = axios.put(
+      `${endPointApi.boards.updateBoard}`,
+      boardConverted
+    );
+    return (dispatch) =>
+      request.then((response) =>
+        dispatch({
+          type: RENAME_LIST,
+          payload: response.data,
+        })
+      );
+  }
 }
 
 export function removeList(board, listId) {
-  const listAfterDelete = JSON.parse(board.lists).filter(
-    (list) => list.id !== listId
-  );
-  //console.log("listAfterDelete: ", listAfterDelete);
-  const boardUpdate = { ...board, lists: listAfterDelete };
-  const boardConverted = convertBoardProperty(boardUpdate);
-  const request = axios.put(
-    `${endPointApi.boards.updateBoard}`,
-    boardConverted
-  );
-
-  return (dispatch) =>
-    request.then((response) =>
-      dispatch({
-        type: REMOVE_LIST,
-        payload: response.data,
-      })
+  const userisAdmin = userIsAdmin(board);
+  const allowMemberEdit = JSON.parse(board.info).allowMemberEdit;
+  if (userisAdmin == false && allowMemberEdit === "false") {
+    alert("Member cannot Edit");
+    window.location.reload();
+  } else {
+    const listAfterDelete = JSON.parse(board.lists).filter(
+      (list) => list.id !== listId
     );
+    //console.log("listAfterDelete: ", listAfterDelete);
+    const boardUpdate = { ...board, lists: listAfterDelete };
+    const boardConverted = convertBoardProperty(boardUpdate);
+    const request = axios.put(
+      `${endPointApi.boards.updateBoard}`,
+      boardConverted
+    );
+    return (dispatch) =>
+      request.then((response) =>
+        dispatch({
+          type: REMOVE_LIST,
+          payload: response.data,
+        })
+      );
+  }
 }
 
 export function addLabel(label) {
-  console.log("label: ", { ...label });
+  //console.log("label: ", { ...label });
   return (dispatch) => {
     return dispatch({
       type: ADD_LABEL,
@@ -247,11 +283,16 @@ export function addLabel(label) {
 export function changeBoardSettings(newSettings) {
   return (dispatch, getState) => {
     const { board } = getState().scrumboardApp;
-    const settings = _.merge(board.settings, newSettings);
-    const request = axios.post("/api/scrumboard-app/board/settings/update", {
-      boardId: board.id,
-      settings,
-    });
+    //const boardInfo = JSON.parse(board.info);
+    // const settingName = newSettings.name
+    // const infoUpdate = {...boardInfo, }
+    const settings = _.merge(JSON.parse(board.info), newSettings);
+    const boardUpdate = { ...board, info: settings };
+    const boardConverted = convertBoardProperty(boardUpdate);
+    const request = axios.put(
+      `${endPointApi.boards.updateBoard}`,
+      boardConverted
+    );
 
     return request.then((response) =>
       dispatch({
@@ -289,41 +330,55 @@ export function copyBoard(board) {
 }
 
 export function renameBoard(board, boardTitle) {
-  const boardRenamed = { ...board, name: boardTitle };
-  //console.log("boardRenamed: ", boardRenamed);
-  const boardConverted = convertBoardProperty(boardRenamed);
-  const request = axios.put(
-    `${endPointApi.boards.updateBoard}`,
-    boardConverted
-  );
-
-  return (dispatch) =>
-    request.then((response) =>
-      dispatch({
-        type: RENAME_BOARD,
-        boardTitle,
-      })
+  const userisAdmin = userIsAdmin(board);
+  const allowMemberEdit = JSON.parse(board.info).allowMemberEdit;
+  if (userisAdmin == false && allowMemberEdit === "false") {
+    alert("Member cannot Edit");
+    window.location.reload();
+  } else {
+    const boardRenamed = { ...board, name: boardTitle };
+    //console.log("boardRenamed: ", boardRenamed);
+    const boardConverted = convertBoardProperty(boardRenamed);
+    const request = axios.put(
+      `${endPointApi.boards.updateBoard}`,
+      boardConverted
     );
+
+    return (dispatch) =>
+      request.then((response) =>
+        dispatch({
+          type: RENAME_BOARD,
+          boardTitle,
+        })
+      );
+  }
 }
 
 export function updateMember(board, members) {
-  const memberListToUpdate = JSON.parse(board.members);
-  members.map((mem) => {
-    memberListToUpdate.push(mem);
-  });
-  const boardRenamed = { ...board, members: memberListToUpdate };
-  //console.log("boardRenamed: ", boardRenamed);
-  const boardConverted = convertBoardProperty(boardRenamed);
-  const request = axios.put(
-    `${endPointApi.boards.updateBoard}`,
-    boardConverted
-  );
-
-  return (dispatch) =>
-    request.then((response) =>
-      dispatch({
-        type: UPDATE_MEMBER,
-        payload: response.data,
-      })
+  const userisAdmin = userIsAdmin(board);
+  const allowMemberEdit = JSON.parse(board.info).allowMemberEdit;
+  if (userisAdmin == false && allowMemberEdit === "false") {
+    alert("Member cannot Edit");
+    window.location.reload();
+  } else {
+    const memberListToUpdate = JSON.parse(board.members);
+    members.map((mem) => {
+      memberListToUpdate.push(mem);
+    });
+    const boardRenamed = { ...board, members: memberListToUpdate };
+    //console.log("boardRenamed: ", boardRenamed);
+    const boardConverted = convertBoardProperty(boardRenamed);
+    const request = axios.put(
+      `${endPointApi.boards.updateBoard}`,
+      boardConverted
     );
+
+    return (dispatch) =>
+      request.then((response) =>
+        dispatch({
+          type: UPDATE_MEMBER,
+          payload: response.data,
+        })
+      );
+  }
 }

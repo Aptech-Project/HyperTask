@@ -11,11 +11,13 @@ import {
 import * as Actions from "../store/actions";
 import { useForm } from "@fuse/hooks";
 import { useDispatch, useSelector } from "react-redux";
+import { userIsAdmin } from "../store/allBoardFunction";
 
 function BoardListHeader(props) {
   const dispatch = useDispatch();
   const board = useSelector(({ scrumboardApp }) => scrumboardApp.board);
-
+  const userisAdmin = userIsAdmin(board);
+  const allowMemberEdit = JSON.parse(board.info).allowMemberEdit;
   const [formOpen, setFormOpen] = useState(false);
   const { form, handleChange, resetForm, setForm } = useForm({
     title: board.name,
@@ -31,7 +33,11 @@ function BoardListHeader(props) {
   }, [board.name, setForm]);
 
   function handleOpenForm() {
-    setFormOpen(true);
+    if (userisAdmin == false && allowMemberEdit === "false") {
+      return null;
+    } else {
+      setFormOpen(true);
+    }
   }
 
   function handleCloseForm() {

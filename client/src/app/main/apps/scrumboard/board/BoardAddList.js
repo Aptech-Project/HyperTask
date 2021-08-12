@@ -14,6 +14,7 @@ import { useForm } from "@fuse/hooks";
 import clsx from "clsx";
 import * as Actions from "../store/actions";
 import { useDispatch, useSelector } from "react-redux";
+import { userIsAdmin } from "../store/allBoardFunction";
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -27,7 +28,8 @@ const useStyles = makeStyles((theme) => ({
 function BoardAddList(props) {
   const dispatch = useDispatch();
   const board = useSelector(({ scrumboardApp }) => scrumboardApp.board);
-
+  const userisAdmin = userIsAdmin(board);
+  const allowMemberEdit = JSON.parse(board.info).allowMemberEdit;
   const classes = useStyles(props);
   const [formOpen, setFormOpen] = useState(false);
   const { form, handleChange, resetForm } = useForm({
@@ -97,7 +99,7 @@ function BoardAddList(props) {
               </div>
             </form>
           </ClickAwayListener>
-        ) : (
+        ) : userisAdmin == false && allowMemberEdit === "false" ? null : (
           <Button
             onClick={handleOpenForm}
             classes={{
