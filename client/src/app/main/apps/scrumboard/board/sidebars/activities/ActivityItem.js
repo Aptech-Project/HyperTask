@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState,  useEffect} from "react";
 import { Avatar, ListItem, Typography } from "@material-ui/core";
 import clsx from "clsx";
 import _ from "@lodash";
@@ -17,24 +17,44 @@ function ActivityItem(props) {
   const allUserCollect = useSelector(
     ({ scrumboardApp }) => scrumboardApp.userBoard.allUserCollect
   );
-  const user = _.find(allUserCollect, { id: parseInt(props.item.idMember) });
+  const [member, setMember] = useState();
+  useEffect(()=>{
+    if (allUserCollect) {
+      const user = _.find(allUserCollect, { id: parseInt(props.item.idMember) });
+      setMember(user)
+    }
+  },[allUserCollect])
+  
+  console.log("user: ", member);
 
-  return (
-    <ListItem dense className="px-0">
+  return member ? (
+    <>
+    <ListItem dense >
       <Avatar
         className="w-32 h-32"
-        alt={user.fullname}
-        src={JSON.parse(user.info).avatar}
+        alt={member.fullname}
+        src={JSON.parse(member.info).avatar}
       />
       <div className="flex items-center ml-16">
-        <Typography>{user.name},</Typography>
-        <Typography className="ml-8">{props.item.message}</Typography>
+        <Typography>{member.fullname}:</Typography>
       </div>
-      <Typography className="ml-8 text-12" color="textSecondary">
+      
+    </ListItem>
+    <ListItem dense style={{marginTop: "-10px", marginLeft:"30px"}}>
+      <div className="flex items-center ml-16">
+        <Typography className="ml-8" style={{color: "darkblue"}}>{props.item.message}</Typography>
+      </div>
+    </ListItem>
+    <ListItem dense style={{marginTop: "-10px", marginLeft:"30px"}}>
+      <div className="flex items-center ml-16">
+        <Typography className="ml-8 text-12" color="textSecondary">
         {props.item.time}
       </Typography>
+      </div>
+      
     </ListItem>
-  );
+    </>
+  ): null
 }
 
 export default ActivityItem;

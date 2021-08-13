@@ -14,6 +14,7 @@ import InputBase from "@material-ui/core/InputBase";
 import AddNewBoard from "../model/AddNewBoard";
 import BoardMessBox from "../model/BoardMessBox";
 import { boardTemplate } from "./boardTemplate";
+//import backgroundTem1 from "../board/backgroundImages/backgroundTem7.jpg"
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -298,23 +299,12 @@ function Boards(props) {
                     >
                       {boardTemplates.map((board) => (
                         <div key={board.id} className={classes.boardContain}>
-                          <div className={clsx(classes.board, "rounded")}>
-                            {/* <div className={classes.settingBoardContain}>
-                        <Icon
-                          className="text-26"
-                          aria-controls="setting-menu"
-                          onClick={(e) => {
-                            setSettingMenu({
-                              ...settingMenu,
-                              anchorEl: e.currentTarget,
-                              boardId: board.id,
-                              boardName: board.name,
-                            });
-                          }}
-                        >
-                          more_vert
-                        </Icon>
-                      </div> */}
+                          <div className={clsx(classes.board, "rounded")}
+                            style={{
+                              backgroundImage: board.info.backgroundImage,
+                              backgroundSize: "cover",
+                            }}
+                          >
                             <Link
                               // to={{
                               //   pathname: `/apps/scrumboard/boards/${board.id}`,
@@ -330,7 +320,7 @@ function Boards(props) {
                             >
                               <Typography
                                 className="text-16 font-300 text-center px-32"
-                                style={{ color: "#172b4d" }}
+                                style={{ color: "white", fontWeight: 1000, }}
                               >
                                 {board.name}
                               </Typography>

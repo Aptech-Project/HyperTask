@@ -129,7 +129,7 @@ function BoardListHeader(props) {
             >
               <MenuItem
                 onClick={() => {
-                  dispatch(Actions.removeList(board, props.list.id));
+                  dispatch(Actions.removeList(board, props.list.id, props.list.name));
                 }}
               >
                 <ListItemIcon className="min-w-40">
