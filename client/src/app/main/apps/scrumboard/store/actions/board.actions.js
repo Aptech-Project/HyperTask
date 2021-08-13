@@ -7,6 +7,7 @@ import reorder, { reorderQuoteMap } from "./reorder";
 import * as Actions from "./index";
 import ListModel from "../../model/ListModel";
 import CardModel from "../../model/CardModel";
+import BoardActivityModel from "../../model/BoardActivityModel";
 import { endPointApi } from "app/services/endPointAPI";
 import { convertBoardProperty, userIsAdmin } from "../allBoardFunction";
 
@@ -70,12 +71,17 @@ export function reorderList(result) {
     if (userisAdmin == false && allowMemberEdit === "false") {
       alert("Member cannot Edit");
     } else {
+      const user = localStorage.getItem("user_authenticated");
+      const oldActivity = JSON.parse(board.activities);
+      const newActivity = new BoardActivityModel({idMember: user, message: "Reorder List"});
+      oldActivity.unshift({...newActivity});
+      //console.log("newActivities: ", oldActivity);
       const ordered = reorder(
         lists,
         result.source.index,
         result.destination.index
       );
-      const boardUpdate = { ...board, lists: ordered };
+      const boardUpdate = { ...board, lists: ordered, activities: oldActivity };
       const boardConverted = convertBoardProperty(boardUpdate);
       const request = axios.put(
         `${endPointApi.boards.updateBoard}`,
@@ -112,8 +118,12 @@ export function reorderCard(result) {
     if (userisAdmin == false && allowMemberEdit === "false") {
       alert("Member cannot Edit");
     } else {
+      const user = localStorage.getItem("user_authenticated");
+      const oldActivity = JSON.parse(board.activities);
+      const newActivity = new BoardActivityModel({idMember: user, message: "Reorder Card"});
+      oldActivity.unshift({...newActivity});
       const ordered = reorderQuoteMap(lists, result.source, result.destination);
-      const boardUpdate = { ...board, lists: ordered };
+      const boardUpdate = { ...board, lists: ordered, activities: oldActivity };
       const boardConverted = convertBoardProperty(boardUpdate);
       const request = axios.put(
         `${endPointApi.boards.updateBoard}`,
@@ -147,6 +157,10 @@ export function newCard(board, listId, cardTitle) {
     alert("Member cannot Edit");
     window.location.reload();
   } else {
+    const user = localStorage.getItem("user_authenticated");
+      const oldActivity = JSON.parse(board.activities);
+      const newActivity = new BoardActivityModel({idMember: user, message: `Create Card ${cardTitle}`});
+      oldActivity.unshift({...newActivity});
     const listAddCardIndex = JSON.parse(board.lists).findIndex(
       (list) => list.id == listId
     );
@@ -162,7 +176,7 @@ export function newCard(board, listId, cardTitle) {
       }
       return list;
     });
-    const boardUpdate = { ...board, lists: allListUpdated };
+    const boardUpdate = { ...board, lists: allListUpdated, activities: oldActivity };
     const boardConverted = convertBoardProperty(boardUpdate);
     const request = axios.put(
       `${endPointApi.boards.updateBoard}`,
@@ -189,11 +203,15 @@ export function newList(board, listTitle) {
     alert("Member cannot Edit");
     window.location.reload();
   } else {
+    const user = localStorage.getItem("user_authenticated");
+      const oldActivity = JSON.parse(board.activities);
+      const newActivity = new BoardActivityModel({idMember: user, message: `Create List ${listTitle}`});
+      oldActivity.unshift({...newActivity});
     const listID = `L${JSON.parse(board.lists).length + 1}`;
     const data = new ListModel({ id: listID, name: listTitle });
     const newList = [...JSON.parse(board.lists)];
     newList.push({ ...data });
-    const boardUpdate = { ...board, lists: newList };
+    const boardUpdate = { ...board, lists: newList, activities: oldActivity };
     const boardConverted = convertBoardProperty(boardUpdate);
     const request = axios.put(
       `${endPointApi.boards.updateBoard}`,
@@ -216,6 +234,10 @@ export function renameList(board, listId, listTitle) {
     alert("Member cannot Edit");
     window.location.reload();
   } else {
+    const user = localStorage.getItem("user_authenticated");
+      const oldActivity = JSON.parse(board.activities);
+      const newActivity = new BoardActivityModel({idMember: user, message: `Rename List ${listTitle}`});
+      oldActivity.unshift({...newActivity});
     const listToRename = JSON.parse(board.lists).find(
       (list) => list.id === listId
     );
@@ -227,7 +249,7 @@ export function renameList(board, listId, listTitle) {
       return list;
     });
     //console.log("boardUpdated: ", boardUpdated);
-    const boardUpdate = { ...board, lists: listUpdated };
+    const boardUpdate = { ...board, lists: listUpdated, activities: oldActivity };
     const boardConverted = convertBoardProperty(boardUpdate);
     const request = axios.put(
       `${endPointApi.boards.updateBoard}`,
@@ -243,18 +265,22 @@ export function renameList(board, listId, listTitle) {
   }
 }
 
-export function removeList(board, listId) {
+export function removeList(board, listId, listTitle) {
   const userisAdmin = userIsAdmin(board);
   const allowMemberEdit = JSON.parse(board.info).allowMemberEdit;
   if (userisAdmin == false && allowMemberEdit === "false") {
     alert("Member cannot Edit");
     window.location.reload();
   } else {
+    const user = localStorage.getItem("user_authenticated");
+      const oldActivity = JSON.parse(board.activities);
+      const newActivity = new BoardActivityModel({idMember: user, message: `Remove List ${listTitle}`});
+      oldActivity.unshift({...newActivity});
     const listAfterDelete = JSON.parse(board.lists).filter(
       (list) => list.id !== listId
     );
     //console.log("listAfterDelete: ", listAfterDelete);
-    const boardUpdate = { ...board, lists: listAfterDelete };
+    const boardUpdate = { ...board, lists: listAfterDelete, activities: oldActivity };
     const boardConverted = convertBoardProperty(boardUpdate);
     const request = axios.put(
       `${endPointApi.boards.updateBoard}`,
@@ -336,7 +362,11 @@ export function renameBoard(board, boardTitle) {
     alert("Member cannot Edit");
     window.location.reload();
   } else {
-    const boardRenamed = { ...board, name: boardTitle };
+    const user = localStorage.getItem("user_authenticated");
+      const oldActivity = JSON.parse(board.activities);
+      const newActivity = new BoardActivityModel({idMember: user, message: `Rename Board`});
+      oldActivity.unshift({...newActivity});
+    const boardRenamed = { ...board, name: boardTitle, activities: oldActivity };
     //console.log("boardRenamed: ", boardRenamed);
     const boardConverted = convertBoardProperty(boardRenamed);
     const request = axios.put(
@@ -361,11 +391,15 @@ export function updateMember(board, members) {
     alert("Member cannot Edit");
     window.location.reload();
   } else {
+    const user = localStorage.getItem("user_authenticated");
+      const oldActivity = JSON.parse(board.activities);
+      const newActivity = new BoardActivityModel({idMember: user, message: `New member has been add to this board`});
+      oldActivity.unshift({...newActivity});
     const memberListToUpdate = JSON.parse(board.members);
     members.map((mem) => {
       memberListToUpdate.push(mem);
     });
-    const boardRenamed = { ...board, members: memberListToUpdate };
+    const boardRenamed = { ...board, members: memberListToUpdate, activities: oldActivity };
     //console.log("boardRenamed: ", boardRenamed);
     const boardConverted = convertBoardProperty(boardRenamed);
     const request = axios.put(
