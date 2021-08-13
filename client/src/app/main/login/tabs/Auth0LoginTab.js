@@ -59,7 +59,7 @@ const Auth0LoginTab = ({ classes, ...props }) => {
                     className="mb-16"
                     type="text"
                     name="email"
-                    label="Username"
+                    label="Username/Email"
                     variant="outlined"
                     InputProps={{
                         endAdornment: <InputAdornment position="end"><Icon className="text-20" color="action">email</Icon></InputAdornment>

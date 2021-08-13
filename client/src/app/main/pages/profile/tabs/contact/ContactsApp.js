@@ -46,7 +46,6 @@ function ProfileTabs(props) {
     useEffect(() => {
         generateQrCode()
     }, [generateQrCode])
-    console.log(imageUrl)
     return (
         <div
             style={{

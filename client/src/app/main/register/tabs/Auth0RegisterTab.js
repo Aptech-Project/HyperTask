@@ -175,7 +175,7 @@ const Auth0RegisterTab = ({ classes, ...props }) => {
                     onChange={handleInputChange}
                     autoComplete='off'
                     InputProps={{
-                        endAdornment: <InputAdornment position="end"><Icon className="text-20" color="action">remove_red_eye</Icon></InputAdornment>
+                        endAdornment: <InputAdornment position="end"><Icon className="text-20" color="action">vpn_key</Icon></InputAdornment>
                     }}
                     variant="outlined"
                     {...(errors.password && { error: true, helperText: errors.password })}
@@ -189,7 +189,7 @@ const Auth0RegisterTab = ({ classes, ...props }) => {
                     name="passwordconfirm"
                     label="Confirm Password"
                     InputProps={{
-                        endAdornment: <InputAdornment position="end"><Icon className="text-20" color="action">remove_red_eye</Icon></InputAdornment>
+                        endAdornment: <InputAdornment position="end"><Icon className="text-20" color="action">vpn_key</Icon></InputAdornment>
                     }}
                     variant="outlined"
                     autoComplete='off'
