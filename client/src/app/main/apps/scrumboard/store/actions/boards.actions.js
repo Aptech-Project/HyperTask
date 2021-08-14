@@ -12,6 +12,7 @@ export const MEMBER_DELETE_BOARD = "[SCRUMBOARD APP] MEMBER_DELETE_BOARD";
 export const GET_ALL_USERS_BOARD = "[SCRUMBOARD APP] GET_ALL_USERS_BOARD";
 export const ALL_USERS_BOARD_COLLECT =
   "[SCRUMBOARD APP] ALL_USERS_BOARD_COLLECT";
+export const RESET_USER_BOARD = "[SCRUMBOARD APP] RESET_USER_BOARD";
 
 export function getBoards() {
   //const request = axios.get("/api/scrumboard-app/boards");
@@ -43,6 +44,11 @@ export function allUserBoardCollect(allUser) {
   return {
     type: ALL_USERS_BOARD_COLLECT,
     payload: allUser,
+  };
+}
+export function resetUserBoards() {
+  return {
+    type: RESET_USER_BOARD,
   };
 }
 
