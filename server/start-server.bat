@@ -1,3 +1,2 @@
-@echo off
-cd target
-java -jar server-0.0.1-SNAPSHOT.jar
+call mvn clean install
+call mvn spring-boot:run

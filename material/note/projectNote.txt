@@ -41,7 +41,7 @@ VI. Run & Debug java app in VSCode app
                 "mainClass": "${file}"
             },
         Add breakpoint then click run
-
+    * to build run: mvn clean package
     
 VII. Dashboard design:
 1. Home
