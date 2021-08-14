@@ -15,9 +15,14 @@ import CardAddChecklistItem from "./CardAddChecklistItem";
 import _ from "@lodash";
 import { useForm, useUpdateEffect } from "@fuse/hooks";
 import CardChecklistName from "./CardChecklistName";
+import { useSelector } from "react-redux";
+import { userIsAdmin } from "app/main/apps/scrumboard/store/allBoardFunction";
 
 function CardChecklist(props) {
   const { onCheckListChange, checklist, index } = props;
+  const board = useSelector(({ scrumboardApp }) => scrumboardApp.board);
+  const userisAdmin = userIsAdmin(board);
+  const allowMemberEdit = JSON.parse(board.info).allowMemberEdit;
   const [anchorEl, setAnchorEl] = useState(null);
   const { form, setInForm } = useForm(checklist);
   const checkListNameRef = useRef();
@@ -77,15 +82,17 @@ function CardChecklist(props) {
           />
         </div>
         <div className="">
-          <IconButton
-            aria-owns={anchorEl ? "actions-menu" : null}
-            aria-haspopup="true"
-            onClick={handleMenuOpen}
-            variant="outlined"
-            size="small"
-          >
-            <Icon className="text-20">more_vert</Icon>
-          </IconButton>
+          {userisAdmin == false && allowMemberEdit === "false" ? null : (
+            <IconButton
+              aria-owns={anchorEl ? "actions-menu" : null}
+              aria-haspopup="true"
+              onClick={handleMenuOpen}
+              variant="outlined"
+              size="small"
+            >
+              <Icon className="text-20">more_vert</Icon>
+            </IconButton>
+          )}
           <Menu
             id="actions-menu"
             anchorEl={anchorEl}
@@ -130,9 +137,11 @@ function CardChecklist(props) {
               onListItemRemove={() => handleListItemRemove(checkItem.id)}
             />
           ))}
-          <CardAddChecklistItem
-            onListItemAdd={(item) => handleListItemAdd(item)}
-          />
+          {userisAdmin == false && allowMemberEdit === "false" ? null : (
+            <CardAddChecklistItem
+              onListItemAdd={(item) => handleListItemAdd(item)}
+            />
+          )}
         </List>
       </div>
     </div>

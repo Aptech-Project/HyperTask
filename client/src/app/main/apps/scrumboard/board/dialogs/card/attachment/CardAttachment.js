@@ -11,8 +11,14 @@ import wordIcon from "./word.png";
 import excelIcon from "./excel.png";
 import powerPointIcon from "./powerpoint.png";
 import fileIcon from "./file.png";
+import { userIsAdmin } from "app/main/apps/scrumboard/store/allBoardFunction";
+import { useSelector } from "react-redux";
 
 function CardAttachment(props) {
+  const board = useSelector(({ scrumboardApp }) => scrumboardApp.board);
+  const userisAdmin = userIsAdmin(board);
+  const allowMemberEdit = JSON.parse(board.info).allowMemberEdit;
+
   const [anchorEl, setAnchorEl] = useState(null);
 
   function handleMenuOpen(event) {
@@ -48,16 +54,19 @@ function CardAttachment(props) {
             <Typography className="truncate w-full mb-12" color="textSecondary">
               {props.item.time}
             </Typography>
-            <Button
-              aria-owns={anchorEl ? "actions-menu" : null}
-              aria-haspopup="true"
-              onClick={handleMenuOpen}
-              variant="outlined"
-              size="small"
-            >
-              Actions
-              <Icon className="text-20">arrow_drop_down</Icon>
-            </Button>
+            {userisAdmin == false && allowMemberEdit === "false" ? null : (
+              <Button
+                aria-owns={anchorEl ? "actions-menu" : null}
+                aria-haspopup="true"
+                onClick={handleMenuOpen}
+                variant="outlined"
+                size="small"
+              >
+                Actions
+                <Icon className="text-20">arrow_drop_down</Icon>
+              </Button>
+            )}
+
             <Menu
               id="actions-menu"
               anchorEl={anchorEl}
@@ -156,14 +165,16 @@ function CardAttachment(props) {
                   Download File
                 </a>
               </MenuItem>
-              <MenuItem
-                onClick={() => {
-                  handleMenuClose();
-                  props.removeAttachment(props.item.id);
-                }}
-              >
-                Remove Attachment
-              </MenuItem>
+              {userisAdmin == false && allowMemberEdit === "false" ? null : (
+                <MenuItem
+                  onClick={() => {
+                    handleMenuClose();
+                    props.removeAttachment(props.item.id);
+                  }}
+                >
+                  Remove Attachment
+                </MenuItem>
+              )}
             </Menu>
           </div>
         </div>

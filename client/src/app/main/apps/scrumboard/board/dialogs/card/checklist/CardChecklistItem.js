@@ -1,46 +1,63 @@
-import {Icon, IconButton, TextField, Checkbox, ListItem} from '@material-ui/core';
-import React from 'react';
-import {useForm, useUpdateEffect} from '@fuse/hooks';
+import {
+  Icon,
+  IconButton,
+  TextField,
+  Checkbox,
+  ListItem,
+} from "@material-ui/core";
+import React from "react";
+import { useForm, useUpdateEffect } from "@fuse/hooks";
+import { useSelector } from "react-redux";
+import { userIsAdmin } from "app/main/apps/scrumboard/store/allBoardFunction";
 
-function CardChecklistItem(props)
-{
-    const {item, onListItemChange, index} = props;
-    const {form, handleChange} = useForm(item);
+function CardChecklistItem(props) {
+  const { item, onListItemChange, index } = props;
+  const { form, handleChange } = useForm(item);
 
-    useUpdateEffect(() => {
-        onListItemChange(form, index);
-    }, [form, index, onListItemChange]);
+  const board = useSelector(({ scrumboardApp }) => scrumboardApp.board);
+  const userisAdmin = userIsAdmin(board);
+  const allowMemberEdit = JSON.parse(board.info).allowMemberEdit;
 
-    if ( !form )
-    {
-        return null;
-    }
+  useUpdateEffect(() => {
+    onListItemChange(form, index);
+  }, [form, index, onListItemChange]);
 
-    return (
-        <ListItem
-            className="px-0"
-            key={form.id}
-            dense
-        >
-            <Checkbox
-                checked={form.checked}
-                name="checked"
-                onChange={handleChange}
-                tabIndex={-1}
-                disableRipple
-            />
-            <TextField
-                className="flex flex-1 mx-8"
-                name="name"
-                value={form.name}
-                onChange={handleChange}
-                variant="outlined"
-            />
-            <IconButton aria-label="Delete" onClick={props.onListItemRemove}>
-                <Icon>delete</Icon>
-            </IconButton>
-        </ListItem>
-    );
+  if (!form) {
+    return null;
+  }
+
+  return (
+    <ListItem className="px-0" key={form.id} dense>
+      <Checkbox
+        checked={form.checked}
+        name="checked"
+        onChange={
+          userisAdmin == false && allowMemberEdit === "false"
+            ? null
+            : handleChange
+        }
+        tabIndex={-1}
+        disableRipple
+      />
+      <TextField
+        className="flex flex-1 mx-8"
+        name="name"
+        value={form.name}
+        InputProps={
+          userisAdmin == false && allowMemberEdit === "false"
+            ? { readOnly: true }
+            : null
+        }
+        onChange={handleChange}
+        variant="outlined"
+      />
+      {userisAdmin == false && allowMemberEdit === "false" ? null : (
+        <IconButton aria-label="Delete" onClick={props.onListItemRemove}>
+          <Icon>delete</Icon>
+        </IconButton>
+      )}
+    </ListItem>
+  );
 }
 
 export default CardChecklistItem;

@@ -218,22 +218,28 @@ function BoardCardForm(props) {
                 shrink: true,
               }}
               variant="outlined"
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <Icon color="action">today</Icon>
-                  </InputAdornment>
-                ),
-              }}
+              InputProps={
+                userisAdmin == false && allowMemberEdit === "false"
+                  ? { readOnly: true }
+                  : {
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <Icon color="action">today</Icon>
+                        </InputAdornment>
+                      ),
+                    }
+              }
             />
           )}
           {!cardForm.due && <div className="w-full sm:w-auto"></div>}
           <div className="mb-16 sm:mb-0 flex items-center">
             <Typography>Done: </Typography>
             <Switch
-              onChange={() => {
-                toggleCardDone(!cardForm.isDone);
-              }}
+              onChange={() =>
+                userisAdmin == false && allowMemberEdit === "false"
+                  ? null
+                  : toggleCardDone(!cardForm.isDone)
+              }
               checked={cardForm.isDone}
             />
             {/* {React.useMemo(() => {
@@ -258,17 +264,21 @@ function BoardCardForm(props) {
             variant="outlined"
             fullWidth
             required
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  {cardForm.subscribed && (
-                    <Icon className="text-20" color="action">
-                      remove_red_eye
-                    </Icon>
-                  )}
-                </InputAdornment>
-              ),
-            }}
+            InputProps={
+              userisAdmin == false && allowMemberEdit === "false"
+                ? { readOnly: true }
+                : {
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        {cardForm.subscribed && (
+                          <Icon className="text-20" color="action">
+                            remove_red_eye
+                          </Icon>
+                        )}
+                      </InputAdornment>
+                    ),
+                  }
+            }
           />
         </div>
 
@@ -282,6 +292,11 @@ function BoardCardForm(props) {
             onChange={handleChange}
             variant="outlined"
             fullWidth
+            InputProps={
+              userisAdmin == false && allowMemberEdit === "false"
+                ? { readOnly: true }
+                : null
+            }
           />
         </div>
 
@@ -308,7 +323,14 @@ function BoardCardForm(props) {
                     }
                   );
                 })}
-                onChange={(value) => chipChange("labels", value)}
+                onChange={(value) => {
+                  if (userisAdmin == false && allowMemberEdit === "false") {
+                    return null;
+                  } else {
+                    chipChange("labels", value);
+                  }
+                }}
+                //onChange={(value) =>  chipChange("labels", value)}
                 placeholder="Select multiple Labels"
                 isMulti
                 textFieldProps={{
@@ -376,7 +398,14 @@ function BoardCardForm(props) {
                     }
                   );
                 })}
-                onChange={(value) => chipChange("members", value)}
+                onChange={(value) => {
+                  if (userisAdmin == false && allowMemberEdit === "false") {
+                    return null;
+                  } else {
+                    chipChange("members", value);
+                  }
+                }}
+                //onChange={(value) => chipChange("members", value)}
                 placeholder="Select multiple Members"
                 isMulti
                 textFieldProps={{
@@ -429,21 +458,22 @@ function BoardCardForm(props) {
             onRemoveCheckList={() => removeCheckList(checklist.id)}
           />
         ))}
-
-        <div className="mb-24">
-          <div className="flex items-center mt-16 mb-12">
-            <Icon className="text-20 mr-8" color="inherit">
-              comment
-            </Icon>
-            <Typography className="font-600 text-16">Comment</Typography>
+        {userisAdmin == false && allowMemberEdit === "false" ? null : (
+          <div className="mb-24">
+            <div className="flex items-center mt-16 mb-12">
+              <Icon className="text-20 mr-8" color="inherit">
+                comment
+              </Icon>
+              <Typography className="font-600 text-16">Comment</Typography>
+            </div>
+            <div>
+              <CardComment
+                members={JSON.parse(board.members)}
+                onCommentAdd={commentAdd}
+              />
+            </div>
           </div>
-          <div>
-            <CardComment
-              members={JSON.parse(board.members)}
-              onCommentAdd={commentAdd}
-            />
-          </div>
-        </div>
+        )}
 
         {cardForm.activities.length > 0 && (
           <div className="mb-24">
