@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
     header: {
         height: 600,
         color: theme.palette.primary.contrastText,
-        backgroundImage: `url('assets/images/backgrounds/featureBg2.jpg')`,
+        backgroundImage: `url('assets/images/backgrounds/aboutBg.jpg')`,
         backgroundSize: "cover",
         // backgroundRepeat: true,
     },
@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function Features() {
+function About() {
     const dispatch = useDispatch();
     const classes = useStyles();
 
@@ -47,7 +47,7 @@ function Features() {
                             delay={100}
                         >
                             <Typography variant="h3" className="font-extrabold">
-                                <div style={{ textShadow: '1px 3px 5px black' }}>Visualize your work however you want!</div>
+                                <div style={{ textShadow: '1px 3px 5px black' }}>Thank you for chosing us!</div>
                             </Typography>
                         </FuseAnimate>
 
@@ -55,10 +55,9 @@ function Features() {
                             <Typography
                                 variant="h5"
                                 color="inherit"
-                                className="opacity-75 mt-16 mx-auto max-w-512"
+                                className="opacity-75 mt-16 mx-auto max-w-xl"
                             >
-                                Hyper Task is built for everyone, so you can
-                                plan and structure work how you want.
+                                <div style={{ textShadow: '1px 2px 3px black' }}>Together We Change The Way We Do Business</div>
                             </Typography>
                         </FuseAnimate>
                     </div>
@@ -66,18 +65,18 @@ function Features() {
             </div>
 
             <div className="-mt-192">
-                <div className="w-full max-w-2xl mx-auto">
+                <div className="w-full max-w-3xl mx-auto">
                     <FuseAnimateGroup
                         enter={{
                             animation: "transition.slideUpBigIn",
                         }}
                         className="flex items-center justify-center flex-wrap"
                     >
-                        <div className="w-full max-w-320 sm:w-1/3 p-12">
+                        <div className="w-full max-w-400 sm:w-1/4 p-12">
                             <Card className="relative">
                                 <div className="p-32 text-center">
-                                    <Typography className="text-32">
-                                        Communication
+                                    <Typography className="text-24">
+                                        Duong Ngoc Hai
                                     </Typography>
                                 </div>
 
@@ -88,61 +87,41 @@ function Features() {
                                             "flex items-end justify-center py-24 px-32"
                                         )}
                                     >
-                                        <Typography color="inherit">
-                                            Tie your communication to teams
+                                        <Typography className="text-18" color="inherit">
+                                            Team Leader
                                         </Typography>
                                     </div>
 
                                     <div className="flex flex-col p-32">
                                         <Typography
                                             color="textSecondary"
-                                            className="mb-16"
+                                            className="mb-16 text-18"
                                         >
-                                            Online chatting
+                                            0375911341
                                         </Typography>
                                         <Typography
                                             color="textSecondary"
-                                            className="mb-16"
+                                            className="mb-16 text-18"
                                         >
-                                            Task comments
+                                            ngochaiitech@gmail.com
                                         </Typography>
                                         <Typography
                                             color="textSecondary"
-                                            className="mb-16"
+                                            className="mb-16 text-18"
                                         >
-                                            Task assignees
-                                        </Typography>
-                                        <Typography color="textSecondary">
-                                            And many more...
+                                            github.com/SimpleCray
                                         </Typography>
                                     </div>
                                 </CardContent>
-
-                                <div className="flex flex-col items-center justify-center pb-32 px-32">
-                                    <Button
-                                        onClick={(ev) =>
-                                            dispatch(toggleChatPanel())
-                                        }
-                                        variant="contained"
-                                        color="secondary"
-                                        className="w-full"
-                                    >
-                                        CHAT NOW
-                                    </Button>
-                                </div>
                             </Card>
                         </div>
 
-                        <div className="w-full max-w-320 sm:w-1/3 p-12">
-                            <Card className="relative" raised>
+                        <div className="w-full max-w-400 pt-64 sm:w-1/4 p-12">
+                            <Card className="relative">
                                 <div className="p-32 text-center">
-                                    <Typography className="text-32">
-                                        Project Management
+                                    <Typography className="text-24">
+                                        Le Tuan Khang
                                     </Typography>
-                                    <Typography
-                                        color="textSecondary"
-                                        className="text-16 font-medium"
-                                    ></Typography>
                                 </div>
 
                                 <CardContent className="text-center p-0">
@@ -152,67 +131,40 @@ function Features() {
                                             "flex items-end justify-center py-24 px-32"
                                         )}
                                     >
-                                        <Typography color="inherit">
-                                            Manage your projects from A - Z
+                                        <Typography className="text-18" color="inherit">
+                                            Team Member
                                         </Typography>
                                     </div>
 
                                     <div className="flex flex-col p-32">
                                         <Typography
                                             color="textSecondary"
-                                            className="mb-16"
+                                            className="mb-16 text-18"
                                         >
-                                            Unlimited projects
+                                            0976553787
                                         </Typography>
                                         <Typography
                                             color="textSecondary"
-                                            className="mb-16"
+                                            className="mb-16 text-18"
                                         >
-                                            Unlimited lists
+                                            khangletuan098@gmail.com
                                         </Typography>
                                         <Typography
                                             color="textSecondary"
-                                            className="mb-16"
+                                            className="mb-16 text-18"
                                         >
-                                            Unlimited cards
-                                        </Typography>
-                                        <Typography
-                                            color="textSecondary"
-                                            className="mb-16"
-                                        >
-                                            Custom fields
-                                        </Typography>
-                                        <Typography
-                                            color="textSecondary"
-                                            className="mb-16"
-                                        >
-                                            Due dates and times
-                                        </Typography>
-                                        <Typography color="textSecondary">
-                                            And many more...
+                                            github.com/tuankhang39
                                         </Typography>
                                     </div>
                                 </CardContent>
-
-                                <div className="flex flex-col items-center justify-center pb-32 px-32">
-                                    <Button
-                                        component={Link}
-                                        to="/apps/scrumboard/boards"
-                                        variant="contained"
-                                        color="secondary"
-                                        className="w-full"
-                                    >
-                                        GO CREATE BOARD
-                                    </Button>
-                                </div>
                             </Card>
                         </div>
 
-                        <div className="w-full max-w-320 sm:w-1/3 p-12">
+                        <div className="w-full max-w-400 pt-64 sm:w-1/4 p-12">
                             <Card className="relative">
                                 <div className="p-32 text-center">
-                                    <Typography className="text-32">
-                                        Data analytics
+                                    <Typography className="text-24">
+                                        Nguyen Hien Long
                                     </Typography>
                                 </div>
 
@@ -223,56 +175,137 @@ function Features() {
                                             "flex items-end justify-center py-24 px-32"
                                         )}
                                     >
-                                        <Typography color="inherit">
-                                            Real-time overview of your works
+                                        <Typography className="text-18" color="inherit">
+                                            Team Member
                                         </Typography>
                                     </div>
 
                                     <div className="flex flex-col p-32">
                                         <Typography
                                             color="textSecondary"
-                                            className="mb-16"
+                                            className="mb-16 text-18"
                                         >
-                                            Your tasks
+                                            0786831675
                                         </Typography>
                                         <Typography
                                             color="textSecondary"
-                                            className="mb-16"
+                                            className="mb-16 text-18"
                                         >
-                                            Timeline
+                                            nguyenhienlong96@gmail.com
                                         </Typography>
                                         <Typography
                                             color="textSecondary"
-                                            className="mb-16"
+                                            className="mb-16 text-18"
                                         >
-                                            Calendar view
-                                        </Typography>
-                                        <Typography color="textSecondary">
-                                            And many more...
+                                            github.com/aegone-nguyen
                                         </Typography>
                                     </div>
                                 </CardContent>
+                            </Card>
+                        </div>
 
-                                <div className="flex flex-col items-center justify-center pb-32 px-32">
-                                    <Button
-                                        component={Link}
-                                        to="/dashboard"
-                                        variant="contained"
-                                        color="secondary"
-                                        className="w-full"
-                                    >
-                                        DASHBOARD
-                                    </Button>
+                        <div className="w-full max-w-400 sm:w-1/4 p-12">
+                            <Card className="relative">
+                                <div className="p-32 text-center">
+                                    <Typography className="text-24">
+                                        Nguyen Xuan Phong
+                                    </Typography>
                                 </div>
+
+                                <CardContent className="text-center p-0">
+                                    <div
+                                        className={clsx(
+                                            classes.price,
+                                            "flex items-end justify-center py-24 px-32"
+                                        )}
+                                    >
+                                        <Typography className="text-18" color="inherit">
+                                            Team Member
+                                        </Typography>
+                                    </div>
+
+                                    <div className="flex flex-col p-32">
+                                        <Typography
+                                            color="textSecondary"
+                                            className="mb-16 text-18"
+                                        >
+                                            0366624443
+                                        </Typography>
+                                        <Typography
+                                            color="textSecondary"
+                                            className="mb-16 text-18"
+                                        >
+                                            nguyenxuan.phong.1998@gmail.com
+                                        </Typography>
+                                        <Typography
+                                            color="textSecondary"
+                                            className="mb-16 text-18"
+                                        >
+                                            github.com/SimpleCray
+                                        </Typography>
+                                    </div>
+                                </CardContent>
                             </Card>
                         </div>
                     </FuseAnimateGroup>
+
                     <div className="flex flex-col items-center py-96 text-center sm:text-left max-w-xl mx-auto">
                         <Typography variant="h4" className="pb-32 font-light">
-                            Understand Hyper Task’s core features
+                            About Hyper Task
                         </Typography>
 
+                        <Typography variant="h6" className="pb-32 font-light max-w-md text-center">
+                            We believe in teams. Yours and ours. Our mission, culture, and commitment to fostering a diverse, inclusive workplace let us build a product people love and stay true to ourselves.
+                        </Typography>
+                        
                         <div className="flex flex-wrap w-full">
+
+                            <div className="w-full sm:w-1/2 p-24">
+                                <div
+                                    style={{
+                                        display: "flex",
+                                        alignItems: "center",
+                                        flexWrap: "wrap",
+                                    }}
+                                >
+                                    <Icon>lock</Icon>
+                                    <Typography className="text-20 mb-8">
+                                        &nbsp; Who We Are
+                                    </Typography>
+                                </div>
+                                <Typography
+                                    className="text-16"
+                                    color="textSecondary"
+                                >
+                                    A group of young developers with full of enthusiasm and intense desire 
+                                    to dedicate themselves to produce the best software
+                                </Typography>
+                            </div>
+
+                            
+
+                            <div className="w-full sm:w-1/2 p-24">
+                                <div
+                                    style={{
+                                        display: "flex",
+                                        alignItems: "center",
+                                        flexWrap: "wrap",
+                                    }}
+                                >
+                                    <Icon>insert_chart</Icon>
+                                    <Typography className="text-20 mb-8">
+                                        &nbsp; What We Do
+                                    </Typography>
+                                </div>
+
+                                <Typography
+                                    className="text-16"
+                                    color="textSecondary"
+                                >
+                                    Ensure a smooth, organizanization-wide digital transformation for how peoples all work together
+                                </Typography>
+                            </div>
+
                             <div className="w-full sm:w-1/2 p-24">
                                 <div
                                     style={{
@@ -283,16 +316,14 @@ function Features() {
                                 >
                                     <Icon>assignment</Icon>
                                     <Typography className="text-20 mb-8">
-                                        &nbsp; Project Management
+                                        &nbsp; Our Misson
                                     </Typography>
                                 </div>
                                 <Typography
                                     className="text-16"
                                     color="textSecondary"
                                 >
-                                    Manage your projects from start to finish.
-                                    With all of your projects in Hyper Task, you’ll
-                                    always know who’s doing what, by when.
+                                    Help humanity thrive by enabling the world's teams to work together effortlessly.
                                 </Typography>
                             </div>
 
@@ -306,65 +337,18 @@ function Features() {
                                 >
                                     <Icon>comment</Icon>
                                     <Typography className="text-20 mb-8">
-                                        &nbsp; Communication
+                                        &nbsp; Our Slogan
                                     </Typography>
                                 </div>
                                 <Typography
                                     className="text-16"
                                     color="textSecondary"
                                 >
-                                    Tie your communication to teams, projects,
-                                    or tasks to give your team clarity about
-                                    where work stands.
+                                    
+                                    "Build yourself up to stand out and be recognized in a crowd."
                                 </Typography>
                             </div>
 
-                            <div className="w-full sm:w-1/2 p-24">
-                                <div
-                                    style={{
-                                        display: "flex",
-                                        alignItems: "center",
-                                        flexWrap: "wrap",
-                                    }}
-                                >
-                                    <Icon>lock</Icon>
-                                    <Typography className="text-20 mb-8">
-                                        &nbsp; Admin controls
-                                    </Typography>
-                                </div>
-                                <Typography
-                                    className="text-16"
-                                    color="textSecondary"
-                                >
-                                    Create and manage teams and team settings to
-                                    ensure that everyone has access to the right
-                                    information.
-                                </Typography>
-                            </div>
-
-                            <div className="w-full sm:w-1/2 p-24">
-                                <div
-                                    style={{
-                                        display: "flex",
-                                        alignItems: "center",
-                                        flexWrap: "wrap",
-                                    }}
-                                >
-                                    <Icon>insert_chart</Icon>
-                                    <Typography className="text-20 mb-8">
-                                        &nbsp; Views and reporting
-                                    </Typography>
-                                </div>
-
-                                <Typography
-                                    className="text-16"
-                                    color="textSecondary"
-                                >
-                                    Easily know where work stands and see what’s
-                                    happening across your entire organization
-                                    with reporting capabilities.
-                                </Typography>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -373,4 +357,4 @@ function Features() {
     );
 }
 
-export default Features;
+export default About;
