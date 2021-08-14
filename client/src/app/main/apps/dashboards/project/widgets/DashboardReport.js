@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Card, CardContent, Typography, TableCell, TableRow, TableBody, TableHead, Table} from '@material-ui/core';
+import {darken} from '@material-ui/core/styles/colorManipulator';
 import {FuseAnimate} from '@fuse';
 import clsx from 'clsx';
 import axios from 'axios';
@@ -11,7 +12,7 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-function ModernInvoicePage()
+function DashboardReport()
 {
     const classes = useStyles();
     const [invoice, setInvoice] = useState(null);
@@ -31,7 +32,9 @@ function ModernInvoicePage()
     }, []);
 
     return (
-        <div>
+        // <div className={clsx(classes.root, "flex-grow flex-shrink-0 p-0 sm:p-64 print:p-0")}>
+        <div className="text-center m-auto mt-24">
+
             {invoice && (
 
                 <FuseAnimate duration={600}>
@@ -276,13 +279,13 @@ function ModernInvoicePage()
                         </CardContent>
                     </Card>
                 </FuseAnimate>
-            
+
             )}
         </div>
     );
 }
 
-export default ModernInvoicePage;
+export default DashboardReport;
 
 /**
 

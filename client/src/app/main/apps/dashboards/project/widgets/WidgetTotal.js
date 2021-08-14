@@ -2,8 +2,9 @@ import React from 'react';
 import {Icon, Typography, Paper, IconButton} from '@material-ui/core';
 
 function WidgetTotal(props) {
+    const { onTaskTypeChange, type } = props;
     return (
-        <Paper className="w-full rounded-8 shadow-none border-1">
+        <Paper className="w-full rounded-8 shadow-none border-1" style={{cursor: "pointer"}} onClick={() => onTaskTypeChange(type)}>
             <div className="flex items-center justify-between pr-4 pl-16 pt-4">
                 <Typography className="text-16">{props.title}</Typography>
                 <IconButton aria-label="more">

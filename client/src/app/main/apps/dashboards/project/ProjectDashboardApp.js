@@ -31,6 +31,8 @@ import Widget8 from "./widgets/Widget8";
 import Widget9 from "./widgets/Widget9";
 import WidgetTotal from "./widgets/WidgetTotal";
 import WidgetActivity from "./widgets/WidgetActivity";
+import ModernInvoicePage from "app/main/pages/invoices/modern/ModernInvoicePage";
+import DashboardReport from "./widgets/DashboardReport";
 
 const useStyles = makeStyles((theme) => ({
     content: {
@@ -68,8 +70,6 @@ const useStyles = makeStyles((theme) => ({
 
 function ProjectDashboardApp(props) {
     const dispatch = useDispatch();
-    // const projects = projectData.projects;
-    const widgets = projectData.widgets;
     const userId = localStorage.getItem('user_authenticated');
     const user = useSelector((state)=>state.login.findId);
     const state = useSelector((state)=>state);
@@ -88,6 +88,7 @@ function ProjectDashboardApp(props) {
     const [tabValue, setTabValue] = useState(0);
     const [projects, setProjects] = useState(null);
     const [selectedProject, setSelectedProject] = useState(null);
+    const [currentTaskType, setCurrentTaskType] = useState(null);
 
     useEffect(() => {
         if (userId !== 'undefined') {
@@ -104,8 +105,14 @@ function ProjectDashboardApp(props) {
             });
             setProjects(projects);
             setSelectedProject({name: projects[0], menuEl: null});
+            setCurrentTaskType({name: "doingCards", label: "On going tasks"});
         }
     }, [boardsStatistic]);
+
+    const onTaskTypeChange = (taskType) => {
+        console.log(taskType)
+        setCurrentTaskType(taskType);
+    }
 
     function handleChangeTab(event, tabValue) {
         setTabValue(tabValue);
@@ -241,7 +248,7 @@ function ProjectDashboardApp(props) {
                                     }}
                                 >
                                     <div className="w-full p-12">
-                                        <WidgetActivity activities={boardsStatistic[selectedProject.name].cardsActivities} className="w-full" data={widgets.widget1}/>
+                                        <WidgetActivity activities={boardsStatistic[selectedProject.name].cardsActivities} className="w-full"/>
                                     </div>
                                     <div className="widget flex w-full sm:w-1/2 md:w-1/4 p-12">
                                         <WidgetTotal
@@ -254,6 +261,8 @@ function ProjectDashboardApp(props) {
                                                     label: "Keep track"
                                                 }
                                             }}
+                                            type={{name: "doingCards", label: "On going tasks"}}
+                                            onTaskTypeChange={onTaskTypeChange}
                                             color="blue"
                                         />
                                     </div>
@@ -268,6 +277,8 @@ function ProjectDashboardApp(props) {
                                                     label: "Expand the due date"
                                                 }
                                             }}
+                                            type={{name: "overdueCards", label: "Overdue tasks"}}
+                                            onTaskTypeChange={onTaskTypeChange}
                                             color="red"
                                         />
                                     </div>
@@ -282,6 +293,8 @@ function ProjectDashboardApp(props) {
                                                     label: "Make test case"
                                                 }
                                             }}
+                                            type={{name: "completeBeforeDueCards", label: "Complete on time tasks"}}
+                                            onTaskTypeChange={onTaskTypeChange}
                                             color="green"
                                         />
                                     </div>
@@ -296,6 +309,8 @@ function ProjectDashboardApp(props) {
                                                     label: "The reason"
                                                 }
                                             }}
+                                            type={{name: "completeAfterDueCards", label: "Complete after due tasks"}}
+                                            onTaskTypeChange={onTaskTypeChange}
                                             color="orange"
                                         />
                                     </div>
@@ -303,7 +318,7 @@ function ProjectDashboardApp(props) {
                                         <WidgetTaskDistribution allCards={boardsStatistic[selectedProject.name].allCards} data={boardsStatistic[selectedProject.name].tasksByLabels}/>
                                     </div>
                                     <div className="widget flex w-full sm:w-1/2 p-12">
-                                        <WidgetInprocessing data={boardsStatistic[selectedProject.name].doingCards} widget={widgets.widget7} />
+                                        <WidgetInprocessing label={currentTaskType.label} data={boardsStatistic[selectedProject.name][currentTaskType.name]} />
                                     </div>
                                 </FuseAnimateGroup>
                             )}
@@ -315,7 +330,7 @@ function ProjectDashboardApp(props) {
                                     }}
                                 >
                                     <div className="widget flex w-full p-12">
-                                        <WidgetMembers allUsers={allUsers} data={boardsStatistic[selectedProject.name].members} widget={widgets.widget11} />
+                                        <WidgetMembers allUsers={allUsers} data={boardsStatistic[selectedProject.name].members} />
                                     </div>
                                 </FuseAnimateGroup>
                             )}
@@ -326,7 +341,8 @@ function ProjectDashboardApp(props) {
                                         animation: "transition.slideUpBigIn",
                                     }}
                                 >
-                                    <div className="widget flex w-full sm:w-1/2 p-12">
+                                    <DashboardReport/>
+                                    {/* <div className="widget flex w-full sm:w-1/2 p-12">
                                         <Widget8 widget={widgets.widget8} />
                                     </div>
                                     <div className="widget flex w-full sm:w-1/2 p-12">
@@ -334,7 +350,7 @@ function ProjectDashboardApp(props) {
                                     </div>
                                     <div className="widget flex w-full p-12">
                                         <Widget10 widget={widgets.widget10} />
-                                    </div>
+                                    </div> */}
                                 </FuseAnimateGroup>
                             )}
                         </div>

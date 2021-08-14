@@ -9,6 +9,7 @@ export const getBoardsStatistic = (allBoards) => {
 		if (board.lists.length) {
             let allCards = [];
             board.lists.forEach(list => {
+                list.cards.forEach(card => {card.boardId = board.id});
                 allCards = [...allCards, ...list.cards];
             })
             // All cards
