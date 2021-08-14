@@ -5,20 +5,20 @@ const invoicesDB = {
         {
             'id'      : '5725a6802d',
             'from'    : {
-                'title'  : 'Fuse Inc.',
-                'address': '2810 Country Club Road Cranford, NJ 07016',
+                'title'  : 'Hyper Task',
+                'address': '590 CTM8 street, ward 11, distric 3, HCMC',
                 'phone'  : '+66 123 455 87',
-                'email'  : 'hello@fuseinc.com',
-                'website': 'www.fuseinc.com'
+                'email'  : 'admin@hypertask.com',
+                'website': 'www.hypertask.com'
             },
             'client'  : {
-                'title'  : 'John Doe',
+                'title'  : 'Ngoc Hai',
                 'address': '9301 Wood Street Philadelphia, PA 19111',
                 'phone'  : '+55 552 455 87',
-                'email'  : 'johndoe@mail.com'
+                'email'  : 'ngochai@gmail.com'
             },
-            'number'  : 'P9-0004',
-            'date'    : 'Jul 19, 2019',
+            'number'  : 'Beyond',
+            'date'    : 'Aug 13, 2021',
             'dueDate' : 'Aug 24, 2019',
             'services': [
                 {

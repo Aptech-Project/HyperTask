@@ -46,18 +46,14 @@ function Features() {
                             duration={400}
                             delay={100}
                         >
-                            <Typography
-                                variant="h3"
-                                color="inherit"
-                                className="font-light"
-                            >
-                                Visualize your work however you want!
+                            <Typography variant="h3" className="font-extrabold">
+                                <div style={{ textShadow: '1px 3px 5px black' }}>Visualize your work however you want!</div>
                             </Typography>
                         </FuseAnimate>
 
                         <FuseAnimate duration={400} delay={600}>
                             <Typography
-                                variant="h6"
+                                variant="h5"
                                 color="inherit"
                                 className="opacity-75 mt-16 mx-auto max-w-512"
                             >
@@ -295,7 +291,7 @@ function Features() {
                                     color="textSecondary"
                                 >
                                     Manage your projects from start to finish.
-                                    With all of your projects in Asana, you’ll
+                                    With all of your projects in Hyper Task, you’ll
                                     always know who’s doing what, by when.
                                 </Typography>
                             </div>

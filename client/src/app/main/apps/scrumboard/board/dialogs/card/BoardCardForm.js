@@ -76,7 +76,7 @@ function BoardCardForm(props) {
 
   function toggleCardDone(status) {
     setInForm("isDone", status);
-    setInForm("doneAt", JSON.stringify(new Date()));
+    setInForm("doneAt", new Date());
   }
 
   function toggleLabel(labelId) {

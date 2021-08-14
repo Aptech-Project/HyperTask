@@ -84,7 +84,6 @@ const AddContact = ({ ...props }) => {
         if (result) {
             setScanResultFile(result);
             dispatch(Actions.fetchById(result, userAuth))
-            console.log(result)
         }
     }
     useEffect(() => {
@@ -92,7 +91,6 @@ const AddContact = ({ ...props }) => {
             setFindFriendQR(friendQR)
         )
     }, [handleScanFile])
-    console.log(findFriendQR)
     //Render List Search Friend
     const renderListSearch = () => {
         if (!listSearchFriend.length) {

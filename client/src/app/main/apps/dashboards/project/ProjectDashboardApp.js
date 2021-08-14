@@ -220,11 +220,11 @@ function ProjectDashboardApp(props) {
                         />
                         <Tab
                             className="text-14 font-600 normal-case"
-                            label="Board Details"
+                            label="Team Members"
                         />
                         <Tab
                             className="text-14 font-600 normal-case"
-                            label="Team Members"
+                            label="Report"
                         />
                     </Tabs>
                 ) : null
@@ -314,14 +314,8 @@ function ProjectDashboardApp(props) {
                                         animation: "transition.slideUpBigIn",
                                     }}
                                 >
-                                    <div className="widget flex w-full sm:w-1/2 p-12">
-                                        <Widget8 widget={widgets.widget8} />
-                                    </div>
-                                    <div className="widget flex w-full sm:w-1/2 p-12">
-                                        <Widget9 widget={widgets.widget9} />
-                                    </div>
                                     <div className="widget flex w-full p-12">
-                                        <Widget10 widget={widgets.widget10} />
+                                        <WidgetMembers allUsers={allUsers} data={boardsStatistic[selectedProject.name].members} widget={widgets.widget11} />
                                     </div>
                                 </FuseAnimateGroup>
                             )}
@@ -332,8 +326,14 @@ function ProjectDashboardApp(props) {
                                         animation: "transition.slideUpBigIn",
                                     }}
                                 >
+                                    <div className="widget flex w-full sm:w-1/2 p-12">
+                                        <Widget8 widget={widgets.widget8} />
+                                    </div>
+                                    <div className="widget flex w-full sm:w-1/2 p-12">
+                                        <Widget9 widget={widgets.widget9} />
+                                    </div>
                                     <div className="widget flex w-full p-12">
-                                        <WidgetMembers allUsers={allUsers} data={boardsStatistic[selectedProject.name].members} widget={widgets.widget11} />
+                                        <Widget10 widget={widgets.widget10} />
                                     </div>
                                 </FuseAnimateGroup>
                             )}

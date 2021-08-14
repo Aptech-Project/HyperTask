@@ -136,7 +136,7 @@ function WidgetActivity(props) {
         const step = Math.floor(maxValueOfDataset / 10);
         return {
             min: 0,
-            max: maxValueOfDataset * 1.5,
+            max: maxValueOfDataset * 1.3,
             stepSize: step,
         };
     }
