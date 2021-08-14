@@ -52,7 +52,7 @@ class BoardModel {
     //this.id = board.id || FuseUtils.generateGUID();
     this.name = board.name || "Untitled Board";
     this.members = board.members || [];
-    this.lists = [];
+    this.lists = board.lists || [];
     //this.uri = board.uri || "untitled-board";
     this.info = board.info || {
       backgroundImage: "",
