@@ -101,6 +101,58 @@ export function newBoard(board) {
     });
 }
 
+export function newBoardTemplate(board) {
+  //const newBoardId = userAllBoardLength + 1;
+  const userID = localStorage.getItem("user_authenticated");
+
+  // const boardMember = [
+  //   ...board.members,
+  //   { userId: userID, role: "admin", avatar: "" },
+  // ];
+  const newBoard = board
+    ? new BoardModel({
+        /* id: newBoardId, */
+        name: board.name,
+        members: [
+          ...board.members,
+          {
+            userId: userID,
+            role: "admin",
+            status: "Stay",
+          },
+        ],
+        lists: board.lists,
+      })
+    : new BoardModel({
+        members: [
+          {
+            userId: userID,
+            role: "admin",
+            status: "Stay",
+          },
+        ],
+        lists: board.lists,
+      });
+  const boardConverted = convertBoardProperty(newBoard);
+  const request = axios.post(
+    `${endPointApi.boards.createBoard}`,
+    boardConverted
+  );
+
+  return (dispatch) =>
+    request.then((response) => {
+      console.log("response: ", response);
+      const board = response.data;
+      history.push({
+        pathname: "/apps/scrumboard/boards/" + board.id,
+      });
+      return dispatch({
+        type: NEW_BOARD,
+        board,
+      });
+    });
+}
+
 export function adminDeleteBoard(boardId, userId) {
   //console.log("adminDeleteBoard");
   const request = axios.put(

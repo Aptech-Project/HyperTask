@@ -155,6 +155,7 @@ function Boards(props) {
     open: false,
     value: "",
     members: [],
+    type: "",
   });
   const [messBox, setMessBox] = useState({
     delete: false,
@@ -205,17 +206,31 @@ function Boards(props) {
     // };
   }, [dispatch]);
 
-  const handleAddNewBoard = () => {
-    setAddNewBoardLog({ ...addNewBoardLog, open: true });
+  const handleAddNewBoard = (boardList) => {
+    if (boardList) {
+      setAddNewBoardLog({ ...addNewBoardLog, open: true, type: boardList });
+    } else {
+      setAddNewBoardLog({ ...addNewBoardLog, open: true });
+    }
   };
   const handleAddNewBoardConfirm = () => {
     //console.log("profile: ", profile);
-    dispatch(
-      Actions.newBoard({
-        name: addNewBoardLog.value,
-        members: addNewBoardLog.members,
-      })
-    );
+    if (addNewBoardLog.type) {
+      dispatch(
+        Actions.newBoardTemplate({
+          name: addNewBoardLog.value,
+          members: addNewBoardLog.members,
+          lists: addNewBoardLog.type,
+        })
+      );
+    } else {
+      dispatch(
+        Actions.newBoard({
+          name: addNewBoardLog.value,
+          members: addNewBoardLog.members,
+        })
+      );
+    }
   };
   const deleteBoard = () => {
     const userId = localStorage.getItem("user_authenticated");
@@ -299,11 +314,13 @@ function Boards(props) {
                     >
                       {boardTemplates.map((board) => (
                         <div key={board.id} className={classes.boardContain}>
-                          <div className={clsx(classes.board, "rounded")}
+                          <div
+                            className={clsx(classes.board, "rounded")}
                             style={{
                               backgroundImage: board.info.backgroundImage,
                               backgroundSize: "cover",
                             }}
+                            onClick={() => handleAddNewBoard(board.lists)}
                           >
                             <Link
                               // to={{
@@ -320,7 +337,7 @@ function Boards(props) {
                             >
                               <Typography
                                 className="text-16 font-300 text-center px-32"
-                                style={{ color: "white", fontWeight: 1000, }}
+                                style={{ color: "white", fontWeight: 1000 }}
                               >
                                 {board.name}
                               </Typography>
@@ -484,6 +501,7 @@ function Boards(props) {
                   open: false,
                   value: "",
                   members: [],
+                  type: "",
                 });
               }}
               addNewBoardLog={addNewBoardLog}

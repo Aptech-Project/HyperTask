@@ -40,7 +40,7 @@ function ActivityItem(props) {
       </div>
       
     </ListItem>
-    <ListItem dense style={{marginTop: "-10px", marginLeft:"30px"}}>
+    <ListItem dense style={{marginTop: "-10px", marginLeft:"30px", maxWidth: "300px"}}>
       <div className="flex items-center ml-16">
         <Typography className="ml-8" style={{color: "darkblue"}}>{props.item.message}</Typography>
       </div>
