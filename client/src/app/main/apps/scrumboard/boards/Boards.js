@@ -14,6 +14,7 @@ import InputBase from "@material-ui/core/InputBase";
 import AddNewBoard from "../model/AddNewBoard";
 import BoardMessBox from "../model/BoardMessBox";
 import { boardTemplate } from "./boardTemplate";
+import History from "@history";
 //import backgroundTem1 from "../board/backgroundImages/backgroundTem7.jpg"
 
 const useStyles = makeStyles((theme) => ({
@@ -201,9 +202,10 @@ function Boards(props) {
   useEffect(() => {
     dispatch(Actions.getBoards());
     dispatch(Actions.getAllUserBoard());
-    // return () => {
-    //   dispatch(Actions.resetBoards());
-    // };
+    return () => {
+      dispatch(Actions.resetBoards());
+      dispatch(Actions.resetUserBoards());
+    };
   }, [dispatch]);
 
   const handleAddNewBoard = (boardList) => {
@@ -433,6 +435,11 @@ function Boards(props) {
                                 paddingBottom: "2.4rem",
                               }}
                               role="button"
+                              onClick={() => {
+                                // History.push({
+                                //   pathname: `/apps/scrumboard/boards/${board.id}`,
+                                // });
+                              }}
                             >
                               {JSON.parse(board.info).backgroundImage ? (
                                 <Typography

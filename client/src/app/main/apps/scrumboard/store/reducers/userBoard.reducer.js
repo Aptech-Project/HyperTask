@@ -21,6 +21,12 @@ const userBoardsReducer = function (state = initialState, action) {
         allUserCollect: [...action.payload],
       };
     }
+    case Actions.RESET_USER_BOARD: {
+      return {
+        allUser: [],
+        allUserCollect: [],
+      };
+    }
     default:
       return state;
   }
