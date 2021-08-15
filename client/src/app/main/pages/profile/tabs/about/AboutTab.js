@@ -37,6 +37,7 @@ const AboutTab = ({ ...props }) => {
     function closeComposeDialog() {
         setAvatar(info.avatar)
         setOpen(false)
+        props.closeAvatar()
     }
     const dispatch = useDispatch();
     useEffect(() => {
@@ -56,6 +57,7 @@ const AboutTab = ({ ...props }) => {
     }, [account]);
     useEffect(() => {
         setAvatar(uploadData.fileUrl)
+        props.closeAvatar()
     }, [uploadData]);
     useEffect(() => {
         if (info) {
@@ -67,6 +69,11 @@ const AboutTab = ({ ...props }) => {
             setFriends(allfriend)
         )
     }, [allfriend])
+    useEffect(() => {
+        if (props && props.openAvatar) (
+            setOpen(true)
+        )
+    }, [props])
     if (!account) {
         return null
     }
@@ -125,13 +132,6 @@ const AboutTab = ({ ...props }) => {
                                     type="file"
                                     onChange={handleUploadChange}
                                 />
-                                <Tooltip title="Upload Avatar" placement="bottom">
-                                    <Button
-                                        onClick={openUploadImage}>
-                                        <Icon fontSize="large" color="action">cloud_upload</Icon>
-
-                                    </Button>
-                                </Tooltip>
                             </Toolbar>
 
                         </AppBar>
@@ -202,45 +202,6 @@ const AboutTab = ({ ...props }) => {
                             </List>
                         </CardContent>
                     </Card>
-
-                    {/* <Card className="w-full mb-16">
-                        <AppBar position="static" elevation={0}>
-                            <Toolbar className="pl-16 pr-8">
-                                <Typography variant="subtitle1" color="inherit" className="flex-1">
-                                    Joined Groups
-                                </Typography>
-                                <Button className="normal-case" color="inherit" size="small">See 6 more</Button>
-                            </Toolbar>
-                        </AppBar>
-                        <CardContent className="p-0">
-                            <List className="p-0">
-                                {groups.map((group) => (
-                                    <ListItem key={group.id}>
-                                        <Avatar alt={group.name}>{group.name[0]}</Avatar>
-                                        <ListItemText
-                                            primary={(
-                                                <div className="">
-                                                    <Typography className="inline font-medium" color="secondary" paragraph={false}>
-                                                        {group.name}
-                                                    </Typography>
-
-                                                    <Typography className="inline ml-4" paragraph={false}>
-                                                        {group.category}
-                                                    </Typography>
-                                                </div>
-                                            )}
-                                            secondary={group.members}
-                                        />
-                                        <ListItemSecondaryAction>
-                                            <IconButton>
-                                                <Icon>more_vert</Icon>
-                                            </IconButton>
-                                        </ListItemSecondaryAction>
-                                    </ListItem>
-                                ))}
-                            </List>
-                        </CardContent>
-                    </Card> */}
                 </FuseAnimateGroup>
             </div>
             <Dialog
