@@ -89,13 +89,25 @@ function CardsTab(props) {
             lists.forEach(element => {
                 element.forEach(element1 => {
                     element1.cards.forEach(element2 => {
-                        if (element2.members.includes(parseInt(userID))) {
-                            let obj = element2
-                            obj.boardId = element.boardId
-                            obj.boardName = element.boardName
-                            obj.CardIndex = arryCards.length + 1
-                            arryCards.push(obj)
+                        if (!element2.isDone) {
+                            if (element2.members.includes(parseInt(userID)) && element2.isDone == false) {
+                                let obj = element2
+                                obj.boardId = element.boardId
+                                obj.boardName = element.boardName
+                                obj.CardIndex = arryCards.length + 1
+                                arryCards.push(obj)
+                            }
+                            if (parseInt(element2.author) == parseInt(userID)) {
+                                let obj = element2
+                                obj.boardId = element.boardId
+                                obj.boardName = element.boardName
+                                obj.CardIndex = arryCards.length + 1
+                                if (!arryCards.includes(obj)) {
+                                    arryCards.push(obj)
+                                }
+                            }
                         }
+
                     });
                 });
             });
@@ -104,7 +116,7 @@ function CardsTab(props) {
     }, [lists]);
     useEffect(() => {
         if (cards && cards != []) {
-            let filteredCards = cards.filter(card => card.name.includes(searchText));
+            let filteredCards = cards.filter(card => card.name.toUpperCase().includes(searchText.toUpperCase()));
             if (selectedBoard != "all") {
                 filteredCards = filteredCards.filter(card => card.boardId == selectedBoard);
             }
@@ -220,7 +232,7 @@ function CardsTab(props) {
                                                     />
                                                 )}
                                                 {(!card.idAttachmentCover || card.idAttachmentCover == "") && (
-                                                    <img className="block" src="http://localhost:4000/storage/jpg/test.jpg" alt="card cover" />
+                                                    <img className="block" src="assets/images/logos/teamwork.png" alt="card cover" />
                                                 )}
                                                 <div className="p-16 pb-0">
 

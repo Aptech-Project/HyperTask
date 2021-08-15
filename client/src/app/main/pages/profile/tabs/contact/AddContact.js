@@ -190,6 +190,18 @@ const AddContact = ({ ...props }) => {
         else if (findFriendQR.labels === '[]') {
             return (
                 <p>No request sent yet</p>
+
+            )
+        }
+        else if (findFriendQR.labels === 'none') {
+            return (
+                <p>No request sent yet</p>
+
+            )
+        }
+        else if (findFriendQR.labels === 'youraccount') {
+            return (
+                <p>This account is yours</p>
             )
         }
     }
@@ -244,6 +256,32 @@ const AddContact = ({ ...props }) => {
             )
         }
         else if (findFriendQR.labels === '[]') {
+            return (
+                <Button
+                    variant="contained"
+                    color="primary"
+                    style={{ float: "right", fontSize: "10px", marginTop: '30px' }}
+                    onClick={() => {
+                        dispatch(
+                            showMessage({
+                                message: "Add new friend success !",
+                                variant: "success",
+                                autoHideDuration: 2000,
+                                anchorOrigin: {
+                                    vertical: "top",
+                                    horizontal: "right",
+                                },
+                            })
+                        );
+                        handleClose();
+                        dispatch(Actions.sendFriend(userAuth, findFriendQR.id, textsearch));
+                    }}
+                >
+                    Add Friend
+                </Button>
+            )
+        }
+        else if (findFriendQR.labels === 'none') {
             return (
                 <Button
                     variant="contained"
@@ -337,7 +375,7 @@ const AddContact = ({ ...props }) => {
                 animation: "transition.slideUpBigIn"
             }}
         >
-            <Card className="w-full mb-16" style={{ height: '700px' }}>
+            <Card className="w-full mb-16" style={{ height: '730px' }}>
                 <AppBar position="static" elevation={0}>
                     <Toolbar className="pl-16 pr-8">
                         <Typography variant="subtitle1" color="inherit" className="flex-1">
@@ -377,7 +415,7 @@ const AddContact = ({ ...props }) => {
                                 <DialogTitle id="alert-dialog-title">{"Addfriend by QR Code"}</DialogTitle>
                                 <DialogContent style={{ width: 600 }}>
                                     <Button
-                                        style={{ fontSize: 10, backgroundColor: 'rgb(180, 0, 0)', color: 'white', marginBottom: 5 }}
+                                        style={{ fontSize: 10, backgroundColor: '#006600', color: 'white', marginBottom: 5 }}
                                         onClick={onScanFile}
                                     >
                                         Scan QR Code
