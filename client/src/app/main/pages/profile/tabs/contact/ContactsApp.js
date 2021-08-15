@@ -22,6 +22,10 @@ function ProfileTabs(props) {
         setActiveIndex(activeIndex)
     }
     const user = useSelector(state => state.login.userAuth);
+    const [userId, setUserId] = useState(0);
+    useEffect(() => {
+        setUserId(user)
+    }, [user])
     let condTabOrientation;
     if (isWidthDown("xs", props.width)) {
         condTabOrientation = "block";
@@ -33,19 +37,19 @@ function ProfileTabs(props) {
     else {
         condTabOrientation = "flex";
     }
-    const [text, setText] = useState('');
     const [imageUrl, setImageUrl] = useState('');
-    const generateQrCode = async () => {
-        try {
-            const response = await QRCode.toDataURL(user);
-            setImageUrl(response);
-        } catch (error) {
-            console.log(error);
-        }
-    }
+    console.log(user)
     useEffect(() => {
+        const generateQrCode = async () => {
+            try {
+                const response = await QRCode.toDataURL(user.toString());
+                setImageUrl(response);
+            } catch (error) {
+                console.log(error);
+            }
+        }
         generateQrCode()
-    }, [generateQrCode])
+    }, [user])
     return (
         <div
             style={{
@@ -69,10 +73,10 @@ function ProfileTabs(props) {
                         value={activeIndex}
                         onChange={() => handleChange(activeIndex)}
                     >
-                        <MyTab label='All Friend' onClick={() => { setActiveIndex(0) }} />
-                        <MyTab label='Add Friend' onClick={() => setActiveIndex(1)} />
-                        <MyTab label='Invitation Sent' onClick={() => setActiveIndex(2)} />
-                        <MyTab label='Invitation Received' onClick={() => setActiveIndex(3)} />
+                        <MyTab label='All Contact' onClick={() => { setActiveIndex(0) }} />
+                        <MyTab label='Add Contact' onClick={() => setActiveIndex(1)} />
+                        <MyTab label='Sent Invitation' onClick={() => setActiveIndex(2)} />
+                        <MyTab label='Received Invitation' onClick={() => setActiveIndex(3)} />
                     </VerticalTabs>
 
                 </CardContent>
