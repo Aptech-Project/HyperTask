@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Avatar, Button, Tab, Tabs, Typography, Icon } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import { FuseAnimateGroup, FusePageSimple, FuseAnimate } from '@fuse';
-import TimelineTab from './tabs/TimelineTab';
-import PhotosVideosTab from './tabs/PhotosVideosTab';
+import ActivityTab from './tabs/activity/ActivityTab';
 import AboutTab from './tabs/about/AboutTab';
 import SecurityTab from './tabs/security/SecurityTab';
 import CardsTab from './tabs/cards/CardsTab';
@@ -14,7 +13,6 @@ import reducer from "./tabs/store/reducers";
 import { useSelector, useDispatch } from 'react-redux';
 import * as actions from "./tabs/store/actions/about.action";
 import WidgetNow from 'app/main/apps/dashboards/project/widgets/WidgetNow';
-import WidgetWeather from 'app/main/apps/dashboards/project/widgets/WidgetWeather';
 
 const useStyles = makeStyles(theme => ({
     layoutHeader: {
@@ -79,7 +77,9 @@ function ProfilePage() {
                 <div className="p-24 flex flex-1 flex-col items-center justify-center md:flex-row md:items-end">
                     <div className="flex flex-1 flex-col items-center justify-center md:flex-row md:items-center md:justify-start">
                         <FuseAnimate animation="transition.expandIn" delay={300}>
-                            <Avatar className="w-96 h-96" src={avatar || "assets/images/avatars/default-avatar.png"} />
+                            <div>
+                                <Avatar style={{cursor: "pointer"}} className="w-96 h-96" src={avatar || "assets/images/avatars/default-avatar.png"} />
+                            </div>
                         </FuseAnimate>
 
                         <FuseAnimate animation="transition.slideLeftIn" delay={300}>
@@ -97,11 +97,6 @@ function ProfilePage() {
                         <Icon className={classes.headerIcon}>ballot</Icon>
 
                     </div>
-                    {/* 
-                    <div className="flex items-center justify-end">
-                        <Button className="mr-8 normal-case" variant="contained" color="secondary" aria-label="Follow">Follow</Button>
-                        <Button className="normal-case" variant="contained" color="primary" aria-label="Send Message">Send Message</Button>
-                    </div> */}
                 </div>
             }
             contentToolbar={
@@ -131,7 +126,7 @@ function ProfilePage() {
                     <Tab
                         classes={{
                             root: "h-64"
-                        }} label="Friends " />
+                        }} label="Contacts " />
                     <Tab
                         classes={{
                             root: "h-64"
@@ -143,10 +138,9 @@ function ProfilePage() {
                     {selectedTab === 0 && (
                         <AboutTab onChangeTab={changeTab} />
                     )}
-                    {selectedTab === 1 &&
-                        (
-                            <TimelineTab />
-                        )}
+                    {selectedTab === 1 &&(
+                        <ActivityTab />
+                    )}
                     {selectedTab === 2 && (
                         <CardsTab />
                     )}

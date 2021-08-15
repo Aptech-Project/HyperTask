@@ -10,16 +10,16 @@ const initialState = {
         datasets: [{
                     data: [15, 20, 38, 27],
                     backgroundColor: [
-                        "#f44336",
-                        "#9c27b0",
-                        "#03a9f4",
-                        "#e91e63",
+                        "#ff751a",
+                        "#ff1a1a",
+                        "#3399ff",
+                        "#33cc33",
                     ],
                     hoverBackgroundColor: [
-                        "#f45a4d",
-                        "#a041b0",
+                        "#ff944d",
+                        "#ff4d4d",
                         "#25b6f4",
-                        "#e9487f",
+                        "#5cd65c",
                     ],
                 }],
         options: {

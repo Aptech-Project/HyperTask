@@ -1,16 +1,5 @@
 import { FuseAnimateGroup, FuseLoading, FusePageSimple } from "@fuse";
-import {
-    Hidden,
-    Icon,
-    IconButton,
-    Menu,
-    MenuItem,
-    Tab,
-    Tabs,
-    Card,
-    CardContent,
-    Typography,
-} from "@material-ui/core";
+import { Hidden, Icon, IconButton, Menu, MenuItem, Tab, Tabs, Card, CardContent, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import withReducer from "app/store/withReducer";
 import clsx from "clsx";
@@ -26,7 +15,7 @@ import Widget10 from "./widgets/Widget10";
 import WidgetMembers from "./widgets/WidgetMembers";
 import Widget5 from "./widgets/Widget5";
 import WidgetTaskDistribution from "./widgets/WidgetTaskDistribution";
-import WidgetInprocessing from "./widgets/WidgetInprocessing";
+import WidgetTasksDetails from "./widgets/WidgetTasksDetails";
 import Widget8 from "./widgets/Widget8";
 import Widget9 from "./widgets/Widget9";
 import WidgetTotal from "./widgets/WidgetTotal";
@@ -62,22 +51,20 @@ const useStyles = makeStyles((theme) => ({
         pointerEvents: "none",
     },
     loading: {
-        position: 'absolute',
-        top: '50%',
-        transform: 'translateY(-50%)'
+        position: "absolute",
+        top: "50%",
+        transform: "translateY(-50%)",
     },
 }));
 
 function ProjectDashboardApp(props) {
     const dispatch = useDispatch();
-    const userId = localStorage.getItem('user_authenticated');
-    const user = useSelector((state)=>state.login.findId);
-    const state = useSelector((state)=>state);
-    console.log('state')
-    console.log(state)
-    const boardsStatistic = useSelector(
-        ({ projects }) => projects.boardsStatistic
-    );
+    const userId = localStorage.getItem("user_authenticated");
+    const user = useSelector((state) => state.login.findId);
+    const state = useSelector((state) => state);
+    console.log("state");
+    console.log(state);
+    const boardsStatistic = useSelector(({ projects }) => projects.boardsStatistic);
     const loading = useSelector(({ projects }) => projects.loading);
     const allUsers = useSelector(({ projects }) => projects.allUsers);
     console.log("boardsStatistic");
@@ -91,7 +78,7 @@ function ProjectDashboardApp(props) {
     const [currentTaskType, setCurrentTaskType] = useState(null);
 
     useEffect(() => {
-        if (userId !== 'undefined') {
+        if (userId !== "undefined") {
             dispatch(Actions.getDashBoardData(userId));
             dispatch(Actions.getAllUserInfo());
         }
@@ -104,15 +91,15 @@ function ProjectDashboardApp(props) {
                 projects.push(project);
             });
             setProjects(projects);
-            setSelectedProject({name: projects[0], menuEl: null});
-            setCurrentTaskType({name: "doingCards", label: "On going tasks"});
+            setSelectedProject({ name: projects[0], menuEl: null });
+            setCurrentTaskType({ name: "doingCards", label: "On going tasks" });
         }
     }, [boardsStatistic]);
 
     const onTaskTypeChange = (taskType) => {
-        console.log(taskType)
+        console.log(taskType);
         setCurrentTaskType(taskType);
-    }
+    };
 
     function handleChangeTab(event, tabValue) {
         setTabValue(tabValue);
@@ -153,31 +140,17 @@ function ProjectDashboardApp(props) {
                         <Typography className="py-0 sm:py-24" variant="h4">
                             Welcome, {(user && user.fullname) || "Guest"} !
                         </Typography>
-                        <Icon className={classes.headerIcon}>
-                            insert_chart_outlined
-                        </Icon>
+                        <Icon className={classes.headerIcon}>insert_chart_outlined</Icon>
                     </div>
                     {projects && projects.length ? (
                         <div className="flex items-end">
                             <div className="flex items-center">
-                                <div
-                                    className={clsx(
-                                        classes.selectedProject,
-                                        "flex items-center h-40 px-16 text-16"
-                                    )}
-                                >
-                                    {projects.find(project => project === selectedProject.name)}
+                                <div className={clsx(classes.selectedProject, "flex items-center h-40 px-16 text-16")}>
+                                    {projects.find((project) => project === selectedProject.name)}
                                 </div>
                                 <IconButton
-                                    className={clsx(
-                                        classes.projectMenuButton,
-                                        "h-40 w-40 p-0"
-                                    )}
-                                    aria-owns={
-                                        selectedProject.menuEl
-                                            ? "project-menu"
-                                            : undefined
-                                    }
+                                    className={clsx(classes.projectMenuButton, "h-40 w-40 p-0")}
+                                    aria-owns={selectedProject.menuEl ? "project-menu" : undefined}
                                     aria-haspopup="true"
                                     onClick={handleOpenProjectMenu}
                                 >
@@ -194,9 +167,7 @@ function ProjectDashboardApp(props) {
                                             <MenuItem
                                                 key={project}
                                                 onClick={(ev) => {
-                                                    handleChangeProject(
-                                                        project
-                                                    );
+                                                    handleChangeProject(project);
                                                 }}
                                             >
                                                 {project}
@@ -209,9 +180,7 @@ function ProjectDashboardApp(props) {
                 </div>
             }
             contentToolbar={
-                !loading &&
-                boardsStatistic &&
-                Object.keys(boardsStatistic).length ? (
+                !loading && boardsStatistic && Object.keys(boardsStatistic).length ? (
                     <Tabs
                         value={tabValue}
                         onChange={handleChangeTab}
@@ -221,24 +190,15 @@ function ProjectDashboardApp(props) {
                         scrollButtons="off"
                         className="w-full border-b-1 px-24"
                     >
-                        <Tab
-                            className="text-14 font-600 normal-case"
-                            label="Overview"
-                        />
-                        <Tab
-                            className="text-14 font-600 normal-case"
-                            label="Team Members"
-                        />
-                        <Tab
-                            className="text-14 font-600 normal-case"
-                            label="Report"
-                        />
+                        <Tab className="text-14 font-600 normal-case" label="Overview" />
+                        <Tab className="text-14 font-600 normal-case" label="Team Members" />
+                        <Tab className="text-14 font-600 normal-case" label="Report" />
                     </Tabs>
                 ) : null
             }
             content={
                 !loading ? (
-                    boardsStatistic && selectedProject && Object.keys(boardsStatistic).length ? (
+                    boardsStatistic && selectedProject && Object.keys(boardsStatistic).length && allUsers ? (
                         <div className="p-12">
                             {tabValue === 0 && (
                                 <FuseAnimateGroup
@@ -248,7 +208,10 @@ function ProjectDashboardApp(props) {
                                     }}
                                 >
                                     <div className="w-full p-12">
-                                        <WidgetActivity activities={boardsStatistic[selectedProject.name].cardsActivities} className="w-full"/>
+                                        <WidgetActivity
+                                            activities={boardsStatistic[selectedProject.name].cardsActivities}
+                                            className="w-full"
+                                        />
                                     </div>
                                     <div className="widget flex w-full sm:w-1/2 md:w-1/4 p-12">
                                         <WidgetTotal
@@ -258,10 +221,10 @@ function ProjectDashboardApp(props) {
                                                 count: boardsStatistic[selectedProject.name].doingCards.length,
                                                 extra: {
                                                     heading: "Remember",
-                                                    label: "Keep track"
-                                                }
+                                                    label: "Keep track",
+                                                },
                                             }}
-                                            type={{name: "doingCards", label: "On going tasks"}}
+                                            type={{ name: "doingCards", label: "On going tasks" }}
                                             onTaskTypeChange={onTaskTypeChange}
                                             color="blue"
                                         />
@@ -274,10 +237,10 @@ function ProjectDashboardApp(props) {
                                                 count: boardsStatistic[selectedProject.name].overdueCards.length,
                                                 extra: {
                                                     heading: "Importance",
-                                                    label: "Expand the due date"
-                                                }
+                                                    label: "Expand the due date",
+                                                },
                                             }}
-                                            type={{name: "overdueCards", label: "Overdue tasks"}}
+                                            type={{ name: "overdueCards", label: "Overdue tasks" }}
                                             onTaskTypeChange={onTaskTypeChange}
                                             color="red"
                                         />
@@ -287,13 +250,14 @@ function ProjectDashboardApp(props) {
                                             title="Complete on time"
                                             data={{
                                                 label: "MEET THE DUE DATE TASKS",
-                                                count: boardsStatistic[selectedProject.name].completeBeforeDueCards.length,
+                                                count: boardsStatistic[selectedProject.name].completeBeforeDueCards
+                                                    .length,
                                                 extra: {
                                                     heading: "Test phase",
-                                                    label: "Make test case"
-                                                }
+                                                    label: "Make test case",
+                                                },
                                             }}
-                                            type={{name: "completeBeforeDueCards", label: "Complete on time tasks"}}
+                                            type={{ name: "completeBeforeDueCards", label: "Complete on time tasks" }}
                                             onTaskTypeChange={onTaskTypeChange}
                                             color="green"
                                         />
@@ -303,22 +267,29 @@ function ProjectDashboardApp(props) {
                                             title="Complete after due"
                                             data={{
                                                 label: "LATE-SUBMITTED TASKS",
-                                                count: boardsStatistic[selectedProject.name].completeAfterDueCards.length,
+                                                count: boardsStatistic[selectedProject.name].completeAfterDueCards
+                                                    .length,
                                                 extra: {
                                                     heading: "Check",
-                                                    label: "The reason"
-                                                }
+                                                    label: "The reason",
+                                                },
                                             }}
-                                            type={{name: "completeAfterDueCards", label: "Complete after due tasks"}}
+                                            type={{ name: "completeAfterDueCards", label: "Complete after due tasks" }}
                                             onTaskTypeChange={onTaskTypeChange}
                                             color="orange"
                                         />
                                     </div>
                                     <div className="widget flex w-full sm:w-1/2 p-12">
-                                        <WidgetTaskDistribution allCards={boardsStatistic[selectedProject.name].allCards} data={boardsStatistic[selectedProject.name].tasksByLabels}/>
+                                        <WidgetTaskDistribution
+                                            allCards={boardsStatistic[selectedProject.name].allCards}
+                                            data={boardsStatistic[selectedProject.name].tasksByLabels}
+                                        />
                                     </div>
                                     <div className="widget flex w-full sm:w-1/2 p-12">
-                                        <WidgetInprocessing label={currentTaskType.label} data={boardsStatistic[selectedProject.name][currentTaskType.name]} />
+                                        <WidgetTasksDetails
+                                            label={currentTaskType.label}
+                                            data={boardsStatistic[selectedProject.name][currentTaskType.name]}
+                                        />
                                     </div>
                                 </FuseAnimateGroup>
                             )}
@@ -330,7 +301,10 @@ function ProjectDashboardApp(props) {
                                     }}
                                 >
                                     <div className="widget flex w-full p-12">
-                                        <WidgetMembers allUsers={allUsers} data={boardsStatistic[selectedProject.name].members} />
+                                        <WidgetMembers
+                                            allUsers={allUsers}
+                                            data={boardsStatistic[selectedProject.name].members}
+                                        />
                                     </div>
                                 </FuseAnimateGroup>
                             )}
@@ -341,16 +315,12 @@ function ProjectDashboardApp(props) {
                                         animation: "transition.slideUpBigIn",
                                     }}
                                 >
-                                    <DashboardReport/>
-                                    {/* <div className="widget flex w-full sm:w-1/2 p-12">
-                                        <Widget8 widget={widgets.widget8} />
-                                    </div>
-                                    <div className="widget flex w-full sm:w-1/2 p-12">
-                                        <Widget9 widget={widgets.widget9} />
-                                    </div>
-                                    <div className="widget flex w-full p-12">
-                                        <Widget10 widget={widgets.widget10} />
-                                    </div> */}
+                                    <DashboardReport
+                                        projectName={selectedProject.name}
+                                        user={user}
+                                        allUsers={allUsers}
+                                        data={boardsStatistic[selectedProject.name]}
+                                    />
                                 </FuseAnimateGroup>
                             )}
                         </div>
@@ -364,28 +334,15 @@ function ProjectDashboardApp(props) {
                                             src="assets/images/logos/hypertask.svg"
                                             alt="logo"
                                         />
-                                        <Typography
-                                            variant="h4"
-                                            className="mb-16"
-                                        >
-                                            Hey! Thank you for checking out our
-                                            app.
+                                        <Typography variant="h4" className="mb-16">
+                                            Hey! Thank you for checking out our app.
                                         </Typography>
 
-                                        <Typography
-                                            variant="h6"
-                                            color="textSecondary"
-                                            className="max-w-md"
-                                        >
-                                            Manage your projects from start to
-                                            finish. With all of your projects in
-                                            Hyper Task, you’ll always know who’s
-                                            doing what, by when.
+                                        <Typography variant="h6" color="textSecondary" className="max-w-md">
+                                            Manage your projects from start to finish. With all of your projects in
+                                            Hyper Task, you’ll always know who’s doing what, by when.
                                         </Typography>
-                                        <Link
-                                            className="font-medium pt-24"
-                                            to="/apps/scrumboard/boards"
-                                        >
+                                        <Link className="font-medium pt-24" to="/apps/scrumboard/boards">
                                             Go create board now!
                                         </Link>
                                     </CardContent>
@@ -394,7 +351,7 @@ function ProjectDashboardApp(props) {
                         </div>
                     )
                 ) : (
-                    <FuseLoading marginTop="mt-96"/>
+                    <FuseLoading marginTop="mt-96" />
                 )
             }
             ref={pageLayout}

@@ -209,8 +209,15 @@ function CalendarApp(props) {
             lists.forEach(element => {
                 element.forEach(element1 => {
                     element1.cards.forEach(element2 => {
-                        if (element2.members.includes(parseInt(userID))) {
-                            arryCards.push(element2)
+                        if (!element2.isDone) {
+                            if (element2.members.includes(parseInt(userID))) {
+                                arryCards.push(element2)
+                            }
+                            if (parseInt(element2.author) == parseInt(userID)) {
+                                if (!arryCards.includes(element2)) {
+                                    arryCards.push(element2)
+                                }
+                            }
                         }
                     });
                 });
