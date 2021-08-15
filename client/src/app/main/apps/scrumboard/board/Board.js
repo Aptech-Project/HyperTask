@@ -64,7 +64,11 @@ function Board(props) {
       JSON.parse(board.members).map((member) => {
         allUser.map((user) => {
           if (member.userId === JSON.stringify(user.id)) {
-            const newUser = { ...user, status: member.status };
+            const newUser = {
+              ...user,
+              status: member.status,
+              role: member.role,
+            };
             allMember.push(newUser);
           }
         });

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Avatar, Button, Tab, Tabs, Typography, Icon } from '@material-ui/core';
+import { Tooltip, Avatar, Button, Tab, Tabs, Typography, Icon } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import { FuseAnimateGroup, FusePageSimple, FuseAnimate } from '@fuse';
 import ActivityTab from './tabs/activity/ActivityTab';
@@ -43,6 +43,7 @@ function ProfilePage() {
     const [account, setAccount] = useState(null);
     const [info, setInfo] = useState(null);
     const [avatar, setAvatar] = useState("");
+    const [openAvatar, setOpenAvatar] = useState(false);
     useEffect(() => {
         if (profile !== 'undefined') (
             setAccount(profile)
@@ -66,6 +67,12 @@ function ProfilePage() {
     function changeTab() {
         setSelectedTab(3);
     }
+    function ClickAvatar() {
+        setOpenAvatar(true)
+    }
+    function closeAvatar() {
+        setOpenAvatar(false)
+    }
     return (
         <FusePageSimple
             classes={{
@@ -78,7 +85,9 @@ function ProfilePage() {
                     <div className="flex flex-1 flex-col items-center justify-center md:flex-row md:items-center md:justify-start">
                         <FuseAnimate animation="transition.expandIn" delay={300}>
                             <div>
-                                <Avatar style={{cursor: "pointer"}} className="w-96 h-96" src={avatar || "assets/images/avatars/default-avatar.png"} />
+                                <Tooltip title="Upload Avatar" placement="bottom">
+                                    <Avatar style={{ cursor: "pointer" }} className="w-96 h-96" onClick={ClickAvatar} src={avatar || "assets/images/avatars/default-avatar.png"} />
+                                </Tooltip>
                             </div>
                         </FuseAnimate>
 
@@ -136,9 +145,9 @@ function ProfilePage() {
             content={
                 <div className="p-16 sm:p-24">
                     {selectedTab === 0 && (
-                        <AboutTab onChangeTab={changeTab} />
+                        <AboutTab onChangeTab={changeTab} openAvatar={openAvatar} closeAvatar={closeAvatar} />
                     )}
-                    {selectedTab === 1 &&(
+                    {selectedTab === 1 && (
                         <ActivityTab />
                     )}
                     {selectedTab === 2 && (
