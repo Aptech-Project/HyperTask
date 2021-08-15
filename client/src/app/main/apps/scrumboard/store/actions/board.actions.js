@@ -393,7 +393,7 @@ export function updateMember(board, members) {
   } else {
     const user = localStorage.getItem("user_authenticated");
       const oldActivity = JSON.parse(board.activities);
-      const newActivity = new BoardActivityModel({idMember: user, message: `New member has been add to this board`});
+      const newActivity = new BoardActivityModel({idMember: user, message: `New member has been added to this board`});
       oldActivity.unshift({...newActivity});
     const memberListToUpdate = JSON.parse(board.members);
     members.map((mem) => {

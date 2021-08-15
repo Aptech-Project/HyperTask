@@ -98,12 +98,6 @@ function DashboardReport(props) {
                                     <div className="flex flex-row justify-between items-start">
                                         <div className="flex flex-col">
                                             <div className="flex items-center mb-80 print:mb-0">
-                                                {/* <div className="flex justify-end items-center w-160 print:w-60">
-                                                    <Avatar
-                                                        className="w-160 h-160"
-                                                        src="assets/images/logos/hypertask.png"
-                                                    />
-                                                </div> */}
                                                 <img
                                                     className="w-160 print:w-60"
                                                     src="assets/images/logos/hypertask.png"
@@ -115,7 +109,7 @@ function DashboardReport(props) {
                                                 />
 
                                                 <div className="max-w-160">
-                                                    <Typography color="textSecondary">Hyper Task</Typography>
+                                                    <Typography variant="h6" color="textSecondary">Hyper Task</Typography>
 
                                                     <Typography color="textSecondary">
                                                         590 CTM8 street, ward 11, distric 3, HCMC
@@ -151,7 +145,7 @@ function DashboardReport(props) {
                                                 />
 
                                                 <div className="max-w-200">
-                                                    <Typography color="textSecondary">{user.fullname}</Typography>
+                                                    <Typography variant="h6" color="textSecondary">{user.fullname}</Typography>
                                                     <Typography color="textSecondary">
                                                         Address: {JSON.parse(user.info).address}
                                                     </Typography>
@@ -249,7 +243,7 @@ function DashboardReport(props) {
                                                                 variant="h6"
                                                                 color="textSecondary"
                                                             >
-                                                                TOTAL
+                                                                Total
                                                             </Typography>
                                                         </TableCell>
                                                         <TableCell align="right">

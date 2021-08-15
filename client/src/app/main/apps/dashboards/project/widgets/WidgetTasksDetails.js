@@ -16,7 +16,7 @@ import { openCardDialog } from "app/main/apps/scrumboard/store/actions";
 const initialState = {
     cards: [],
 };
-function WidgetInprocessing(props) {
+function WidgetTasksDetails(props) {
     const dispatch = useDispatch();
     const {data, label} = props;
     const [dataset, setDataset] = useState(initialState);
@@ -72,4 +72,4 @@ function WidgetInprocessing(props) {
     );
 }
 
-export default React.memo(WidgetInprocessing);
+export default React.memo(WidgetTasksDetails);

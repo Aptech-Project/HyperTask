@@ -15,7 +15,7 @@ import Widget10 from "./widgets/Widget10";
 import WidgetMembers from "./widgets/WidgetMembers";
 import Widget5 from "./widgets/Widget5";
 import WidgetTaskDistribution from "./widgets/WidgetTaskDistribution";
-import WidgetInprocessing from "./widgets/WidgetInprocessing";
+import WidgetTasksDetails from "./widgets/WidgetTasksDetails";
 import Widget8 from "./widgets/Widget8";
 import Widget9 from "./widgets/Widget9";
 import WidgetTotal from "./widgets/WidgetTotal";
@@ -286,7 +286,7 @@ function ProjectDashboardApp(props) {
                                         />
                                     </div>
                                     <div className="widget flex w-full sm:w-1/2 p-12">
-                                        <WidgetInprocessing
+                                        <WidgetTasksDetails
                                             label={currentTaskType.label}
                                             data={boardsStatistic[selectedProject.name][currentTaskType.name]}
                                         />
