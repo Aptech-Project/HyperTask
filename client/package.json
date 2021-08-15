@@ -19,6 +19,7 @@
         "formsy-react": "1.1.5",
         "google-map-react": "1.1.4",
         "jsonwebtoken": "8.5.1",
+        "jspdf": "^2.3.1",
         "jss": "10.0.0-alpha.16",
         "jss-extend": "6.2.0",
         "jwt-decode": "2.2.0",

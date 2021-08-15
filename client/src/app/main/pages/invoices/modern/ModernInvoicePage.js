@@ -170,10 +170,10 @@ function ModernInvoicePage()
                                                 CATEGORY
                                             </TableCell>
                                             <TableCell>
-                                                UNIT
+                                                FROM LIST
                                             </TableCell>
                                             <TableCell align="right">
-                                                UNIT PRICE
+                                                DUE DATE
                                             </TableCell>
                                             <TableCell align="right">
                                                 QUANTITY
