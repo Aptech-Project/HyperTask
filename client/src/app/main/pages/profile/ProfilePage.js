@@ -78,7 +78,7 @@ function ProfilePage() {
                     <div className="flex flex-1 flex-col items-center justify-center md:flex-row md:items-center md:justify-start">
                         <FuseAnimate animation="transition.expandIn" delay={300}>
                             <div>
-                                <Avatar style={{cursor: "pointer"}} onClick={} className="w-96 h-96" src={avatar || "assets/images/avatars/default-avatar.png"} />
+                                <Avatar style={{cursor: "pointer"}} className="w-96 h-96" src={avatar || "assets/images/avatars/default-avatar.png"} />
                             </div>
                         </FuseAnimate>
 
