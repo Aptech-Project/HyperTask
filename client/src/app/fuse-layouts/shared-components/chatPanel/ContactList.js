@@ -74,9 +74,9 @@ function ContactList(props)
     const user = useSelector(({chatPanel}) => chatPanel.user);
 
     // haiduongtodo: reopen these lines
-    useEffect(() => {
-        setInterval(() => dispatch(Actions.getOnlineUser()), 2000);
-    },[dispatch])
+    // useEffect(() => {
+    //     setInterval(() => dispatch(Actions.getOnlineUser()), 2000);
+    // },[dispatch])
 
     const classes = useStyles();
     const contactListScroll = useRef(null);

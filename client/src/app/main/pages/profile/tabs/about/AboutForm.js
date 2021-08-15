@@ -181,26 +181,28 @@ const AboutForm = (props) => {
 
           multiline
         />
-        {/* <Button
-          id="submit1"
-          type="submit"
-          variant="contained"
-          color="primary"
-          className="w-1/2 mx-auto mt-16 normal-case"
-          aria-label="Edit"
-        >
-
-        </Button> */}
-        <Button
-          id="submit1"
-          type="submit"
-          variant="contained"
-          color="primary"
-          className="w-1/2 mx-auto mt-16 normal-case"
-          aria-label="Edit"
-        >
-          {/* {!edit ? "Edit" : "Save"} */}Save
-        </Button>
+        <div className="row text-center">
+          <Button
+            id="submit1"
+            type="submit"
+            variant="contained"
+            color="primary"
+            className="w-1/3 mx-auto mt-16 normal-case mr-12"
+            aria-label="Edit"
+          >
+            {/* {!edit ? "Edit" : "Save"} */}Save
+          </Button>
+          <Button
+            id="submit1"
+            type="submit"
+            variant="contained"
+            color="primary"
+            className="w-1/3 mx-auto mt-16 normal-case ml-12"
+            aria-label="Edit"
+          >
+            Cancel
+          </Button>
+        </div>
       </Formsy>
     </CardContent>
   )
