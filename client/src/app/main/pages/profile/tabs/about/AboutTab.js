@@ -110,6 +110,11 @@ const AboutTab = ({ ...props }) => {
     function onClickFriend() {
         props.onChangeTab()
     }
+    function cancelEdit() {
+        setAccount(profile)
+        setEdit(false)
+
+    }
     return (
         <div className="md:flex max-w">
 
@@ -170,7 +175,7 @@ const AboutTab = ({ ...props }) => {
                                 {!edit ? "Edit" : "Save"}
                             </Button>
                         </CardContent>}
-                        {edit && <AboutForm account={tmpAccount} />}
+                        {edit && <AboutForm account={tmpAccount} isCancel={cancelEdit} />}
                     </Card>
                 </FuseAnimateGroup>
             </div>
