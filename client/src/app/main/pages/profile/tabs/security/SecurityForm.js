@@ -28,6 +28,7 @@ const SecurityForm = (props) => {
   }, [profile]);
   let initialFieldValues = props.account
   initialFieldValues.newpass = ""
+  initialFieldValues.passwordconfirm = ""
   initialFieldValues.oldpass = ""
   useEffect(() => {
     if (account && account !== 'undefined' && account !== []) {
@@ -78,6 +79,10 @@ const SecurityForm = (props) => {
     handleInputChange,
     resetForm
   } = useForm(initialFieldValues, validate, props.setCurrentId)
+  function handleCancel() {
+    console.log("test")
+    resetForm()
+  }
   return (
     < CardContent >
       <Formsy
@@ -129,16 +134,27 @@ const SecurityForm = (props) => {
           required
           {...(errors.passwordconfirm && { error: true, helperText: errors.passwordconfirm })}
         />
-        <Button
-          id="submit1"
-          type="submit"
-          variant="contained"
-          color="primary"
-          className="w-1/2 mx-auto mt-16 normal-case"
-          aria-label="Edit"
-        >
-          Save
-        </Button>
+        <div className="row text-center">
+          <Button
+            id="submit1"
+            type="submit"
+            variant="contained"
+            color="primary"
+            className="w-1/3 mx-auto mt-16 normal-case mr-12"
+            aria-label="Edit"
+          >Save
+          </Button>
+          <Button
+            type="button"
+            variant="contained"
+            color="primary"
+            className="w-1/3 mx-auto mt-16 normal-case ml-12"
+            aria-label="Edit"
+            onClick={handleCancel}
+          >
+            Cancel
+          </Button>
+        </div>
       </Formsy>
     </CardContent>
   )
