@@ -30,6 +30,8 @@ import * as Actions from "../store/actions";
 import { useDispatch, useSelector } from "react-redux";
 import { makeStyles } from "@material-ui/styles";
 import { userIsAdmin } from "../store/allBoardFunction";
+import { memberDeleteBoard } from "../store/actions";
+import BoardMessBox from "../model/BoardMessBox";
 //import ToolbarMenu from "./ToolbarMenu";
 
 const useStyles = makeStyles((theme) => ({
@@ -84,6 +86,11 @@ function BoardMember(props) {
   const [friendList, setFriendList] = useState([]);
   const [friendListBackup, setFriendListBackup] = useState([]);
   const [memberAdded, setMemberAdded] = useState(false);
+  const [kickMember, setKickMember] = useState({
+    open: false,
+    memberName: "",
+    memberId: "",
+  });
 
   const getDataForFiendList = () => {
     const userId = localStorage.getItem("user_authenticated");
@@ -106,8 +113,8 @@ function BoardMember(props) {
           ({ id, status }) => user.id === id && status === "Stay"
         )
     );
-    console.log("allUserCollect: ", allUserCollect);
-    console.log("userNotMember: ", userNotMember);
+    // console.log("allUserCollect: ", allUserCollect);
+    // console.log("userNotMember: ", userNotMember);
     userNotMember.map((user) => {
       userToAdd.push({ ...user, add: false });
     });
@@ -200,6 +207,7 @@ function BoardMember(props) {
       <ToolbarMenu state={anchorEl} onClose={handleMenuClose}>
         <div className="">
           {allUserCollect.map((member) => {
+            //console.log("member: ", member);
             return (
               member.status === "Stay" && (
                 <MenuItem className="px-8" key={member.id} onClick={(ev) => {}}>
@@ -209,12 +217,42 @@ function BoardMember(props) {
                   />
                   &nbsp;&nbsp;
                   <ListItemText>{member.fullname}</ListItemText>
+                  &nbsp;
+                  {member.role === "admin" ? (
+                    <a style={{ color: "blue" }}>(A)</a>
+                  ) : (
+                    <a style={{ color: "green" }}>(M)</a>
+                  )}
+                  &nbsp;
+                  {userisAdmin && member.role !== "admin" ? (
+                    userisAdmin == false &&
+                    allowMemberEdit === "false" ? null : (
+                      <Button
+                        style={{ color: "red", textTransform: "none" }}
+                        onClick={() => {
+                          const userID = JSON.stringify(member.id);
+                          setKickMember({
+                            open: true,
+                            memberName: member.fullname,
+                            memberId: userID,
+                          });
+                          memberDeleteBoard(board, userID);
+                        }}
+                      >
+                        Kick
+                      </Button>
+                    )
+                  ) : userisAdmin == false &&
+                    allowMemberEdit === "false" ? null : (
+                    userisAdmin && <Button>{""}</Button>
+                  )}
                 </MenuItem>
               )
             );
           })}
           {userisAdmin == false && allowMemberEdit === "false" ? null : (
             <MenuItem
+              style={{ justifyContent: "center" }}
               onClick={() => {
                 setAddMemberOpen(true);
               }}
@@ -225,6 +263,21 @@ function BoardMember(props) {
           )}
         </div>
       </ToolbarMenu>
+      <BoardMessBox
+        open={kickMember.open}
+        title="Are You Sure ? "
+        content={`Kick "${kickMember.memberName}" Out Of This Board?`}
+        onYes={() => {
+          memberDeleteBoard(board, kickMember.memberId);
+          setKickMember({ open: false, memberName: "", memberId: "" });
+          window.location.reload();
+        }}
+        onNo={() => {
+          setKickMember({ open: false, memberName: "", memberId: "" });
+        }}
+        yes="Yes"
+        no="No"
+      />
       <Dialog
         onClose={() => {
           setAddMemberOpen(false);

@@ -175,7 +175,7 @@ export function adminDeleteBoard(boardId, userId) {
 }
 
 export function memberDeleteBoard(board, userId) {
-  console.log("memberDeleteBoard");
+  //console.log("memberDeleteBoard");
   const memberList = JSON.parse(board.members);
   let memberToUpdate = memberList.find((member) => member.userId === userId);
   memberToUpdate = { ...memberToUpdate, status: "Out" };
