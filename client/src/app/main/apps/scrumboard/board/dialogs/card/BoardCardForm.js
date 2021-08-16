@@ -48,10 +48,11 @@ function BoardCardForm(props) {
   const updateCard = useDebounce((board, newCard) => {
     dispatch(Actions.updateCard(board, { ...newCard }));
   }, 600);
-  const dueDate =
-    cardForm && cardForm.due
-      ? moment(cardForm.due).format(moment.HTML5_FMT.DATE)
-      : "";
+  const dueDate = cardForm?.due || "";
+  // const dueDate =
+  //   cardForm && cardForm.due
+  //     ? moment(cardForm.due).format("hh:mm:ss A MMM-DD-YY")
+  //     : "";
 
   useUpdateEffect(() => {
     // const userID = localStorage.getItem("user_authenticated");
@@ -208,7 +209,7 @@ function BoardCardForm(props) {
           {cardForm.due && (
             <TextField
               label="Due date"
-              type="date"
+              type="datetime-local"
               name="due"
               value={dueDate}
               onChange={handleChange}

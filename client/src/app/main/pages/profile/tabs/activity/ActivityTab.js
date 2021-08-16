@@ -108,8 +108,8 @@ export default function ActivityTab() {
             <div className="flex flex-col flex-1 max-w-2xl w-full mx-auto px-8 sm:px-16 py-12">
                 <div className="flex flex-col flex-shrink-0 sm:flex-row items-center justify-between py-24">
                     <TextField
-                        label="Search for a card"
-                        placeholder="Enter card name..."
+                        label="Search for activity"
+                        placeholder="Enter activity content..."
                         className="flex w-full sm:w-320 mb-16 sm:mb-0 mx-16"
                         value={searchText}
                         inputProps={{

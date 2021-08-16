@@ -37,7 +37,7 @@ function DueMenu(props)
                     <div className="p-16">
                         <TextField
                             label="Due date"
-                            type="date"
+                            type="datetime-local"
                             name="due"
                             value={dueDate}
                             onChange={(ev) => {

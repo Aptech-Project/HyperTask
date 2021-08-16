@@ -17,11 +17,21 @@ import clsx from "clsx";
 import axios from "axios";
 import { makeStyles } from "@material-ui/styles";
 import jsPDF from "jspdf";
-import { CloudDownload } from '@material-ui/icons';
+import { CloudDownload } from "@material-ui/icons";
+import moment from "moment";
 
 const useStyles = makeStyles((theme) => ({
     divider: {
         backgroundColor: theme.palette.divider,
+    },
+    taskStyle: {
+        width: "350px",
+    },
+    assigneeStyle: {
+        width: "200px",
+    },
+    dateWidth: {
+        width: "200px",
     },
 }));
 
@@ -39,11 +49,13 @@ function DashboardReport(props) {
     const now = new Date();
     const reportTime = now.toLocaleTimeString();
     const [downloading, setDownloading] = useState(false);
-    const reportDate = now.toLocaleDateString("en-GB", {
-        day: "numeric",
-        month: "short",
-        year: "numeric",
-    }).replace(/ /g, "-");
+    const reportDate = now
+        .toLocaleDateString("en-GB", {
+            day: "numeric",
+            month: "short",
+            year: "numeric",
+        })
+        .replace(/ /g, "-");
 
     useEffect(() => {
         if (data) {
@@ -78,9 +90,9 @@ function DashboardReport(props) {
         <div className="text-center m-auto mt-24">
             {dataset && (
                 <div>
-                    {downloading && <FuseLoading/>}
+                    {downloading && <FuseLoading />}
                     <div className="absolute right-0 m-16">
-                        <Tooltip title="Download Report" style={{ alignItems: 'right' }}>
+                        <Tooltip title="Download Report" style={{ alignItems: "right" }}>
                             <label htmlFor="icon-upload-file">
                                 <IconButton color="secondary" component="span" onClick={printReport}>
                                     <CloudDownload fontSize="large" />
@@ -88,7 +100,7 @@ function DashboardReport(props) {
                             </label>
                         </Tooltip>
                     </div>
-                    <div id="reportDiv" style={{background: "white"}}>
+                    <div id="reportDiv" style={{ background: "white" }}>
                         <FuseAnimate duration={600}>
                             <Card
                                 style={{ shadow: "1px 3px 25px black" }}
@@ -109,7 +121,9 @@ function DashboardReport(props) {
                                                 />
 
                                                 <div className="max-w-160">
-                                                    <Typography variant="h6" color="textSecondary">Hyper Task</Typography>
+                                                    <Typography variant="h6" color="textSecondary">
+                                                        Hyper Task
+                                                    </Typography>
 
                                                     <Typography color="textSecondary">
                                                         590 CTM8 street, ward 11, distric 3, HCMC
@@ -145,7 +159,9 @@ function DashboardReport(props) {
                                                 />
 
                                                 <div className="max-w-200">
-                                                    <Typography variant="h6" color="textSecondary">{user.fullname}</Typography>
+                                                    <Typography variant="h6" color="textSecondary">
+                                                        {user.fullname}
+                                                    </Typography>
                                                     <Typography color="textSecondary">
                                                         Address: {JSON.parse(user.info).address}
                                                     </Typography>
@@ -185,9 +201,7 @@ function DashboardReport(props) {
                                                         <Typography color="textSecondary">REPORT DATE</Typography>
                                                     </td>
                                                     <td>
-                                                        <Typography>
-                                                            {reportDate}
-                                                        </Typography>
+                                                        <Typography>{reportDate}</Typography>
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -208,10 +222,17 @@ function DashboardReport(props) {
                                                     {dataset[key].map((task) => (
                                                         <TableRow key={task.id}>
                                                             <TableCell>
-                                                                <Typography className="mb-8" variant="subtitle1">
+                                                                <Typography
+                                                                    className={clsx(classes.taskStyle, "mb-8")}
+                                                                    variant="subtitle1"
+                                                                >
                                                                     {task.name}
                                                                 </Typography>
-                                                                <Typography variant="caption" color="textSecondary">
+                                                                <Typography
+                                                                    className={clsx(classes.taskStyle)}
+                                                                    variant="caption"
+                                                                    color="textSecondary"
+                                                                >
                                                                     {task.content}
                                                                 </Typography>
                                                             </TableCell>
@@ -228,7 +249,15 @@ function DashboardReport(props) {
                                                                         </Typography>
                                                                     ))}
                                                             </TableCell>
-                                                            <TableCell align="right">{task.due}</TableCell>
+                                                            <TableCell align="right">
+                                                                <Typography
+                                                                    className={clsx(classes.dateWidth)}
+                                                                    variant="caption"
+                                                                    color="textSecondary"
+                                                                >
+                                                                    {moment(task.due).format("hh:mm:ss A MMM-DD-YY")}
+                                                                </Typography>
+                                                            </TableCell>
                                                         </TableRow>
                                                     ))}
                                                 </TableBody>
