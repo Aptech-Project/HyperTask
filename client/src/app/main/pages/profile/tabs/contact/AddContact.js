@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { Avatar, AppBar, TextField, Button, Card, CardContent, Icon, Toolbar, Typography, Box } from '@material-ui/core';
+import { Avatar, AppBar, TextField, Tab, Tabs, Button, Card, CardContent, Icon, Toolbar, Typography, Box } from '@material-ui/core';
 import { FuseAnimateGroup } from '@fuse';
 import Paper from '@material-ui/core/Paper';
 import { useSelector, useDispatch } from 'react-redux';
@@ -48,8 +48,13 @@ const AddContact = ({ ...props }) => {
     const userAuth = useSelector(state => state.login.userAuth)
     const [open, setOpen] = React.useState(false);
     const [open1, setOpen1] = React.useState(false);
-    const [scanResultFile, setScanResultFile] = useState('');
+    const [selectedTab, setSelectedTab] = useState(0);
     const [findFriendQR, setFindFriendQR] = useState(null);
+
+    function handleTabChange(event, value) {
+        dispatch(Actions.fetchById(0, userAuth))
+        setSelectedTab(value);
+    }
     const handleClickOpen = () => {
         dispatch(Actions.fetchById(0, userAuth))
         setOpen(true);
@@ -82,7 +87,14 @@ const AddContact = ({ ...props }) => {
     }
     const handleScanFile = (result) => {
         if (result) {
-            setScanResultFile(result);
+            dispatch(Actions.fetchById(result, userAuth))
+        }
+    }
+    const handleErrorWebCam = (error) => {
+        console.log(error);
+    }
+    const handleScanWebCam = (result) => {
+        if (result) {
             dispatch(Actions.fetchById(result, userAuth))
         }
     }
@@ -393,7 +405,7 @@ const AddContact = ({ ...props }) => {
                                     className="mb-16"
                                     type="text"
                                     name="search"
-                                    label="Search"
+                                    label="Search by username or email"
                                     variant="outlined"
                                     fullWidth
                                     autoComplete='off'
@@ -404,7 +416,7 @@ const AddContact = ({ ...props }) => {
                                 />
                             </Grid>
                             <Grid item xs={1}>
-                                <IconButton style={{ marginTop: -10 }} onClick={() => { handleClickOpen(); }}><img src="assets/images/etc/qr.jpg" /></IconButton>
+                                <IconButton style={{ marginTop: '-1vh', height: '100%' }} onClick={() => { handleClickOpen(); }}><img src="assets/images/etc/qr.jpg" /></IconButton>
                             </Grid>
                             <Dialog
                                 open={open}
@@ -412,31 +424,70 @@ const AddContact = ({ ...props }) => {
                                 aria-labelledby="alert-dialog-title"
                                 aria-describedby="alert-dialog-description"
                             >
-                                <DialogTitle id="alert-dialog-title">{"Addfriend by QR Code"}</DialogTitle>
+                                <DialogTitle id="alert-dialog-title">{"ADD FRIEND BY QR CODE"}</DialogTitle>
                                 <DialogContent style={{ width: 600 }}>
-                                    <Button
-                                        style={{ fontSize: 10, backgroundColor: '#006600', color: 'white', marginBottom: 5 }}
-                                        onClick={onScanFile}
+                                    <Tabs
+                                        value={selectedTab}
+                                        onChange={handleTabChange}
+                                        indicatorColor="secondary"
+                                        textColor="secondary"
+                                        variant="scrollable"
+                                        scrollButtons="off"
                                     >
-                                        Scan QR Code
-                                    </Button>
-                                    <div>
-                                        <Grid container component="span" spacing={1}>
-                                            <Grid item xs={6}>
-                                                <QrReader
-                                                    ref={qrRef}
-                                                    delay={300}
-                                                    style={{ width: '100%' }}
-                                                    onError={handleErrorFile}
-                                                    onScan={handleScanFile}
-                                                    legacyMode
-                                                />
+                                        <Tab
+                                            classes={{
+                                                root: "h-64"
+                                            }} label="Scan By Picture" />
+                                        <Tab
+                                            classes={{
+                                                root: "h-64"
+                                            }} label="Scan By Webcam " />
+                                    </Tabs>
+                                    {selectedTab === 0 && (
+                                        <div>
+                                            <Button
+                                                style={{ fontSize: 10, backgroundColor: '#006600', color: 'white', marginBottom: 5, marginTop: 5 }}
+                                                onClick={onScanFile}
+                                            >
+                                                Scan QR Code
+                                            </Button>
+                                            <Grid container component="span" spacing={1}>
+                                                <Grid item xs={6}>
+                                                    <QrReader
+                                                        ref={qrRef}
+                                                        delay={300}
+                                                        style={{ width: '100%' }}
+                                                        onError={handleErrorFile}
+                                                        onScan={handleScanFile}
+                                                        legacyMode
+                                                    />
+                                                </Grid>
+                                                <Grid item xs={6} >
+                                                    {renderQR()}
+                                                </Grid>
                                             </Grid>
-                                            <Grid item xs={6} >
-                                                {renderQR()}
+                                        </div>
+                                    )}
+                                    {selectedTab === 1 && (
+                                        <div>
+                                            <Grid container component="span" spacing={1} style={{ paddingTop: 39 }}>
+                                                <Grid item xs={6}>
+                                                    <QrReader
+
+                                                        delay={300}
+                                                        style={{ width: '100%' }}
+                                                        onError={handleErrorWebCam}
+                                                        onScan={handleScanWebCam}
+                                                    />
+                                                </Grid>
+                                                <Grid item xs={6} >
+                                                    {renderQR()}
+                                                </Grid>
                                             </Grid>
-                                        </Grid>
-                                    </div>
+
+
+                                        </div>
+                                    )}
                                 </DialogContent>
                                 <DialogActions>
                                     <Button onClick={handleClose} color="primary">

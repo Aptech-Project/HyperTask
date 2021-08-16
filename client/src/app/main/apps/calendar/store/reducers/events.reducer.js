@@ -15,7 +15,6 @@ const initialState = {
 const eventsReducer = function (state = initialState, action) {
     switch (action.type) {
         case Actions.CALENDAR_GET_BOARDS: {
-            console.log("getBoard: ", action.payload);
             return {
                 ...state,
                 boards: action.payload,

@@ -89,6 +89,7 @@ const AboutForm = (props) => {
       dispatch(showMessage({ message: 'Update profile fail', variant: "error" }));
     }
   }
+
   const {
     values,
     setValues,
@@ -97,6 +98,10 @@ const AboutForm = (props) => {
     handleInputChange,
     resetForm
   } = useForm(initialFieldValues, validate, props.setCurrentId)
+  function handleCancel() {
+    dispatch(Action.reloadData())
+    // props.isCancel()
+  }
   return (
     < CardContent >
       <Formsy
@@ -193,12 +198,12 @@ const AboutForm = (props) => {
             {/* {!edit ? "Edit" : "Save"} */}Save
           </Button>
           <Button
-            id="submit1"
-            type="submit"
+            type="button"
             variant="contained"
             color="primary"
             className="w-1/3 mx-auto mt-16 normal-case ml-12"
             aria-label="Edit"
+            onClick={handleCancel}
           >
             Cancel
           </Button>

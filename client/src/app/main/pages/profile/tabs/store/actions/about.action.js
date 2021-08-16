@@ -11,6 +11,10 @@ export const ACTION_TYPES = {
   PROFILE_FETCH_ALL_FRIEND: "PROFILE_FETCH_ALL_FRIEND",
 };
 
+export const reloadData = () => (dispatch) => {
+  dispatch(loginaction.fetchById(localStorage.getItem("user_authenticated")));
+}
+
 export const update = (data) => (dispatch) => {
   axios
     .post(endPointApi.users.update, data)
