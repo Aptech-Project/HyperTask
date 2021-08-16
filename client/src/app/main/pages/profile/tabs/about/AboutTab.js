@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Tooltip, DialogActions, Dialog, Avatar, AppBar, InputAdornment, TextField, Button, Card, CardContent, Icon, IconButton, List, ListItem, ListItemSecondaryAction, ListItemText, Toolbar, Typography } from '@material-ui/core';
-import { FuseAnimateGroup } from '@fuse';
+import { FuseAnimateGroup, FuseLoading } from '@fuse';
 import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
 import Formsy from 'formsy-react';
@@ -34,10 +34,12 @@ const AboutTab = ({ ...props }) => {
     const [user1, setUser1] = useState(null)
     const [open, setOpen] = useState(false);
     const [friends, setFriends] = useState([])
+    const [loading, setLoading] = useState(false)
     function closeComposeDialog() {
         setAvatar(info.avatar)
         setOpen(false)
         props.closeAvatar()
+        setLoading(false)
     }
     const dispatch = useDispatch();
     useEffect(() => {
@@ -70,9 +72,10 @@ const AboutTab = ({ ...props }) => {
         )
     }, [allfriend])
     useEffect(() => {
-        if (props && props.openAvatar) (
+        if (props && props.openAvatar) {
             setOpen(true)
-        )
+            setLoading(false)
+        }
     }, [props])
     if (!account) {
         return null
@@ -95,7 +98,8 @@ const AboutTab = ({ ...props }) => {
         if (!file) {
             return;
         }
-        dispatch(Action.uploadFile(file, account, setIsChangeAvatar))
+        setLoading(true)
+        dispatch(Action.uploadFile(file, account, setIsChangeAvatar, setLoading))
     }
     function handleSubmit(event) {
         event.preventDefault();
@@ -106,6 +110,7 @@ const AboutTab = ({ ...props }) => {
         dispatch(Action.uploadAvatar(userUpload))
         setOpen(false)
         setIsChangeAvatar(false)
+        setLoading(false)
     }
     function onClickFriend() {
         props.onChangeTab()
@@ -225,10 +230,10 @@ const AboutTab = ({ ...props }) => {
                         </Typography>
                     </Toolbar>
                     <div className="flex flex-col items-center justify-center pb-24">
-                        <Avatar className="w-96 h-96" alt="contact avatar" src={avatar} />
-                        <Typography variant="h6" color="inherit" className="pt-8">
-
-                        </Typography>
+                        {!loading ? (
+                            <Avatar className="w-160 h-160" alt="contact avatar" src={avatar} />
+                        ) :
+                            (<FuseLoading marginTop="mt-96" />)}
                     </div>
                 </AppBar>
                 <DialogActions className="justify-between pl-16">

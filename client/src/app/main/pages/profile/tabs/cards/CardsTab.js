@@ -54,11 +54,11 @@ const useStyles = makeStyles((theme) => ({
         transitionDuration: theme.transitions.duration.short,
         transitionTimingFunction: theme.transitions.easing.easeInOut
     },
-    cardCover:{
-      display: "block",
-      width: "274px",
-      height: "154px",
-      objectFit: "cover",
+    cardCover: {
+        display: "block",
+        width: "274px",
+        height: "154px",
+        objectFit: "cover",
     }
 }));
 
@@ -144,7 +144,7 @@ function CardsTab(props) {
         });
         setTimeout(function () {
             dispatch(actionsCard.openCardDialog(card))
-        }, 1500);
+        }, 1200);
 
     }
     function getCheckItemsChecked(card) {
@@ -230,7 +230,7 @@ function CardsTab(props) {
                                             >
                                                 {card.idAttachmentCover && card.idAttachmentCover !== "" && (
                                                     <img
-                                                        className={clsx(classes.cardCover,"block")}
+                                                        className={clsx(classes.cardCover, "block")}
                                                         src={
                                                             _.find(card.attachments, { id: card.idAttachmentCover }).src
                                                         }
