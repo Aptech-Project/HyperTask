@@ -88,12 +88,8 @@ function WidgetActivity(props) {
     const classes = useStyles(props);
     const theme = useTheme();
     const [allDataset, setAllDataset] = useState(initialState);
-    console.log("allDataset");
-    console.log(allDataset);
     const [dataset, setDataset] = useState("Day");
     const [loading, setLoading] = useState(true);
-
-    const data = _.merge({}, props.data);
 
     useEffect(() => {
         const newAllDataset = JSON.parse(JSON.stringify(initialState));
@@ -107,7 +103,7 @@ function WidgetActivity(props) {
                 data: [],
                 fill: "start",
             };
-            Object.keys(activities[datasetKey]).forEach((item) => {
+            Object.keys(activities[datasetKey]).sort((a,b)=>new Date(a) - new Date(b)).forEach((item) => {
                 labels[datasetKey].push(item);
                 datasetContent.data.push(activities[datasetKey][item].length);
             });
