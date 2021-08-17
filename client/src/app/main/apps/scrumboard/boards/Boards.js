@@ -143,7 +143,6 @@ function Boards(props) {
   const dispatch = useDispatch();
   const boards = useSelector(({ scrumboardApp }) => scrumboardApp.boards);
   const boardTemplates = boardTemplate;
-  console.log("boardTemplates: ", boardTemplates);
   const profile = useSelector((state) => state.login.findId);
   const [searchValue, setSearchValue] = useState("");
   const [searchResult, setSearchResult] = useState([]);
@@ -170,7 +169,6 @@ function Boards(props) {
         if (board) {
           JSON.parse(board.members).map((member) => {
             if (member.userId === userId && member.status === "Stay") {
-              console.log("board: ", board);
               boardsUserStay.push(board);
             }
           });
@@ -184,7 +182,6 @@ function Boards(props) {
         if (board) {
           JSON.parse(board.members).map((member) => {
             if (member.userId === userId && member.status === "Stay") {
-              console.log("board: ", board);
               boardsUserStay.push(board);
             }
           });
@@ -216,7 +213,6 @@ function Boards(props) {
     }
   };
   const handleAddNewBoardConfirm = () => {
-    //console.log("profile: ", profile);
     if (addNewBoardLog.type) {
       dispatch(
         Actions.newBoardTemplate({
@@ -257,14 +253,6 @@ function Boards(props) {
     }
     setSettingMenu({ ...settingMenu, anchorEl: null });
     setMessBox({ ...messBox, delete: false });
-    //console.log("boardToDelete: ", boardToDelete);
-    // //dispatch(Actions.getBoards());
-    // const allBoards = boards.filter(
-    //   (board) => board.id !== settingMenu.boardId
-    // );
-    // setSearchResult(allBoards);
-    // setSettingMenu({ ...settingMenu, anchorEl: null });
-    // setMessBox({ ...messBox, delete: false });
   };
 
   return (

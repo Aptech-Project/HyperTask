@@ -163,8 +163,6 @@ function BoardCard(props) {
                     const member = _.find(allUserCollect, {
                       id,
                     });
-                    console.log("allUserCollect: ", allUserCollect);
-                    console.log("member: ", member);
                     return (
                       <Tooltip title={member.fullname} key={id}>
                         <Avatar

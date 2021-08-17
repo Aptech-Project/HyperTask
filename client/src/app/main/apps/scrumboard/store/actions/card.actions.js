@@ -30,7 +30,6 @@ export function updateCard(board, newCard) {
       alert("Member cannot Edit");
       //window.location.reload();
     } else {
-      console.log("newCard: ", newCard);
       const allList = JSON.parse(board.lists);
       const allListUpdated = allList.map((list) => {
         let listToUpdate;

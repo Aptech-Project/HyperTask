@@ -113,7 +113,6 @@ function WidgetActivity(props) {
         newAllDataset.labels = labels;
         const tickOption = findTheTickOption(newAllDataset, dataset);
         newAllDataset.options.scales.yAxes[0].ticks = tickOption;
-        console.log(newAllDataset);
         setAllDataset(newAllDataset);
         setLoading(false);
     }, [activities]);

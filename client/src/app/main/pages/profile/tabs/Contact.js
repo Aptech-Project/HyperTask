@@ -24,8 +24,6 @@ function ContactTab() {
         )
 
     }, [listUser])
-    console.log("listUser")
-    console.log(listUser)
     useEffect(() => {
         axios.get('/api/profile/about').then(res => {
             setData(res.data);
@@ -37,8 +35,6 @@ function ContactTab() {
         )
     }, [profile])
     useEffect(() => {
-        console.log("account")
-        console.log(account)
         if (account && account !== 'undefined' && account !== []) (
             setInfo(JSON.parse(account.info))
         )
@@ -47,8 +43,6 @@ function ContactTab() {
     if (!account) {
         return null
     }
-    console.log('account.contact')
-    // console.log(account.contact.split(","))
 
     if (!info) {
         return null

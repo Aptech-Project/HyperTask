@@ -59,7 +59,6 @@ function WidgetTaskDistribution(props) {
             newDataSet.mainChart.datasets[0].data = dataLabelsArray;
             newDataSet.footerRight.count = allCards.filter(card => card.labels.length).length;
             newDataSet.footerLeft.count = allCards.length;
-            console.log(newDataSet);
             setDataSet(newDataSet);
         }
     },[data])

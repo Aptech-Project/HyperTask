@@ -24,8 +24,6 @@ function ActivityItem(props) {
       setMember(user)
     }
   },[allUserCollect])
-  
-  console.log("user: ", member);
 
   return member ? (
     <>

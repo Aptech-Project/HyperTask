@@ -29,8 +29,6 @@ function LabelsForm(props) {
 
     useEffect(() => {
         if (labelsForm && !_.isEqual(labelsForm, labels)) {
-            console.log("labelsForm")
-            console.log(labelsForm)
             handleOnChange(labelsForm);
         }
     }, [handleOnChange, labels, labelsForm]);
@@ -45,8 +43,6 @@ function LabelsForm(props) {
             return;
         }
         const newLabel = new LabelModelCustom(newLabelForm, profile);
-        console.log("newLabel")
-        console.log(newLabel)
         setLabels(_.setIn(labelsForm, newLabel.id, newLabel));
         resetForm();
     }

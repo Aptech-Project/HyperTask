@@ -38,7 +38,6 @@ function ProfileTabs(props) {
         condTabOrientation = "flex";
     }
     const [imageUrl, setImageUrl] = useState('');
-    console.log(user)
     useEffect(() => {
         const generateQrCode = async () => {
             try {

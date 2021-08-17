@@ -80,7 +80,6 @@ const SecurityForm = (props) => {
     resetForm
   } = useForm(initialFieldValues, validate, props.setCurrentId)
   function handleCancel() {
-    console.log("test")
     resetForm()
   }
   return (

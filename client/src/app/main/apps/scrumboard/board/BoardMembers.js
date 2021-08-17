@@ -105,16 +105,12 @@ function BoardMember(props) {
 
   useEffect(() => {
     let userToAdd = [];
-    // console.log("allUserCollect: ", allUserCollect);
-    // console.log("allUser: ", allUser);
     const userNotMember = allUser.filter(
       (user) =>
         !allUserCollect.find(
           ({ id, status }) => user.id === id && status === "Stay"
         )
     );
-    // console.log("allUserCollect: ", allUserCollect);
-    // console.log("userNotMember: ", userNotMember);
     userNotMember.map((user) => {
       userToAdd.push({ ...user, add: false });
     });
@@ -154,7 +150,6 @@ function BoardMember(props) {
         newAddList.push(user);
       }
     });
-    //console.log("newAddList: ", newAddList);
 
     setAddList(newAddList);
   };
@@ -178,7 +173,6 @@ function BoardMember(props) {
     });
     dispatch(Actions.updateMember(board, memberAddBoardList));
     setAddMemberOpen(false);
-    //console.log("addedMemberList: ", addedMemberList);
   };
 
   const handleCancel = () => {
@@ -187,7 +181,6 @@ function BoardMember(props) {
     addListCopy.map((user) => {
       newAddList.push({ ...user, add: false });
     });
-    //console.log("newAddList: ", newAddList);
     setAddList(newAddList);
   };
 
@@ -207,7 +200,6 @@ function BoardMember(props) {
       <ToolbarMenu state={anchorEl} onClose={handleMenuClose}>
         <div className="">
           {allUserCollect.map((member) => {
-            //console.log("member: ", member);
             return (
               member.status === "Stay" && (
                 <MenuItem className="px-8" key={member.id} onClick={(ev) => {}}>

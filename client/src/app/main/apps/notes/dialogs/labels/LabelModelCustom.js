@@ -10,8 +10,6 @@ function LabelModelCustom(data, profile) {
       maxId = element.id
     }
   }
-  console.log("LabelModelCustom")
-  console.log(labels)
   const item = data ? data : {};
   return {
     id: item.id || FuseUtils.generateGUID(),

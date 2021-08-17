@@ -70,8 +70,6 @@ function DashboardReport(props) {
                     }
                 });
             });
-            console.log("newDataset");
-            console.log(newDataset);
             setDataset(newDataset);
         }
     }, [data]);

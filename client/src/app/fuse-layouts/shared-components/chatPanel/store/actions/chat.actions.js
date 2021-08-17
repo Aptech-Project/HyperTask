@@ -133,10 +133,6 @@ export const sendMessage =
             time: new Date(),
         };
 
-        console.log(getState());
-
-        console.log(message);
-
         let userChatData = getState().chatPanel.user.conversations.find(
             (item) => item.chatId == chatId
         );

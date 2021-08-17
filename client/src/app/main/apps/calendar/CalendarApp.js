@@ -203,8 +203,6 @@ function CalendarApp(props) {
 
     useEffect(() => {
         if (lists && lists != []) {
-            console.log("lists")
-            console.log(lists)
             let arryCards = []
             lists.forEach(element => {
                 element.forEach(element1 => {

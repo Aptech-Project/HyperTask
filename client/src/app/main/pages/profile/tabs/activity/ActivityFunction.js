@@ -3,8 +3,6 @@ import { deserializeObject } from "app/main/common/CommonFunctions";
 export const getUsersActivity = (userId, boardsInfo) => {
     let boardsInfoClone = JSON.parse(JSON.stringify(boardsInfo));
     boardsInfoClone = deserializeObject(boardsInfoClone);
-    console.log('boardsInfoClone');
-    console.log(boardsInfoClone);
     let activities = [];
     boardsInfoClone.forEach(board =>{
         board.lists.forEach(list=> {

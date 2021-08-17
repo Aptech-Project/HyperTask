@@ -72,7 +72,6 @@ export default function ActivityTab() {
     useEffect(() => {
         if (boardsInfo.length) {
             const activities = getUsersActivity(userId, boardsInfo);
-            console.log(activities);
             setActivities(activities);
         }
     }, [boardsInfo]);

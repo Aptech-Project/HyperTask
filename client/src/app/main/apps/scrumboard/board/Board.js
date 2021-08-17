@@ -38,12 +38,10 @@ function Board(props) {
   const [settingsDrawerOpen, setSettingsDrawerOpen] = useState(false);
   const [activityOpen, setActivityOpen] = useState(false);
   const [changeBackground, setChangeBackground] = useState("");
-  console.log("board: ", board);
   // if (board) {
   //   dispatch(Actions.resetBoard());
   // }
   useEffect(() => {
-    //console.log("props: ", props);
     dispatch(Actions.getBoard(props.match.params.boardId));
     dispatch(Actions.getAllUserBoard());
     return () => {
@@ -53,7 +51,6 @@ function Board(props) {
   }, [dispatch, props.match.params]);
   useEffect(() => {
     if (board) {
-      console.log("boardList: ", board.lists);
       const isAdmin = userIsAdmin(board);
       const boardBackground = JSON.parse(board.info).backgroundImage;
       const allowEdit = JSON.parse(board.info).allowMemberEdit;
@@ -73,14 +70,12 @@ function Board(props) {
           }
         });
       });
-      console.log("allMember: ", allMember);
       dispatch(Actions.allUserBoardCollect(allMember));
     }
   }, [allUser, board]);
 
   function onDragEnd(result) {
     const { source, destination } = result;
-    console.log("result: ", result);
     // dropped nowhere
     if (!destination) {
       return;

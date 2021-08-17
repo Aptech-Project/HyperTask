@@ -24,7 +24,6 @@ export const getUserBoards = async (userId) => {
 
 export const getDashBoardData = (userId) => async (dispatch) => {
     const allBoards = await getUserBoards(userId);
-    console.log(allBoards);
     const boardsStatistic = getBoardsStatistic(allBoards);
     dispatch({
         type: GET_DASHBOARD_DATA,

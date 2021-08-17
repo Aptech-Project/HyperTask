@@ -61,15 +61,9 @@ function ProjectDashboardApp(props) {
     const dispatch = useDispatch();
     const userId = localStorage.getItem("user_authenticated");
     const user = useSelector((state) => state.login.findId);
-    const state = useSelector((state) => state);
-    console.log("state");
-    console.log(state);
     const boardsStatistic = useSelector(({ projects }) => projects.boardsStatistic);
     const loading = useSelector(({ projects }) => projects.loading);
     const allUsers = useSelector(({ projects }) => projects.allUsers);
-    console.log("boardsStatistic");
-    console.log(boardsStatistic);
-    console.log(allUsers);
     const classes = useStyles(props);
     const pageLayout = useRef(null);
     const [tabValue, setTabValue] = useState(0);
@@ -97,7 +91,6 @@ function ProjectDashboardApp(props) {
     }, [boardsStatistic]);
 
     const onTaskTypeChange = (taskType) => {
-        console.log(taskType);
         setCurrentTaskType(taskType);
     };
 

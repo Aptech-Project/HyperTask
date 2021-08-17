@@ -30,8 +30,6 @@ const SecurityTab = ({ ...props }) => {
   useEffect(() => {
     setAccount([])
   }, []);
-  console.log("list")
-  console.log(list)
   useEffect(() => {
     if (profile !== 'undefined') (
       setAccount(profile)

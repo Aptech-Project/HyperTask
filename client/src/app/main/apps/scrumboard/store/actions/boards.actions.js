@@ -95,7 +95,6 @@ export function newBoard(board) {
 
   return (dispatch) =>
     request.then((response) => {
-      console.log("response: ", response);
       const board = response.data;
       history.push({
         pathname: "/apps/scrumboard/boards/" + board.id,
@@ -147,7 +146,6 @@ export function newBoardTemplate(board) {
 
   return (dispatch) =>
     request.then((response) => {
-      console.log("response: ", response);
       const board = response.data;
       history.push({
         pathname: "/apps/scrumboard/boards/" + board.id,

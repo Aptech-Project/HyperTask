@@ -23,7 +23,6 @@ const useStyles = makeStyles((theme) => ({
 function BoardList(props) {
   const classes = useStyles(props);
   const contentScrollEl = useRef(null);
-  //console.log("props: ", props);
 
   function handleCardAdded() {
     contentScrollEl.current.scrollTop = contentScrollEl.current.scrollHeight;
