@@ -49,7 +49,7 @@ const Auth0RegisterTab = ({ classes, ...props }) => {
             if (fieldValues.username === '') {
                 temp.username = fieldValues.username ? "" : "Username is required."
             } if (fieldValues.username !== '') {
-                temp.username = (/^[A-Za-z1-9]\w{4,}$/).test(fieldValues.username) ? "" : "Username must be at least 5 characters without any special characters"
+                temp.username = (/^[A-Za-z1-9]\w{5,14}$/).test(fieldValues.username) ? "" : "Username must be at least 6 and at most 15 characters without any special characters"
             }
             if (err >= 1) {
                 err < 1 ? temp.username = "" : temp.username = "Username is existed"
@@ -76,14 +76,14 @@ const Auth0RegisterTab = ({ classes, ...props }) => {
             if (fieldValues.fullname === '') {
                 temp.fullname = fieldValues.fullname ? "" : "Fullname is required."
             } if (fieldValues.fullname !== '') {
-                temp.fullname = (/^[a-zA-ZàáãạảăắằẳẵặâấầẩẫậèéẹẻẽêềếểễệđìíĩỉịòóõọỏôốồổỗộơớờởỡợùúũụủưứừửữựỳỵỷỹýÀÁÃẠẢĂẮẰẲẴẶÂẤẦẨẪẬÈÉẸẺẼÊỀẾỂỄỆĐÌÍĨỈỊÒÓÕỌỎÔỐỒỔỖỘƠỚỜỞỠỢÙÚŨỤỦƯỨỪỬỮỰỲỴỶỸÝ]{1,}(?: [a-zA-ZàáãạảăắằẳẵặâấầẩẫậèéẹẻẽêềếểễệđìíĩỉịòóõọỏôốồổỗộơớờởỡợùúũụủưứừửữựỳỵỷỹýÀÁÃẠẢĂẮẰẲẴẶÂẤẦẨẪẬÈÉẸẺẼÊỀẾỂỄỆĐÌÍĨỈỊÒÓÕỌỎÔỐỒỔỖỘƠỚỜỞỠỢÙÚŨỤỦƯỨỪỬỮỰỲỴỶỸÝ]+){0,6}$/).test(fieldValues.fullname) ? "" : "Fullname is not valid."
+                temp.fullname = (/^[a-zA-ZàáãạảăắằẳẵặâấầẩẫậèéẹẻẽêềếểễệđìíĩỉịòóõọỏôốồổỗộơớờởỡợùúũụủưứừửữựỳỵỷỹýÀÁÃẠẢĂẮẰẲẴẶÂẤẦẨẪẬÈÉẸẺẼÊỀẾỂỄỆĐÌÍĨỈỊÒÓÕỌỎÔỐỒỔỖỘƠỚỜỞỠỢÙÚŨỤỦƯỨỪỬỮỰỲỴỶỸÝ]{1,15}(?: [a-zA-ZàáãạảăắằẳẵặâấầẩẫậèéẹẻẽêềếểễệđìíĩỉịòóõọỏôốồổỗộơớờởỡợùúũụủưứừửữựỳỵỷỹýÀÁÃẠẢĂẮẰẲẴẶÂẤẦẨẪẬÈÉẸẺẼÊỀẾỂỄỆĐÌÍĨỈỊÒÓÕỌỎÔỐỒỔỖỘƠỚỜỞỠỢÙÚŨỤỦƯỨỪỬỮỰỲỴỶỸÝ]+){0,6}$/).test(fieldValues.fullname) ? "" : "Fullname is not valid."
             }
         }
         if ('password' in fieldValues)
             if (fieldValues.password === '') {
                 temp.password = fieldValues.password ? "" : "Password is required."
             } if (fieldValues.password !== '') {
-                temp.password = (/^[A-Za-z0-9!@#$%^&*]{6,20}$/).test(fieldValues.password) ? "" : "Passwords must be at least 6 in length"
+                temp.password = (/^[A-Za-z0-9!@#$%^&*]{6,20}$/).test(fieldValues.password) ? "" : "Password must be at least 6 and at most 15 characters"
             }
         if ('passwordconfirm' in fieldValues) {
             fieldValues.passwordconfirm == values.password ? temp.passwordconfirm = "" : temp.passwordconfirm = "Confirmation password does not match"
