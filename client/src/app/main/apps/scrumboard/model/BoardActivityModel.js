@@ -9,7 +9,8 @@ class BoardActivityModel {
     this.type = item.type || "comment";
     this.idMember = item.idMember || null;
     this.message = item.message || "";
-    this.time = item.time || moment().format(moment.HTML5_FMT.DATE);
+    // this.time = item.time || moment().format(moment.HTML5_FMT.DATE);
+    this.time = item.time || moment().format("hh:mm:ss A MMM-DD-YY");
   }
 }
 

@@ -22,6 +22,12 @@ const useStyles = makeStyles((theme) => ({
     transitionDuration: theme.transitions.duration.short,
     transitionTimingFunction: theme.transitions.easing.easeInOut,
   },
+  cardCover:{
+    display: "block",
+    width: "274px",
+    height: "154px",
+    objectFit: "cover",
+  }
 }));
 
 function BoardCard(props) {
@@ -76,7 +82,7 @@ function BoardCard(props) {
           >
             {card.idAttachmentCover && card.idAttachmentCover !== "" && (
               <img
-                className="block"
+                className={clsx(classes.cardCover,"block")}
                 src={
                   _.find(card.attachments, { id: card.idAttachmentCover }).src
                 }

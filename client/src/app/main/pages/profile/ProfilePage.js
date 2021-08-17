@@ -85,9 +85,10 @@ function ProfilePage() {
                     <div className="flex flex-1 flex-col items-center justify-center md:flex-row md:items-center md:justify-start">
                         <FuseAnimate animation="transition.expandIn" delay={300}>
                             <div>
-                                <Tooltip title="Upload Avatar" placement="bottom">
+                                {selectedTab == 0 && <Tooltip title="Upload Avatar" placement="bottom">
                                     <Avatar style={{ cursor: "pointer" }} className="w-96 h-96" onClick={ClickAvatar} src={avatar || "assets/images/avatars/default-avatar.png"} />
-                                </Tooltip>
+                                </Tooltip>}
+                                {selectedTab != 0 && <Avatar className="w-96 h-96" src={avatar || "assets/images/avatars/default-avatar.png"} />}
                             </div>
                         </FuseAnimate>
 

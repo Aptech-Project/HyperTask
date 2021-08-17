@@ -12,6 +12,7 @@ import {
 } from "@material-ui/core";
 import history from "@history";
 import { openCardDialog } from "app/main/apps/scrumboard/store/actions";
+import moment from "moment";
 
 const initialState = {
     cards: [],
@@ -23,7 +24,7 @@ function WidgetTasksDetails(props) {
 
     useEffect(() => {
         if (data) {
-            const dataCards = data.sort((a,b) => new Date(a.due) - new Date(b.due)).map(item => ({...item, title: item.name, time: "Duedate: " + item.due}));
+            const dataCards = data.sort((a,b) => new Date(a.due) - new Date(b.due)).map(item => ({...item, title: item.name, time: "Due date: " + moment(item.due).format("hh:mm:ss A MMM-DD-YY")}));
             setDataset({...dataset, cards: dataCards});
         }
     }, [data])

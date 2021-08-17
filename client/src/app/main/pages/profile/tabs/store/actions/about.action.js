@@ -33,7 +33,7 @@ export const update = (data) => (dispatch) => {
     .catch((err) => console.log(err));
 };
 
-export const uploadFile = (file, account, setIsChangeAvatar) => (dispatch) => {
+export const uploadFile = (file, account, setIsChangeAvatar, setLoading) => (dispatch) => {
   var formData = new FormData();
   formData.append("File", file);
   axios
@@ -43,9 +43,13 @@ export const uploadFile = (file, account, setIsChangeAvatar) => (dispatch) => {
         type: ACTION_TYPES.PROFILEUPLOADFILE,
         payload: res.data,
       });
+      setLoading(false)
       setIsChangeAvatar(true)
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      setLoading(false)
+      console.log(err)
+    });
 };
 
 export const uploadAvatar = (data) => (dispatch) => {
