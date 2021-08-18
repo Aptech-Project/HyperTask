@@ -69,6 +69,7 @@ function CardsTab(props) {
     const theme = useTheme();
     const [searchText, setSearchText] = useState("");
     const [selectedBoard, setSelectedBoard] = useState("all");
+    const [selectedDone, setSelectedDone] = useState("notDone");
     const boardsInfo = useSelector(state => state.ProfilePage.card.boards)
     const [lists, setLists] = useState(null);
     const [cards, setCards] = useState(null);
@@ -95,22 +96,20 @@ function CardsTab(props) {
             lists.forEach(element => {
                 element.forEach(element1 => {
                     element1.cards.forEach(element2 => {
-                        if (!element2.isDone) {
-                            if (element2.members.includes(parseInt(userID)) && element2.isDone == false) {
-                                let obj = element2
-                                obj.boardId = element.boardId
-                                obj.boardName = element.boardName
-                                obj.CardIndex = arryCards.length + 1
+                        if (element2.members.includes(parseInt(userID)) && element2.isDone == false) {
+                            let obj = element2
+                            obj.boardId = element.boardId
+                            obj.boardName = element.boardName
+                            obj.CardIndex = arryCards.length + 1
+                            arryCards.push(obj)
+                        }
+                        if (parseInt(element2.author) == parseInt(userID)) {
+                            let obj = element2
+                            obj.boardId = element.boardId
+                            obj.boardName = element.boardName
+                            obj.CardIndex = arryCards.length + 1
+                            if (!arryCards.includes(obj)) {
                                 arryCards.push(obj)
-                            }
-                            if (parseInt(element2.author) == parseInt(userID)) {
-                                let obj = element2
-                                obj.boardId = element.boardId
-                                obj.boardName = element.boardName
-                                obj.CardIndex = arryCards.length + 1
-                                if (!arryCards.includes(obj)) {
-                                    arryCards.push(obj)
-                                }
                             }
                         }
 
@@ -126,9 +125,15 @@ function CardsTab(props) {
             if (selectedBoard != "all") {
                 filteredCards = filteredCards.filter(card => card.boardId == selectedBoard);
             }
+            if (selectedDone == "done") {
+                filteredCards = filteredCards.filter(card => card.isDone == true);
+            }
+            if (selectedDone == "notDone") {
+                filteredCards = filteredCards.filter(card => card.isDone == false);
+            }
             setFilteredData(filteredCards);
         }
-    }, [searchText, cards, selectedBoard]);
+    }, [searchText, cards, selectedBoard, selectedDone]);
 
     function handleCardClick(ev, card) {
         ev.preventDefault();
@@ -178,6 +183,36 @@ function CardsTab(props) {
                             shrink: true,
                         }}
                     />
+                    <FormControl
+                        className="flex w-full sm:w-320 mx-16"
+                        variant="outlined"
+                    >
+                        <InputLabel htmlFor="board-label-placeholder">
+                            Status
+                        </InputLabel>
+                        <Select
+                            value={selectedDone}
+                            onChange={(e) => setSelectedDone(e.target.value)}
+                            input={
+                                <OutlinedInput
+                                    labelWidth={80}
+                                    name="Status"
+                                    id="board-label-placeholder"
+                                />
+                            }
+                        >
+                            <MenuItem value="notDone" key="notDone">
+                                <em>Not Done</em>
+                            </MenuItem>
+                            <MenuItem value="done" key="done">
+                                <em>Done</em>
+                            </MenuItem>
+                            <MenuItem value="all" key="allStatus">
+                                <em>All</em>
+                            </MenuItem>
+
+                        </Select>
+                    </FormControl>
                     <FormControl
                         className="flex w-full sm:w-320 mx-16"
                         variant="outlined"
@@ -258,11 +293,34 @@ function CardsTab(props) {
                                                     )}
 
                                                     <Typography className="font-600 mb-12">{card.name}</Typography>
-                                                    {(card.due || (card.checklist && card.checklist.length > 0)) && (
+                                                    {!card.isDone && (card.due || (card.checklist && card.checklist.length > 0)) && (
                                                         <div className="flex items-center mb-12">
                                                             {card.due && (
                                                                 <div
                                                                     className={clsx("flex items-center px-8 py-4 mr-8 rounded-sm", moment() > moment(card.due) ? "bg-red text-white" : "bg-green text-white")}>
+                                                                    <Icon className="text-16 mr-4">access_time</Icon>
+                                                                    <span>{moment(card.due).format("MMM Do YY")}</span>
+                                                                </div>
+                                                            )}
+
+                                                            {card.checklist && card.checklist.length > 0 && (
+                                                                <div
+                                                                    className={clsx("flex items-center px-8 py-4 mr-8 rounded-sm", getCheckItemsChecked(card) === getCheckItems(card) ? "bg-green text-white" : "bg-grey-dark text-white")}
+                                                                >
+                                                                    <Icon className="text-16 mr-4">check_circle</Icon>
+                                                                    <span>{getCheckItemsChecked(card)}</span>
+                                                                    <span>/</span>
+                                                                    <span>{getCheckItems(card)}</span>
+                                                                </div>
+                                                            )}
+
+                                                        </div>
+                                                    )}
+                                                    {card.isDone && (card.due || (card.checklist && card.checklist.length > 0)) && (
+                                                        <div className="flex items-center mb-12">
+                                                            {card.due && (
+                                                                <div
+                                                                    className={clsx("flex items-center px-8 py-4 mr-8 rounded-sm", moment(card.due) > moment(card.doneAt) ? "bg-red text-white" : "bg-green text-white")}>
                                                                     <Icon className="text-16 mr-4">access_time</Icon>
                                                                     <span>{moment(card.due).format("MMM Do YY")}</span>
                                                                 </div>

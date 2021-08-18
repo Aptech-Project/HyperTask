@@ -10,7 +10,7 @@ import useForm from "./useForm";
 import { connect } from "react-redux";
 import { showMessage } from 'app/store/actions/fuse';
 import * as Action from '../store/actions/about.action';
-
+import * as loginaction from "app/auth/store/actions";
 const AboutForm = (props) => {
 
   const dispatch = useDispatch();
@@ -20,6 +20,7 @@ const AboutForm = (props) => {
   const [user, setUser] = useState([])
   useEffect(() => {
     setAccount([])
+    dispatch(loginaction.check())
   }, []);
   useEffect(() => {
     if (profile !== 'undefined') (

@@ -25,6 +25,7 @@ export const update = (data) => (dispatch) => {
       });
       if (res.status == 200) {
         dispatch(loginaction.fetchById(res.data.id));
+        dispatch(loginaction.check())
         dispatch(showMessage({ message: "Update profile Successful", variant: "success" }));
       } else {
         dispatch(showMessage({ message: "Update profile Fail", variant: "error" }));
