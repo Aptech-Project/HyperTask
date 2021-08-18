@@ -1,4 +1,3 @@
-import {allBoards} from './AllBoardsMockData';
 export const getBoardsStatistic = (allBoards) => {
     const boardsStatistic = {};
     const allBoardsClone = [...allBoards];
@@ -6,7 +5,7 @@ export const getBoardsStatistic = (allBoards) => {
 	allBoardsClone.forEach(board => {
 		boardsStatistic[board.name] = {};
         // Get board cards
-		if (board.lists.length) {
+		if (board.lists) {
             let allCards = [];
             board.lists.forEach(list => {
                 list.cards.forEach(card => {card.boardId = board.id});
