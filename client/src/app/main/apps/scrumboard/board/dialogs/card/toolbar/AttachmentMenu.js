@@ -5,6 +5,7 @@ import ToolbarMenu from "./ToolbarMenu";
 import AttachmentModel from "app/main/apps/scrumboard/model/AttachmentModel";
 import { useDispatch, useSelector } from "react-redux";
 import * as Actions from "app/main/apps/scrumboard/store/actions/index";
+import BoardMessBox from "app/main/apps/scrumboard/model/BoardMessBox";
 
 function AttachmentMenu(props) {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -12,6 +13,7 @@ function AttachmentMenu(props) {
     file: "",
   });
   const [uploadFile, setUploadFile] = React.useState();
+  const [openAlert, setOpenAlert] = React.useState();
   const dispatch = useDispatch();
   const newAttachment = useSelector(
     ({ scrumboardApp }) => scrumboardApp.card.attachmentCard
@@ -58,7 +60,14 @@ function AttachmentMenu(props) {
 
   const handleChange = (e) => {
     let imgFile = e.target.files[0];
-    setUploadFile(imgFile);
+    //console.log("fileSize: ", e.target.files[0].size);
+    if (imgFile) {
+      if (e.target.files[0].size < 3000000) {
+        setUploadFile(imgFile);
+      } else {
+        setOpenAlert(true);
+      }
+    }
   };
 
   function handleSubmit(ev) {
@@ -86,6 +95,17 @@ function AttachmentMenu(props) {
           </Button>
         </form>
       </ToolbarMenu>
+      <BoardMessBox
+        open={openAlert}
+        //title="File exceeds 300Mb"
+        content={`File exceeds 300Mb`}
+        //onYes={deleteBoard}
+        onNo={() => {
+          setOpenAlert(false);
+        }}
+        //yes="Yes"
+        no="OK"
+      />
     </div>
   );
 }
