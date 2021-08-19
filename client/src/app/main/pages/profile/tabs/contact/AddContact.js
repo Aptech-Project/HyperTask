@@ -104,6 +104,8 @@ const AddContact = ({ ...props }) => {
         )
     }, [handleScanFile])
     //Render List Search Friend
+
+    console.log(findFriendQR)
     const renderListSearch = () => {
         if (!listSearchFriend.length) {
             return (

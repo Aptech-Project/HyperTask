@@ -257,6 +257,7 @@ public class UserService {
     }
     public User searchQRUser(int idSearch,int idUser){
 		User u= userRepository.findById(idSearch).get();
+		String lable=u.getLabels();
 		if(idSearch==idUser){
 			u.setLabels("youraccount");
 			JsonObject jsonObject = new JsonParser().parse(u.getInfo()).getAsJsonObject();
@@ -275,9 +276,10 @@ public class UserService {
 					u.setLabels("receive");
 				} else if (id1 == idUser && status.equalsIgnoreCase("friend")) {
 					u.setLabels("friend");
-				} else if(u.getContact().equalsIgnoreCase("[]")) {
-					u.setLabels("none");
 				}
+			}
+			if(lable.equalsIgnoreCase(u.getLabels())){
+				u.setLabels("none");
 			}
 			JsonObject jsonObject = new JsonParser().parse(u.getInfo()).getAsJsonObject();
 			String img = jsonObject.get("avatar").getAsString();
