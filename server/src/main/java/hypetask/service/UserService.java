@@ -275,7 +275,7 @@ public class UserService {
 					u.setLabels("receive");
 				} else if (id1 == idUser && status.equalsIgnoreCase("friend")) {
 					u.setLabels("friend");
-				} else {
+				} else if(u.getContact().equalsIgnoreCase("[]")) {
 					u.setLabels("none");
 				}
 			}
